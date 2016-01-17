@@ -11,10 +11,14 @@ public class Frame {
 	public Frame() {
 		frame = new JFrame();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int height = (int) screenSize.getHeight();
+		int height = (int) (screenSize.getHeight() * 0.90);
 		frame.setName("Pacman");
 		frame.setSize((4 * height) / 3, height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+	}
+	
+	public JFrame getFrame() {
+		return frame;
 	}
 }
