@@ -28,7 +28,4 @@ public class Frame extends JFrame {
 		this.setVisible(true);
 	}
 
-	public JFrame getFrame() {
-		return this;
-	}
 }
