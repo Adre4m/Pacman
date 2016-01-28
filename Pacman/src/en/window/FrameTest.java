@@ -1,6 +1,6 @@
 package en.window;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -19,6 +19,12 @@ public class FrameTest {
 	public void test() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		assertTrue((int) (screenSize.height * 0.9) == f.getHeight());
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

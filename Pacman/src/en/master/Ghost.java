@@ -1,12 +1,17 @@
 package en.master;
 
-public class Ghost extends Character {
+public abstract class Ghost extends Character {
 
 	private boolean isVunerable;
+	private boolean isFree;
+	private boolean isReturningToJail;
+	//private int speed;
 	
 	public Ghost() {
 		super();
 		isVunerable = false;
+		isFree = false;
+		isReturningToJail = false;
 	}
 
 	public boolean isVunerable() {
@@ -15,6 +20,33 @@ public class Ghost extends Character {
 
 	public void setVunerable(boolean isVunerable) {
 		this.isVunerable = isVunerable;
+	}
+	
+	public boolean isFree() {
+		return isFree;
+	}
+
+	public void setFree(boolean isFree) {
+		this.isFree = isFree;
+	}
+
+	public boolean isReturningToJail() {
+		return isReturningToJail;
+	}
+
+	public void setReturningToJail(boolean isReturningToJail) {
+		this.isReturningToJail = isReturningToJail;
+	}
+
+	//trois fonctions de l'ia
+	public void isEaten() {
+		
+	}
+	
+	public abstract void patrol();
+	
+	public void chased() {
+		
 	}
 	
 }

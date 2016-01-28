@@ -2,19 +2,19 @@ package en.master;
 
 public class Pacman extends Character {
 
-	private int killcount;
+	private int lives;
 	
 	public Pacman() {
 		super();
-		killcount = 3;
+		lives = 3;
 	}
 
-	public int getKillcount() {
-		return killcount;
+	public int getLivest() {
+		return lives;
 	}
 
-	public void setKillcount(int killcount) {
-		this.killcount = killcount;
+	public void death() {
+		this.lives--;
 	}
 	
 }
