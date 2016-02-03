@@ -2,8 +2,11 @@ package en.window;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 
+import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -24,8 +27,24 @@ public class Frame extends JFrame {
 		this.setLocationRelativeTo(null);
 		background = new JPanel();
 		background.setBackground(Color.BLACK);
+		
+		FlowLayout f = new FlowLayout();
+		f.setAlignment(f.CENTER);
+		background.setLayout(f);
+		background.add(menu());
+		
 		this.setContentPane(background);
 		this.setVisible(true);
 	}
+	
+	private Box menu () {
+		Box menu = Box.createVerticalBox();
+		menu.add(new JButton ("Start Game"));
+		menu.add(new JButton ("HighScore"));
+		menu.add(new JButton ("Options"));
+		return menu;
+	}
+	
+	
 
 }
