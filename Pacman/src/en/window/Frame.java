@@ -39,12 +39,23 @@ public class Frame extends JFrame {
 	
 	private Box menu () {
 		Box menu = Box.createVerticalBox();
-		menu.add(new JButton ("Start Game"));
-		menu.add(new JButton ("HighScore"));
-		menu.add(new JButton ("Options"));
+		JButton start = new JButton ("Start Game");
+		JButton score = new JButton ("Highscore");
+		JButton opt = new JButton ("Options");
+		buttonStyle(start);
+		buttonStyle(score);
+		buttonStyle(opt);
+		menu.add(start);
+		menu.add(score);
+		menu.add(opt);
 		return menu;
 	}
 	
-	
+	private void buttonStyle (JButton b){
+		b.setBackground(Color.BLACK);
+		b.setForeground(Color.BLUE);
+		b.setBorder(null);
+		b.setFont(new java.awt.Font("Consolas",1,36));
+	}
 
 }
