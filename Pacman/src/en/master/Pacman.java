@@ -9,12 +9,14 @@ public class Pacman extends Character {
 		lives = 3;
 	}
 
-	public int getLivest() {
+	public int getLives() {
 		return lives;
 	}
 
 	public void death() {
-		this.lives--;
+		this.lives -= 1;
 	}
+	
+	
 	
 }
