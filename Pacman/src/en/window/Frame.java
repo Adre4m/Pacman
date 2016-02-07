@@ -10,7 +10,10 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import en.master.Game;
 
 public class Frame extends JFrame {
 	/**
@@ -37,6 +40,7 @@ public class Frame extends JFrame {
 		
 		this.setContentPane(background);
 		this.setVisible(true);
+		while(true);
 	}
 	
 	private Box menu () {
@@ -49,16 +53,41 @@ public class Frame extends JFrame {
 		buttonStyle(opt);
 		start.addActionListener(new ActionListener(){ //Open game
 			public void actionPerformed (ActionEvent e) {
-				  System.out.println("COUCOU");
-				  JFrame gameScreen = new JFrame();
+				  JFrame gameScreen = new JFrame(); //New game screen
 				  Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 				  int height = (int) (screenSize.getHeight() * 0.90);
-				  gameScreen.setTitle("Pacman");
+				  gameScreen.setTitle("Pacman party");
 				  gameScreen.setSize((4 * height) / 3, height);
 				  gameScreen.setResizable(false);
 				  gameScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				  gameScreen.setLocationRelativeTo(null);
+				  
+				  Game g = new Game(); //load labyrinth
+				  g.init();
+				  JPanel set = new JPanel();
+				  JLabel labyrinth = new JLabel(); //temporary
+				  
+				  set.setBackground(Color.BLACK);
+				  FlowLayout f = new FlowLayout();
+				  f.setAlignment(f.CENTER);
+				  set.setLayout(f);
+				  
+				  String s = "<html>";
+				  for (int i = 0; i < g.getLab().length; ++i) {
+					  for (int j = 0; j < g.getLab()[0].length; ++j)
+						  s += g.getLab()[i][j];
+					  s += "<br>";
+				  }
+				  s+="</html>";
+				  System.out.println(s);
+				  labyrinth.setText(s);
+				  labyrinth.setForeground(Color.BLUE);
+				  
+				  set.add(labyrinth);
+				  gameScreen.add(set);
+				  gameScreen.setContentPane(set);
 				  gameScreen.setVisible(true);
+				  
 		    	}
 		});
 		menu.add(start);
