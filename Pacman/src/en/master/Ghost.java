@@ -5,8 +5,8 @@ public abstract class Ghost extends Character {
 	private boolean isVunerable;
 	private boolean isFree;
 	private boolean isReturningToJail;
-	//private int speed;
-	
+	// private int speed;
+
 	public Ghost() {
 		super();
 		isVunerable = false;
@@ -21,7 +21,7 @@ public abstract class Ghost extends Character {
 	public void setVunerable(boolean isVunerable) {
 		this.isVunerable = isVunerable;
 	}
-	
+
 	public boolean isFree() {
 		return isFree;
 	}
@@ -38,15 +38,17 @@ public abstract class Ghost extends Character {
 		this.isReturningToJail = isReturningToJail;
 	}
 
-	//trois fonctions de l'ia
+	// TODO IA
+	// trois fonctions de l'ia, la fonction dans le cas ou le fantome est mangé
+	// et ou il chasse sont communes
 	public void isEaten() {
-		
+
 	}
-	
+
 	public abstract void patrol();
-	
+
 	public void chased() {
-		
+
 	}
-	
+
 }
