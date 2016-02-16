@@ -18,6 +18,12 @@ public abstract class Character {
 		return position;
 	}
 
+	/**
+	 * 
+	 * @param dir is a char that can be : 'u' for "up", 'd' for "down", 'l' for "left", 'r' for "right"
+	 * @param game where to set the changes
+	 * @return a boolean : true if the character moved, false if he didn't.
+	 */
 	public boolean move(char dir, Game game) {
 		switch (dir) {
 		case 'u':
@@ -57,7 +63,7 @@ public abstract class Character {
 			}
 			return false;
 		}
-		return true;
+		return false;
 	}
 
 	private void makeMove(int x, int y, Game game) {
@@ -73,13 +79,6 @@ public abstract class Character {
 		position.y = y;
 	}
 
-	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param game
-	 * @return true if something went wrong, like being eaten.
-	 */
 	private boolean instancePacman(int x, int y, Game game) {
 		switch (game.getLab()[x][y]) {
 		case 'G':
