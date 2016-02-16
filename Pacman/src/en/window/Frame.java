@@ -1,9 +1,11 @@
 package en.window;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -90,25 +92,20 @@ public class Frame extends JFrame {
 			      Game g = new Game(); //load labyrinth
 			      g.init();
 			      JPanel set = new JPanel();
-			      JLabel labyrinth = new JLabel(); //temporary
 			      
 			      set.setBackground(Color.BLACK);
-			      FlowLayout f = new FlowLayout();
-			      f.setAlignment(f.CENTER);
+			      GridLayout f = new GridLayout(g.getLab().length, g.getLab()[0].length);
 			      set.setLayout(f);
 			      
-			      String s = "<html>";
+			      String s="";
 			      for (int i = 0; i < g.getLab().length; ++i) {
-			       for (int j = 0; j < g.getLab()[0].length; ++j)
-			        s += g.getLab()[i][j];
-			       s += "<br>";
+			       for (int j = 0; j < g.getLab()[0].length; ++j){
+			    	   s+=g.getLab()[i][j];
+			    	   set.add(new Button(s));
+			    	   s="";
+			       }
 			      }
-			      s+="</html>";
-			      System.out.println(s);
-			      labyrinth.setText(s);
-			      labyrinth.setForeground(Color.BLUE);
-			      
-			      set.add(labyrinth);
+
 			      gameScreen.add(set);
 			      gameScreen.setContentPane(set);
 			      gameScreen.setVisible(true);
