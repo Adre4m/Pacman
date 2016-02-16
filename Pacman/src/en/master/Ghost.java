@@ -5,6 +5,7 @@ public abstract class Ghost extends Character {
 	private boolean isVunerable;
 	private boolean isFree;
 	private boolean isReturningToJail;
+	private char old;
 	// private int speed;
 
 	public Ghost() {
@@ -49,6 +50,23 @@ public abstract class Ghost extends Character {
 
 	public void chased() {
 
+	}
+
+	public char getOld() {
+		return old;
+	}
+
+	public void setOld(char old) {
+		this.old = old;
+	}
+
+	public char toChar() {
+		if (isVunerable)
+			return 'V';
+		else if (isReturningToJail)
+			return 'E';
+		else
+			return 'G';
 	}
 
 }

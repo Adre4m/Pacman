@@ -27,4 +27,8 @@ public class Pacman extends Character {
 		this.eatenGhosts = 0;
 	}
 
+	public char toChar() {
+		return 'P';
+	}
+
 }
