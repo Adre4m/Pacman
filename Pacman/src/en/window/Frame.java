@@ -7,13 +7,17 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Label;
+import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -169,24 +173,66 @@ public class Frame extends JFrame {
 		return j;
 	}
 
-	private JPanel gameScreen() {
+	private JPanel gameScreen(){
 		Game g = new Game(); // load labyrinth
-		g.init();
+		g.initTest();
 		JPanel set = new JPanel();
 
 		set.setBackground(Color.BLACK);
 
-		GridLayout f = new GridLayout(g.getLab().length, g.getLab()[0].length);
+//		GridLayout f = new GridLayout(g.getLab().length, g.getLab()[0].length);
+		GridLayout f = new GridLayout(32,28);
 		set.setLayout(f);
-
-		String s = "";
-		for (int i = 0; i < g.getLab().length; ++i) {
-			for (int j = 0; j < g.getLab()[0].length; ++j) {
-				s += g.getLab()[i][j];
-				 set.add(new Button(s));
+		
+		  InputStream is = null;
+	      int a;
+	      char c;
+	      
+	      try{
+	         // new input stream created
+	         is = new FileInputStream("labyrinths/test.txt");
+	         
+	         System.out.println("..");
+	         
+	         String s = "";
+	         // reads till the end of the stream
+	         while((a=is.read())!=-1)
+	         {
+	            // converts integer to character
+	            c=(char)a;
+	            
+	            s+=c;
+	            System.out.println(s);
+	            set.add(new Label(s));
 				s = "";
-			}
-		}
+	            // prints character
+	            System.out.print(c);
+	         }
+	      }catch(Exception e){
+	         
+	         // if any I/O error occurs
+	         e.printStackTrace();
+	      }finally{
+	         
+	         // releases system resources associated with this stream
+	         if(is!=null)
+				try {
+					is.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	      }
+		
+//		String s = "";
+//		for (int i = 0; i < g.getLab().length; ++i) {
+//			for (int j = 0; j < g.getLab()[0].length; ++j) {
+//				s += g.getLab()[i][j];
+//				 set.add(new Label(s));
+//				s = "";
+//			}
+//		}
+		
 		return set;
 	}
 	
