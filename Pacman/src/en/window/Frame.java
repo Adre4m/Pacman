@@ -53,7 +53,13 @@ public class Frame extends JFrame {
 			e.printStackTrace();
 		}
 
-		this.setContentPane(menu());
+		JPanel background = new JPanel();
+		background.setBackground(Color.BLACK);
+		background.setLayout(new BorderLayout());
+		background.add(copyright(), BorderLayout.SOUTH);
+		background.add(menu());
+		
+		this.setContentPane(background);
 		this.setVisible(true);
 		while (true);
 	}
@@ -142,7 +148,7 @@ public class Frame extends JFrame {
 		openScreen.setLayout(new BorderLayout());
 		openScreen.add(l, BorderLayout.NORTH);
 		openScreen.add(button, BorderLayout.CENTER);
-		openScreen.add(copyright(), BorderLayout.SOUTH);
+		//openScreen.add(copyright(), BorderLayout.SOUTH);
 
 		return openScreen;
 	}
@@ -181,7 +187,7 @@ public class Frame extends JFrame {
 	}
 
 	private JPanel gameScreen() {
-		//enlever l'initialisation du jeu des que possible
+		// enlever l'initialisation du jeu des que possible
 		Game g = new Game(); // load labyrinth
 		g.initTest();
 		JPanel set = new JPanel();
@@ -206,26 +212,25 @@ public class Frame extends JFrame {
 	}
 
 	private JPanel options() {
-		
-		JPanel o = new JPanel();
+
+		final JPanel o = new JPanel();
 		o.setBackground(Color.BLACK);
 		o.setLayout(new BorderLayout());
-		
-		JLabel title = new JLabel("Options :");
-		o.add(frameTitle(title), BorderLayout.NORTH);
-		
-		final JButton theme = new JButton ("Change Game's Theme");
+
+		final JLabel title = new JLabel("Options :");
+
+		final JButton theme = new JButton("Change Game's Theme");
 		theme.setBackground(Color.BLACK);
 		theme.setForeground(Color.WHITE);
 		theme.setBorder(null);
 		theme.setFont(new java.awt.Font("Consolas", 1, 24));
-		
-		theme.addActionListener(new ActionListener() { 
+
+		theme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				JRadioButton r1 = new JRadioButton("Classic", true);
-				JRadioButton r2 = new JRadioButton("Star Wars", false);
-				JRadioButton r3 = new JRadioButton("Big Hero 6", false);
+
+				final JRadioButton r1 = new JRadioButton("Classic", true);
+				final JRadioButton r2 = new JRadioButton("Star Wars", false);
+				final JRadioButton r3 = new JRadioButton("Big Hero 6", false);
 				radioStyle(r1);
 				radioStyle(r2);
 				radioStyle(r3);
@@ -233,39 +238,24 @@ public class Frame extends JFrame {
 				choice.add(r1);
 				choice.add(r2);
 				choice.add(r3);
-				
-				/*
-    rbtAsShown.addFocusListener(new FocusAdapter(){
-      public void focusGained(FocusEvent e){
-        rbtAsShown.setSelected(true);
-      }});
 
-    rbtRandomly.addFocusListener(new FocusAdapter(){
-      public void focusGained(FocusEvent e){
-        rbtRandomly.setSelected(true);
-      }});
-
-    rbtUser.addFocusListener(new FocusAdapter(){
-      public void focusGained(FocusEvent e){
-        rbtUser.setSelected(true);
-      }});
-      
-
-      */
-				JLabel l = new JLabel ("Choose a Theme");
+				JLabel l = new JLabel("Choose a Theme");
 				labelStyleB(l);
-				
+
 				JPanel t = new JPanel();
 				t.setBackground(Color.BLACK);
 				t.setLayout(new BorderLayout());
 				t.add(l, BorderLayout.NORTH);
 				t.add(choice, BorderLayout.WEST);
-				
-				//change pop-up background color
+
+				// change pop-up background color
 				UIManager.put("OptionPane.background", Color.BLACK);
 				UIManager.put("Panel.background", Color.BLACK);
-				
-				JOptionPane.showConfirmDialog(null, t, "", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+				JOptionPane
+						.showConfirmDialog(null, t, "",
+								JOptionPane.OK_CANCEL_OPTION,
+								JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 
@@ -280,12 +270,64 @@ public class Frame extends JFrame {
 				;
 			}
 		});
+
+		JLabel controls = new JLabel ("Controls");
+		labelStyleW(controls);
 		
-		o.add(theme, BorderLayout.WEST);
+		final JRadioButton keyboard = new JRadioButton("Keyboard", true);
+		final JRadioButton mouse = new JRadioButton("Mouse", false);
+		radioStyle(keyboard);
+		radioStyle(mouse);
+		Box c = Box.createVerticalBox();
+		c.add(keyboard);
+		c.add(mouse);		
+		
+		JLabel dif = new JLabel ("Difficulty");
+		labelStyleW(dif);
+		
+		final JRadioButton easy = new JRadioButton("Easy", true);
+		final JRadioButton normal = new JRadioButton("Normal", false);
+		final JRadioButton hard = new JRadioButton("Hard", false);
+		radioStyle(easy);
+		radioStyle(normal);
+		radioStyle(hard);
+		Box d = Box.createVerticalBox();
+		d.add(easy);
+		d.add(normal);
+		d.add(hard);
+		
+		JLabel music = new JLabel("Music");
+		labelStyleW(music);
+		
+		//inserer 2 image en ligne
+		
+		final Box option = Box.createVerticalBox();
+		option.add(theme);
+		option.add(controls);
+		option.add(c);
+		option.add(dif);
+		option.add(d);
+		option.add(music);
+		
+		final JButton back = new JButton("Back");
+		buttonStyle(back);
+	
+		back.addActionListener(new ActionListener() { 
+			public void actionPerformed(ActionEvent e) {
+				title.setVisible(false);
+				option.setVisible(false);
+				back.setVisible(false);
+				o.add(menu());
+			}
+		});
+		
+		o.add(frameTitle(title), BorderLayout.NORTH);
+		o.add(option, BorderLayout.WEST);
+		o.add(back, BorderLayout.SOUTH);
 		return o;
 	}
-	
-	private void radioStyle (JRadioButton r){
+
+	private void radioStyle(JRadioButton r) {
 		r.setBackground(Color.BLACK);
 		r.setForeground(Color.WHITE);
 		r.setFont(new java.awt.Font("Consolas", 1, 20));
@@ -294,6 +336,12 @@ public class Frame extends JFrame {
 	private void labelStyleB(JLabel l) {
 		l.setBackground(Color.BLACK);
 		l.setForeground(Color.BLUE);
+		l.setFont(new java.awt.Font("Consolas", 1, 25));
+	}
+
+	private void labelStyleW(JLabel l) {
+		l.setBackground(Color.BLACK);
+		l.setForeground(Color.WHITE);
 		l.setFont(new java.awt.Font("Consolas", 1, 25));
 	}
 	
