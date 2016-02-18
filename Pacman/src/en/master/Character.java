@@ -90,7 +90,6 @@ public abstract class Character {
 			return true;
 		case 'V':
 			Ghost g = game.getGhost(x, y);
-			g.setVunerable(false);
 			game.setScore(game.getScore() + (200 * (int) Math.pow(2, ((Pacman) this).eatGhost())));
 			scoreFruit(g.getOld(), game);
 			g.setOld(' ');
@@ -111,8 +110,9 @@ public abstract class Character {
 		case 'S':
 			game.setScore(game.getScore() + 50);
 			((Pacman) this).eatSupergum();
-			for (int i = 1; i < game.characters.length; ++i)
-				((Ghost) (game.characters[i])).setVunerable(true);
+			for (int i = 1; i < game.characters.length; ++i) {
+				((Ghost) (game.characters[i])).setVulnerable(Timer.SUPERGUM);
+			}
 			break;
 		case 'C':
 			game.setScore(game.getScore() + 100);
@@ -164,6 +164,5 @@ public abstract class Character {
 	public void setDir(char dir) {
 		this.dir = dir;
 	}
-	
-	
+
 }

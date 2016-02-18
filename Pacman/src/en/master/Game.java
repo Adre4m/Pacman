@@ -18,6 +18,7 @@ public class Game {
 		score = 0;
 		restartNeed = false;
 		win = false;
+		((Ghost) characters[3]).setJailed(0);
 	}
 
 	public int getScore() {
@@ -139,6 +140,7 @@ public class Game {
 	}
 
 	// TODO en cas d'entré clavier changer la direction du personnage
+	// TODO en cas de necessité liberer les fantomes, et gerer cas supergum
 	public void play() {
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
 		while (((Pacman) characters[0]).getLives() > 0 && !win) {
@@ -179,6 +181,12 @@ public class Game {
 				// frame.update(game);
 				System.out.println(this);
 			}
+			if (0 < ((Ghost) characters[1]).getJailed())
+				for (int i = 1; i < characters.length; ++i)
+					((Ghost) characters[i]).setJailed(((Ghost) characters[i]).getJailed() - 1);
+			if (0 < ((Ghost) characters[1]).getVulnerable())
+				for (int i = 1; i < characters.length; ++i)
+					((Ghost) characters[i]).setVulnerable(((Ghost) characters[i]).getVulnerable() - 1);
 		}
 
 	}
