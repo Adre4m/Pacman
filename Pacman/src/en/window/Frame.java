@@ -1,23 +1,19 @@
 package en.window;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Label;
-import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -25,10 +21,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.UIManager;
 
 import en.master.Game;
-import en.master.Pacman;
 
 public class Frame extends JFrame {
 	/**
@@ -57,8 +55,7 @@ public class Frame extends JFrame {
 
 		this.setContentPane(menu());
 		this.setVisible(true);
-		while (true)
-			;
+		while (true);
 	}
 
 	private JPanel menu() {
@@ -66,7 +63,7 @@ public class Frame extends JFrame {
 		final JPanel l = logo();
 
 		JPanel button = new JPanel();
-		button.setBackground(null);
+		button.setBackground(Color.BLACK);
 		FlowLayout f = new FlowLayout();
 		f.setAlignment(f.CENTER);
 		button.setLayout(f);
@@ -184,6 +181,7 @@ public class Frame extends JFrame {
 	}
 
 	private JPanel gameScreen() {
+		//enlever l'initialisation du jeu des que possible
 		Game g = new Game(); // load labyrinth
 		g.initTest();
 		JPanel set = new JPanel();
@@ -208,27 +206,105 @@ public class Frame extends JFrame {
 	}
 
 	private JPanel options() {
+		
 		JPanel o = new JPanel();
 		o.setBackground(Color.BLACK);
 		o.setLayout(new BorderLayout());
+		
 		JLabel title = new JLabel("Options :");
-		o.add(frameTitle(title), BorderLayout.WEST);
+		o.add(frameTitle(title), BorderLayout.NORTH);
+		
+		final JButton theme = new JButton ("Change Game's Theme");
+		theme.setBackground(Color.BLACK);
+		theme.setForeground(Color.WHITE);
+		theme.setBorder(null);
+		theme.setFont(new java.awt.Font("Consolas", 1, 24));
+		
+		theme.addActionListener(new ActionListener() { 
+			public void actionPerformed(ActionEvent e) {
+				
+				JRadioButton r1 = new JRadioButton("Classic", true);
+				JRadioButton r2 = new JRadioButton("Star Wars", false);
+				JRadioButton r3 = new JRadioButton("Big Hero 6", false);
+				radioStyle(r1);
+				radioStyle(r2);
+				radioStyle(r3);
+				Box choice = Box.createVerticalBox();
+				choice.add(r1);
+				choice.add(r2);
+				choice.add(r3);
+				
+				/*
+    rbtAsShown.addFocusListener(new FocusAdapter(){
+      public void focusGained(FocusEvent e){
+        rbtAsShown.setSelected(true);
+      }});
+
+    rbtRandomly.addFocusListener(new FocusAdapter(){
+      public void focusGained(FocusEvent e){
+        rbtRandomly.setSelected(true);
+      }});
+
+    rbtUser.addFocusListener(new FocusAdapter(){
+      public void focusGained(FocusEvent e){
+        rbtUser.setSelected(true);
+      }});
+      
+
+      */
+				JLabel l = new JLabel ("Choose a Theme");
+				labelStyleB(l);
+				
+				JPanel t = new JPanel();
+				t.setBackground(Color.BLACK);
+				t.setLayout(new BorderLayout());
+				t.add(l, BorderLayout.NORTH);
+				t.add(choice, BorderLayout.WEST);
+				
+				//change pop-up background color
+				UIManager.put("OptionPane.background", Color.BLACK);
+				UIManager.put("Panel.background", Color.BLACK);
+				
+				JOptionPane.showConfirmDialog(null, t, "", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			}
+		});
+
+		theme.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				theme.setForeground(Color.YELLOW);
+				;
+			}
+
+			public void mouseExited(MouseEvent e) {
+				theme.setForeground(Color.WHITE);
+				;
+			}
+		});
+		
+		o.add(theme, BorderLayout.WEST);
 		return o;
 	}
-
-	private void labelStyle(JLabel l) {
-		l.setBackground(Color.BLACK);
-		l.setForeground(Color.BLUE);
-		l.setFont(new java.awt.Font("Consolas", 1, 34));
+	
+	private void radioStyle (JRadioButton r){
+		r.setBackground(Color.BLACK);
+		r.setForeground(Color.WHITE);
+		r.setFont(new java.awt.Font("Consolas", 1, 20));
 	}
 
+	private void labelStyleB(JLabel l) {
+		l.setBackground(Color.BLACK);
+		l.setForeground(Color.BLUE);
+		l.setFont(new java.awt.Font("Consolas", 1, 25));
+	}
+	
 	private JPanel frameTitle(JLabel l) {
 		JPanel t = new JPanel();
 		t.setBackground(Color.BLACK);
-		FlowLayout fl = new FlowLayout();
-		fl.setAlignment(fl.LEADING);
-		labelStyle(l);
-		t.add(l);
+		t.setLayout(new BorderLayout());
+		l.setBackground(Color.BLACK);
+		l.setForeground(Color.BLUE);
+		l.setFont(new java.awt.Font("Consolas", 1, 36));
+		t.add(l, BorderLayout.WEST);
 		return t;
 	}
 }
