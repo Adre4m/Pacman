@@ -1,5 +1,9 @@
 package en.master;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class Game {
 
 	private char[][] lab;
@@ -34,23 +38,61 @@ public class Game {
 	}
 
 	public void initTest() {
-		for (int i = 0; i < lab.length; ++i)
-			for (int j = 0; j < lab[0].length; ++j)
-				lab[i][j] = ' ';
-		int i = lab.length / 2;
-		int j = lab[0].length / 2;
-		lab[i][j - 4] = 'G';
-		lab[i][j - 3] = 'G';
-		lab[i][j - 2] = 'G';
-		lab[i][j - 1] = 'G';
-		lab[i - 1][j] = 'S';
-		lab[i][j] = 'P';
-		characters[0].position.setLocation(i, j);
-		characters[1].position.setLocation(i, j - 1);
-		characters[2].position.setLocation(i, j - 2);
-		characters[3].position.setLocation(i, j - 3);
-		characters[4].position.setLocation(i, j - 4);
-	}
+		  InputStream is = null;
+		       int a;
+		       char c;
+		       
+		       try{
+		          // new input stream created
+		          is = new FileInputStream("labyrinths/test.txt");
+		          
+		          String s = "";
+		          // reads till the end of the stream
+		          while((a=is.read())!=-1)
+		          {
+		             // converts integer to character
+		             c=(char)a;
+		             
+		             s+=c;
+		             System.out.println(s);
+
+		          }
+		          int index=0;
+		    for (int i = 0; i < lab.length; ++i)
+		    for (int j = 0; j < lab[0].length; ++j){
+		     lab[i][j] = s.charAt(index);
+		     index++;
+//		     System.out.println(lab[i][j]);
+		    }
+		//   int i = lab.length / 2;
+		//   int j = lab[0].length / 2;
+		//   lab[i][j - 4] = 'G';
+		//   lab[i][j - 3] = 'G';
+		//   lab[i][j - 2] = 'G';
+		//   lab[i][j - 1] = 'G';
+		//   lab[i - 1][j] = 'S';
+		//   lab[i][j] = 'P';
+		//   characters[0].position.setLocation(i, j);
+		//   characters[1].position.setLocation(i, j - 1);
+		//   characters[2].position.setLocation(i, j - 2);
+		//   characters[3].position.setLocation(i, j - 3);
+		//   characters[4].position.setLocation(i, j - 4);
+		       }catch(Exception e){
+		          
+		          // if any I/O error occurs
+		          e.printStackTrace();
+		       }finally{
+		          
+		          // releases system resources associated with this stream
+		          if(is!=null)
+		    try {
+		     is.close();
+		    } catch (IOException e) {
+		     // TODO Auto-generated catch block
+		     e.printStackTrace();
+		    }
+		       }
+		 }
 
 	public String toString() {
 		String s = "";

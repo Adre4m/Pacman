@@ -89,6 +89,16 @@ public class Frame extends JFrame {
 			}
 		});
 
+		opt.addActionListener(new ActionListener() { // Open game
+			public void actionPerformed(ActionEvent e) {
+				start.setVisible(false);
+				score.setVisible(false);
+				opt.setVisible(false);
+				l.setVisible(false);
+				menu.add(options());
+			}
+		});
+
 		start.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
 				start.setForeground(Color.YELLOW);
@@ -173,67 +183,52 @@ public class Frame extends JFrame {
 		return j;
 	}
 
-	private JPanel gameScreen(){
+	private JPanel gameScreen() {
 		Game g = new Game(); // load labyrinth
 		g.initTest();
 		JPanel set = new JPanel();
 
 		set.setBackground(Color.BLACK);
 
-//		GridLayout f = new GridLayout(g.getLab().length, g.getLab()[0].length);
-		GridLayout f = new GridLayout(32,28);
+		// GridLayout f = new GridLayout(g.getLab().length,
+		// g.getLab()[0].length);
+		GridLayout f = new GridLayout(32, 28);
 		set.setLayout(f);
-		
-		  InputStream is = null;
-	      int a;
-	      char c;
-	      
-	      try{
-	         // new input stream created
-	         is = new FileInputStream("labyrinths/test.txt");
-	         
-	         System.out.println("..");
-	         
-	         String s = "";
-	         // reads till the end of the stream
-	         while((a=is.read())!=-1)
-	         {
-	            // converts integer to character
-	            c=(char)a;
-	            
-	            s+=c;
-	            System.out.println(s);
-	            set.add(new Label(s));
+
+		String s = "";
+		for (int i = 0; i < g.getLab().length; ++i) {
+			for (int j = 0; j < g.getLab()[0].length; ++j) {
+				s += g.getLab()[i][j];
+				set.add(new Label(s));
 				s = "";
-	            // prints character
-	            System.out.print(c);
-	         }
-	      }catch(Exception e){
-	         
-	         // if any I/O error occurs
-	         e.printStackTrace();
-	      }finally{
-	         
-	         // releases system resources associated with this stream
-	         if(is!=null)
-				try {
-					is.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	      }
-		
-//		String s = "";
-//		for (int i = 0; i < g.getLab().length; ++i) {
-//			for (int j = 0; j < g.getLab()[0].length; ++j) {
-//				s += g.getLab()[i][j];
-//				 set.add(new Label(s));
-//				s = "";
-//			}
-//		}
-		
+			}
+		}
+
 		return set;
 	}
-	
+
+	private JPanel options() {
+		JPanel o = new JPanel();
+		o.setBackground(Color.BLACK);
+		o.setLayout(new BorderLayout());
+		JLabel title = new JLabel("Options :");
+		o.add(frameTitle(title), BorderLayout.WEST);
+		return o;
+	}
+
+	private void labelStyle(JLabel l) {
+		l.setBackground(Color.BLACK);
+		l.setForeground(Color.BLUE);
+		l.setFont(new java.awt.Font("Consolas", 1, 34));
+	}
+
+	private JPanel frameTitle(JLabel l) {
+		JPanel t = new JPanel();
+		t.setBackground(Color.BLACK);
+		FlowLayout fl = new FlowLayout();
+		fl.setAlignment(fl.LEADING);
+		labelStyle(l);
+		t.add(l);
+		return t;
+	}
 }
