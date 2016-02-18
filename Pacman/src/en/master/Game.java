@@ -139,6 +139,7 @@ public class Game {
 	}
 
 	// TODO en cas d'entré clavier changer la direction du personnage
+	// TODO en cas de necessité liberer les fantomes, et gerer cas supergum
 	public void play() {
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
 		while (((Pacman) characters[0]).getLives() > 0 && !win) {
