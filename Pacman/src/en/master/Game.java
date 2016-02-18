@@ -39,44 +39,46 @@ public class Game {
 
 	public void initTest() {
 		  InputStream is = null;
-		       int a;
-		       char c;
-		       
-		       try{
-		          // new input stream created
-		          is = new FileInputStream("labyrinths/test.txt");
-		          
-		          String s = "";
-		          // reads till the end of the stream
-		          while((a=is.read())!=-1)
-		          {
+	       int a;
+	       char c;
+	       
+	       try{
+	          // new input stream created
+	          is = new FileInputStream("labyrinths/test.txt");
+	          
+	          String s = "";
+	          boolean b=true;
+	          // reads till the end of the stream
+	          while((a=is.read())!=-1)
+	          {
 		             // converts integer to character
 		             c=(char)a;
-		             
-		             s+=c;
-		             System.out.println(s);
+		             if(c!='\n') // avoid line breaks
+		            	 s+=c;
+		             else{ 
+		            	 s = s.substring(0, s.length()-1); // There is a space which has nothing to do here
+		             }
 
-		          }
-		          int index=0;
-		    for (int i = 0; i < lab.length; ++i)
-		    for (int j = 0; j < lab[0].length; ++j){
-		     lab[i][j] = s.charAt(index);
-		     index++;
-//		     System.out.println(lab[i][j]);
-		    }
-		//   int i = lab.length / 2;
-		//   int j = lab[0].length / 2;
-		//   lab[i][j - 4] = 'G';
-		//   lab[i][j - 3] = 'G';
-		//   lab[i][j - 2] = 'G';
-		//   lab[i][j - 1] = 'G';
-		//   lab[i - 1][j] = 'S';
-		//   lab[i][j] = 'P';
-		//   characters[0].position.setLocation(i, j);
-		//   characters[1].position.setLocation(i, j - 1);
-		//   characters[2].position.setLocation(i, j - 2);
-		//   characters[3].position.setLocation(i, j - 3);
-		//   characters[4].position.setLocation(i, j - 4);
+	          }
+			  int index=0;
+			  for (int i = 0; i < lab.length; ++i)
+				for (int j = 0; j < lab[0].length; ++j){
+					lab[i][j] = s.charAt(index);
+					index++;
+				}
+				//   int i = lab.length / 2;
+				//   int j = lab[0].length / 2;
+				//   lab[i][j - 4] = 'G';
+				//   lab[i][j - 3] = 'G';
+				//   lab[i][j - 2] = 'G';
+				//   lab[i][j - 1] = 'G';
+				//   lab[i - 1][j] = 'S';
+				//   lab[i][j] = 'P';
+				//   characters[0].position.setLocation(i, j);
+				//   characters[1].position.setLocation(i, j - 1);
+				//   characters[2].position.setLocation(i, j - 2);
+				//   characters[3].position.setLocation(i, j - 3);
+				//   characters[4].position.setLocation(i, j - 4);
 		       }catch(Exception e){
 		          
 		          // if any I/O error occurs
