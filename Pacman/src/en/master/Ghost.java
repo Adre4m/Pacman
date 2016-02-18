@@ -42,13 +42,18 @@ public abstract class Ghost extends Character {
 	// TODO IA
 	// trois fonctions de l'ia, la fonction dans le cas ou le fantome est mangé
 	// et ou il chasse sont communes
-	public void isEaten() {
+
+	public void ia() {
 
 	}
 
-	public abstract void patrol();
+	private void isEaten() {
 
-	public void chased() {
+	}
+
+	protected abstract void patrol();
+
+	private void chased() {
 
 	}
 

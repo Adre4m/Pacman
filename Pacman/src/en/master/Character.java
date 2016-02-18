@@ -5,13 +5,16 @@ import java.awt.Point;
 public abstract class Character {
 
 	protected Point position;
+	private char dir;
 
 	public Character() {
 		position = new Point(0, 0);
+		dir = 'u';
 	}
 
 	public Character(int x, int y) {
 		position = new Point(x, y);
+		dir = 'u';
 	}
 
 	public Point getPosition() {
@@ -20,11 +23,11 @@ public abstract class Character {
 
 	/**
 	 * 
-	 * @param dir is a char that can be : 'u' for "up", 'd' for "down", 'l' for "left", 'r' for "right"
-	 * @param game where to set the changes
+	 * @param game
+	 *            where to set the changes
 	 * @return a boolean : true if the character moved, false if he didn't.
 	 */
-	public boolean move(char dir, Game game) {
+	public boolean move(Game game) {
 		switch (dir) {
 		case 'u':
 			if (game.getLab()[position.x - 1][position.y] != 'X' && game.getLab()[position.x - 1][position.y] != 'J') {
@@ -88,7 +91,6 @@ public abstract class Character {
 		case 'V':
 			Ghost g = game.getGhost(x, y);
 			g.setVunerable(false);
-			g.isEaten();
 			game.setScore(game.getScore() + (200 * (int) Math.pow(2, ((Pacman) this).eatGhost())));
 			scoreFruit(g.getOld(), game);
 			g.setOld(' ');
@@ -154,4 +156,14 @@ public abstract class Character {
 	}
 
 	public abstract char toChar();
+
+	public char getDir() {
+		return dir;
+	}
+
+	public void setDir(char dir) {
+		this.dir = dir;
+	}
+	
+	
 }
