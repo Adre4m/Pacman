@@ -71,38 +71,47 @@ public class ControlsKey implements KeyListener, ActionListener {
 		case KeyEvent.VK_LEFT:
 			displayInfo(e, "Go to left (KEY PRESSED)");
 			game.characters[0].setDir('l');
-			//System.out.println("Need to change direction of Pacman");
+			// System.out.println("Need to change direction of Pacman");
 			break;
 		case KeyEvent.VK_RIGHT:
 			displayInfo(e, "Go to right (KEY PRESSED)");
 			game.characters[0].setDir('r');
-			//System.out.println("Need to change direction of Pacman");
+			// System.out.println("Need to change direction of Pacman");
 			break;
 		case KeyEvent.VK_UP:
 			displayInfo(e, "Go to up (KEY PRESSED)");
 			game.characters[0].setDir('u');
-			//System.out.println("Need to change direction of Pacman");
+			// System.out.println("Need to change direction of Pacman");
 			break;
 		case KeyEvent.VK_DOWN:
 			displayInfo(e, "Go to down (KEY PRESSED)");
 			game.characters[0].setDir('d');
-			//System.out.println("Need to change direction of Pacman");
+			// System.out.println("Need to change direction of Pacman");
+			break;
+		case KeyEvent.VK_ESCAPE:
+			displayInfo(e, "pause (KEY PRESSED)");
+			// System.out.println("Need to pause");
+			if (game.isPaused()) {
+				game.setPaused(false);
+			} else {
+				game.setPaused(true);
+			}
 			break;
 		default:
-			System.out.println("Do nothing");
+			return;
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("I ain't done nothing");
+		// System.out.println("I ain't done nothing");
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("I ain't done nothing");
+		// System.out.println("I ain't done nothing");
 	}
 
 	@Override

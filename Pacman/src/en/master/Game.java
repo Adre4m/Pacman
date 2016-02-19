@@ -12,6 +12,7 @@ public class Game {
 	public Character[] characters = { new Pacman(), new Clyde(), new Inky(), new Blinky(), new Pinky() };
 	private boolean restartNeed;
 	private boolean win;
+	private boolean paused;
 
 	public Game() {
 		lab = new char[28][32];
@@ -19,6 +20,7 @@ public class Game {
 		restartNeed = false;
 		win = false;
 		((Ghost) characters[3]).setJailed(0);
+		paused = false;
 	}
 
 	public int getScore() {
@@ -147,38 +149,42 @@ public class Game {
 			long mvP = 1;
 			long mvG = 1;
 			while (cpt < Timer.FPS + 1) {
-				long begin = System.nanoTime();
-				if (((cpt / mvG) == (Timer.FPS / Timer.GMVPS)) || ((cpt / mvG) == (Timer.FPS / Timer.VMVPS))) {
-					mvG++;
-					for (int i = 1; i < characters.length; ++i)
-						((Ghost) characters[i]).ia();
-				}
-				if ((cpt / (mvP)) == (Timer.FPS / Timer.PMVPS)) {
-					mvP++;
-					characters[0].move(this);
-				}
-				if (restartNeed) {
-					restart();
-				}
-				long current = System.nanoTime();
-				long fps = 0;
-				long time = (current - begin);
-				if (time <= frame) {
-					try {
-						TimeUnit.NANOSECONDS.sleep(frame - time);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+				if (!paused) {
+					long begin = System.nanoTime();
+					if (((cpt / mvG) == (Timer.FPS / Timer.GMVPS)) || ((cpt / mvG) == (Timer.FPS / Timer.VMVPS))) {
+						mvG++;
+						for (int i = 1; i < characters.length; ++i)
+							((Ghost) characters[i]).ia();
 					}
-					fps = 1;
-				} else {
-					fps = 1;
-					while (time > fps * frame)
-						++fps;
-				}
+					if ((cpt / (mvP)) == (Timer.FPS / Timer.PMVPS)) {
+						mvP++;
+						characters[0].move(this);
+					}
+					if (restartNeed) {
+						restart();
+					}
+					long current = System.nanoTime();
+					long fps = 0;
+					long time = (current - begin);
+					if (time <= frame) {
+						try {
+							TimeUnit.NANOSECONDS.sleep(frame - time);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						fps = 1;
+					} else {
+						fps = 1;
+						while (time > fps * frame)
+							++fps;
+					}
 
-				cpt += fps;
-				// frame.update(game);
-				System.out.println(this);
+					cpt += fps;
+					// frame.update(game);
+					System.out.println(this);
+				} else {
+					System.out.println(this);
+				}
 			}
 			if (0 < ((Ghost) characters[1]).getJailed())
 				for (int i = 1; i < characters.length; ++i)
@@ -188,6 +194,19 @@ public class Game {
 					((Ghost) characters[i]).setVulnerable(((Ghost) characters[i]).getVulnerable() - 1);
 		}
 
+	}
+
+	public boolean isPaused() {
+		return paused;
+	}
+
+	public void setPaused(boolean paused) {
+		this.paused = paused;
+	}
+
+	public void pause() {
+		while (true)
+			;
 	}
 
 }
