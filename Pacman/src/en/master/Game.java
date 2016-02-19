@@ -183,6 +183,7 @@ public class Game {
 					// frame.update(game);
 					System.out.println(this);
 				} else {
+					// frame.update(game);
 					System.out.println(this);
 				}
 			}
