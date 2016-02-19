@@ -52,13 +52,13 @@ public abstract class Ghost extends Character {
 	}
 
 	private void isEaten() {
-		System.out.println("a complete");
+		//System.out.println("a complete");
 	}
 
 	protected abstract void patrol();
 
 	private void chased() {
-		System.out.println("a complete");
+		//System.out.println("a complete");
 	}
 
 	public char getOld() {

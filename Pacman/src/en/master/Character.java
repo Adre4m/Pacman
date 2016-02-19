@@ -30,45 +30,58 @@ public abstract class Character {
 	 * @return a boolean : true if the character moved, false if he didn't.
 	 */
 	public boolean move(Game game) {
+		int x = 0, y = 0;
 		switch (dir) {
 		case 'u':
-			if (game.getLab()[position.x - 1][position.y] != 'X' && game.getLab()[position.x - 1][position.y] != 'J') {
-				if (this instanceof Pacman)
-					instancePacman(position.x - 1, position.y, game);
+			y = position.y;
+			if (position.x != 0) {
+				if (game.getLab()[position.x - 1][position.y] == 'X' || game.getLab()[position.x - 1][position.y] == 'J'
+						|| game.getLab()[position.x - 1][position.y] == 'D')
+					return false;
 				else
-					instanceGhost(position.x - 1, position.y, game);
-				return true;
-			}
-			return false;
+					x = position.x - 1;
+			} else
+				x = game.getLab().length - 1;
+			break;
 		case 'd':
-			if (game.getLab()[position.x + 1][position.y] != 'X' && game.getLab()[position.x + 1][position.y] != 'J') {
-				if (this instanceof Pacman)
-					instancePacman(position.x + 1, position.y, game);
+			y = position.y;
+			if (position.x != game.getLab().length - 1) {
+				if (game.getLab()[position.x + 1][position.y] == 'X' || game.getLab()[position.x + 1][position.y] == 'J'
+						|| game.getLab()[position.x + 1][position.y] == 'D')
+					return false;
 				else
-					instanceGhost(position.x + 1, position.y, game);
-				return true;
-			}
-			return false;
+					x = position.x + 1;
+			} else
+				x = 0;
+			break;
 		case 'r':
-			if (game.getLab()[position.x][position.y + 1] != 'X' && game.getLab()[position.x][position.y + 1] != 'J') {
-				if (this instanceof Pacman)
-					instancePacman(position.x, position.y + 1, game);
+			x = position.x;
+			if (position.y != game.getLab()[0].length - 1) {
+				if (game.getLab()[position.x][position.y + 1] == 'X' || game.getLab()[position.x][position.y + 1] == 'J'
+						|| game.getLab()[position.x][position.y + 1] == 'D')
+					return false;
 				else
-					instanceGhost(position.x, position.y + 1, game);
-				return true;
-			}
-			return false;
+					y = position.y + 1;
+			} else
+				y = 0;
+			break;
 		case 'l':
-			if (game.getLab()[position.x][position.y - 1] != 'X' && game.getLab()[position.x][position.y - 1] != 'J') {
-				if (this instanceof Pacman)
-					instancePacman(position.x, position.y - 1, game);
+			x = position.x;
+			if (position.y != 0) {
+				if (game.getLab()[position.x][position.y - 1] == 'X' || game.getLab()[position.x][position.y - 1] == 'J'
+						|| game.getLab()[position.x][position.y - 1] == 'D')
+					return false;
 				else
-					instanceGhost(position.x, position.y - 1, game);
-				return true;
-			}
-			return false;
+					y = position.y - 1;
+			} else
+				y = game.getLab()[0].length - 1;
+			break;
 		}
-		return false;
+		if (this instanceof Pacman)
+			instancePacman(x, y, game);
+		else
+			instanceGhost(x, y, game);
+		return true;
 	}
 
 	private void makeMove(int x, int y, Game game) {

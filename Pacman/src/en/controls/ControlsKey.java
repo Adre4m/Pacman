@@ -1,4 +1,4 @@
-package en.control;
+package en.controls;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import en.master.Game;
 
 public class ControlsKey implements KeyListener, ActionListener {
 
@@ -56,6 +58,11 @@ public class ControlsKey implements KeyListener, ActionListener {
 	}
 
 	QuickFrame qf = new QuickFrame(this);
+	private Game game;
+
+	public ControlsKey(Game game) {
+		this.game = game;
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -63,55 +70,39 @@ public class ControlsKey implements KeyListener, ActionListener {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 			displayInfo(e, "Go to left (KEY PRESSED)");
+			game.characters[0].setDir('l');
+			//System.out.println("Need to change direction of Pacman");
 			break;
 		case KeyEvent.VK_RIGHT:
 			displayInfo(e, "Go to right (KEY PRESSED)");
+			game.characters[0].setDir('r');
+			//System.out.println("Need to change direction of Pacman");
 			break;
 		case KeyEvent.VK_UP:
 			displayInfo(e, "Go to up (KEY PRESSED)");
+			game.characters[0].setDir('u');
+			//System.out.println("Need to change direction of Pacman");
 			break;
 		case KeyEvent.VK_DOWN:
 			displayInfo(e, "Go to down (KEY PRESSED)");
+			game.characters[0].setDir('d');
+			//System.out.println("Need to change direction of Pacman");
 			break;
+		default:
+			System.out.println("Do nothing");
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
-			displayInfo(e, "Go to left (KEY RELEASED)");
-			break;
-		case KeyEvent.VK_RIGHT:
-			displayInfo(e, "Go to right (KEY RELEASED)");
-			break;
-		case KeyEvent.VK_UP:
-			displayInfo(e, "Go to up (KEY RELEASED)");
-			break;
-		case KeyEvent.VK_DOWN:
-			displayInfo(e, "Go to down (KEY RELEASED)");
-			break;
-		}
+		System.out.println("I ain't done nothing");
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
-			displayInfo(e, "Go to left (KEY TYPED)");
-			break;
-		case KeyEvent.VK_RIGHT:
-			displayInfo(e, "Go to right (KEY TYPED)");
-			break;
-		case KeyEvent.VK_UP:
-			displayInfo(e, "Go to up (KEY TYPED)");
-			break;
-		case KeyEvent.VK_DOWN:
-			displayInfo(e, "Go to down (KEY TYPED)");
-			break;
-		}
+		System.out.println("I ain't done nothing");
 	}
 
 	@Override
@@ -172,11 +163,14 @@ public class ControlsKey implements KeyListener, ActionListener {
 	}
 
 	public static void main(String[] args) {
+		final Game test = new Game();
+		test.init();
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new ControlsKey();
+				new ControlsKey(test);
 			}
 		});
+		test.play();
 	}
 
 }

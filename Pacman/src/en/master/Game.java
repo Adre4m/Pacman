@@ -38,7 +38,19 @@ public class Game {
 	}
 
 	public void init() {
-
+		int i = lab.length / 2;
+		int j = lab[0].length / 2;
+		lab[i][j - 4] = 'G';
+		lab[i][j - 3] = 'G';
+		lab[i][j - 2] = 'G';
+		lab[i][j - 1] = 'G';
+		lab[i - 1][j] = 'S';
+		lab[i][j] = 'P';
+		characters[0].position.setLocation(i, j);
+		characters[1].position.setLocation(i, j - 1);
+		characters[2].position.setLocation(i, j - 2);
+		characters[3].position.setLocation(i, j - 3);
+		characters[4].position.setLocation(i, j - 4);
 	}
 
 	public void initTest() {
@@ -71,19 +83,6 @@ public class Game {
 					lab[i][j] = s.charAt(index);
 					index++;
 				}
-			// int i = lab.length / 2;
-			// int j = lab[0].length / 2;
-			// lab[i][j - 4] = 'G';
-			// lab[i][j - 3] = 'G';
-			// lab[i][j - 2] = 'G';
-			// lab[i][j - 1] = 'G';
-			// lab[i - 1][j] = 'S';
-			// lab[i][j] = 'P';
-			// characters[0].position.setLocation(i, j);
-			// characters[1].position.setLocation(i, j - 1);
-			// characters[2].position.setLocation(i, j - 2);
-			// characters[3].position.setLocation(i, j - 3);
-			// characters[4].position.setLocation(i, j - 4);
 		} catch (Exception e) {
 
 			// if any I/O error occurs
