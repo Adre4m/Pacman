@@ -6,7 +6,7 @@ public class Pacman extends Character {
 	private int eatenGhosts;
 
 	public Pacman() {
-		super();
+		super(0, 0, "sprites/PacMan_left.gif");
 		lives = 3;
 		eatenGhosts = 0;
 	}

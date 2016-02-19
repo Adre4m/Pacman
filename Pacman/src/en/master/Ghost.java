@@ -1,5 +1,7 @@
 package en.master;
 
+import javax.swing.ImageIcon;
+
 public abstract class Ghost extends Character {
 
 	private boolean isVunerable;
@@ -8,10 +10,14 @@ public abstract class Ghost extends Character {
 	protected long jailed;
 	private long vulnerable;
 	private char old;
+	private String vulnerableSprite;
+	private String eyeSprite;
 	// private int speed;
 
-	public Ghost() {
-		super();
+	public Ghost(String sprite) {
+		super(0, 0, sprite);
+		vulnerableSprite = "sprites/Blue_ghost.gif";
+		eyeSprite = "sprites/Ghost_eyes";
 		isVunerable = false;
 		isFree = false;
 		isReturningToJail = false;
@@ -87,7 +93,7 @@ public abstract class Ghost extends Character {
 
 	public void setVulnerable(long vulnerable) {
 		this.vulnerable = vulnerable;
-		if(0 < vulnerable)
+		if (0 < vulnerable)
 			this.isVunerable = true;
 		else
 			this.isVunerable = false;

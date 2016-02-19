@@ -4,6 +4,7 @@ import java.awt.Point;
 
 public abstract class Character {
 
+	protected String sprite;
 	protected Point position;
 	private char dir;
 
@@ -12,7 +13,8 @@ public abstract class Character {
 		dir = 'u';
 	}
 
-	public Character(int x, int y) {
+	public Character(int x, int y, String sprite) {
+		this.sprite = sprite;
 		position = new Point(x, y);
 		dir = 'u';
 	}
