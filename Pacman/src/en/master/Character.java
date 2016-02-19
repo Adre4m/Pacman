@@ -8,13 +8,13 @@ public abstract class Character {
 	protected Point position;
 	private char dir;
 
-	public Character() {
+	public Character(String sprite) {
 		position = new Point(0, 0);
 		dir = 'u';
+		this.sprite = sprite;
 	}
 
-	public Character(int x, int y, String sprite) {
-		this.sprite = sprite;
+	public Character(int x, int y) {
 		position = new Point(x, y);
 		dir = 'u';
 	}

@@ -1,7 +1,5 @@
 package en.master;
 
-import javax.swing.ImageIcon;
-
 public abstract class Ghost extends Character {
 
 	private boolean isVunerable;
@@ -15,7 +13,7 @@ public abstract class Ghost extends Character {
 	// private int speed;
 
 	public Ghost(String sprite) {
-		super(0, 0, sprite);
+		super(sprite);
 		vulnerableSprite = "sprites/Blue_ghost.gif";
 		eyeSprite = "sprites/Ghost_eyes";
 		isVunerable = false;
@@ -49,17 +47,18 @@ public abstract class Ghost extends Character {
 	// et ou il chasse sont communes
 
 	public void ia() {
-
+		isEaten();
+		chased();
 	}
 
 	private void isEaten() {
-
+		System.out.println("a complete");
 	}
 
 	protected abstract void patrol();
 
 	private void chased() {
-
+		System.out.println("a complete");
 	}
 
 	public char getOld() {
@@ -97,6 +96,26 @@ public abstract class Ghost extends Character {
 			this.isVunerable = true;
 		else
 			this.isVunerable = false;
+	}
+
+	public String getVulnerableSprite() {
+		return vulnerableSprite;
+	}
+
+	public void setVulnerableSprite(String vulnerableSprite) {
+		this.vulnerableSprite = vulnerableSprite;
+	}
+
+	public String getEyeSprite() {
+		return eyeSprite;
+	}
+
+	public void setEyeSprite(String eyeSprite) {
+		this.eyeSprite = eyeSprite;
+	}
+
+	public void setVunerable(boolean isVunerable) {
+		this.isVunerable = isVunerable;
 	}
 
 }
