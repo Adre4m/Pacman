@@ -66,31 +66,20 @@ public class ControlsKey implements KeyListener, ActionListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			displayInfo(e, "Go to left (KEY PRESSED)");
 			game.characters[0].setDir('l');
-			// System.out.println("Need to change direction of Pacman");
 			break;
 		case KeyEvent.VK_RIGHT:
-			displayInfo(e, "Go to right (KEY PRESSED)");
 			game.characters[0].setDir('r');
-			// System.out.println("Need to change direction of Pacman");
 			break;
 		case KeyEvent.VK_UP:
-			displayInfo(e, "Go to up (KEY PRESSED)");
 			game.characters[0].setDir('u');
-			// System.out.println("Need to change direction of Pacman");
 			break;
 		case KeyEvent.VK_DOWN:
-			displayInfo(e, "Go to down (KEY PRESSED)");
 			game.characters[0].setDir('d');
-			// System.out.println("Need to change direction of Pacman");
 			break;
 		case KeyEvent.VK_ESCAPE:
-			displayInfo(e, "pause (KEY PRESSED)");
-			// System.out.println("Need to pause");
 			if (game.isPaused()) {
 				game.setPaused(false);
 			} else {
@@ -104,71 +93,17 @@ public class ControlsKey implements KeyListener, ActionListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		// System.out.println("I ain't done nothing");
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		// System.out.println("I ain't done nothing");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		qf.displayArea.setText("");
 		qf.typingArea.setText("");
 		qf.typingArea.requestFocusInWindow();
-	}
-
-	private void displayInfo(KeyEvent e, String keyStatus) {
-
-		// You should only rely on the key char if the event
-		// is a key typed event.
-		int id = e.getID();
-		String keyString;
-		if (id == KeyEvent.KEY_TYPED) {
-			char c = e.getKeyChar();
-			keyString = "key character = '" + c + "'";
-		} else {
-			int keyCode = e.getKeyCode();
-			keyString = "key code = " + keyCode + " (" + KeyEvent.getKeyText(keyCode) + ")";
-		}
-
-		int modifiersEx = e.getModifiersEx();
-		String modString = "extended modifiers = " + modifiersEx;
-		String tmpString = KeyEvent.getModifiersExText(modifiersEx);
-		if (tmpString.length() > 0) {
-			modString += " (" + tmpString + ")";
-		} else {
-			modString += " (no extended modifiers)";
-		}
-
-		String actionString = "action key? ";
-		if (e.isActionKey()) {
-			actionString += "YES";
-		} else {
-			actionString += "NO";
-		}
-
-		String locationString = "key location: ";
-		int location = e.getKeyLocation();
-		if (location == KeyEvent.KEY_LOCATION_STANDARD) {
-			locationString += "standard";
-		} else if (location == KeyEvent.KEY_LOCATION_LEFT) {
-			locationString += "left";
-		} else if (location == KeyEvent.KEY_LOCATION_RIGHT) {
-			locationString += "right";
-		} else if (location == KeyEvent.KEY_LOCATION_NUMPAD) {
-			locationString += "numpad";
-		} else { // (location == KeyEvent.KEY_LOCATION_UNKNOWN)
-			locationString += "unknown";
-		}
-
-		qf.displayArea.append(keyStatus + newline + "    " + keyString + newline + "    " + modString + newline + "    "
-				+ actionString + newline + "    " + locationString + newline);
-		qf.displayArea.setCaretPosition(qf.displayArea.getDocument().getLength());
 	}
 
 	public static void main(String[] args) {

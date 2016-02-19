@@ -114,8 +114,4 @@ public abstract class Ghost extends Character {
 		this.eyeSprite = eyeSprite;
 	}
 
-	public void setVunerable(boolean isVunerable) {
-		this.isVunerable = isVunerable;
-	}
-
 }

@@ -35,7 +35,7 @@ public abstract class Character {
 		case 'u':
 			y = position.y;
 			if (position.x != 0) {
-				if (game.getLab()[position.x - 1][position.y] == 'X' || game.getLab()[position.x - 1][position.y] == 'J'
+				if (game.getLab()[position.x - 1][position.y] == 'X'
 						|| game.getLab()[position.x - 1][position.y] == 'D')
 					return false;
 				else
@@ -46,7 +46,7 @@ public abstract class Character {
 		case 'd':
 			y = position.y;
 			if (position.x != game.getLab().length - 1) {
-				if (game.getLab()[position.x + 1][position.y] == 'X' || game.getLab()[position.x + 1][position.y] == 'J'
+				if (game.getLab()[position.x + 1][position.y] == 'X'
 						|| game.getLab()[position.x + 1][position.y] == 'D')
 					return false;
 				else
@@ -57,7 +57,7 @@ public abstract class Character {
 		case 'r':
 			x = position.x;
 			if (position.y != game.getLab()[0].length - 1) {
-				if (game.getLab()[position.x][position.y + 1] == 'X' || game.getLab()[position.x][position.y + 1] == 'J'
+				if (game.getLab()[position.x][position.y + 1] == 'X'
 						|| game.getLab()[position.x][position.y + 1] == 'D')
 					return false;
 				else
@@ -68,7 +68,7 @@ public abstract class Character {
 		case 'l':
 			x = position.x;
 			if (position.y != 0) {
-				if (game.getLab()[position.x][position.y - 1] == 'X' || game.getLab()[position.x][position.y - 1] == 'J'
+				if (game.getLab()[position.x][position.y - 1] == 'X'
 						|| game.getLab()[position.x][position.y - 1] == 'D')
 					return false;
 				else
@@ -128,6 +128,7 @@ public abstract class Character {
 			for (int i = 1; i < game.characters.length; ++i) {
 				((Ghost) (game.characters[i])).setVulnerable(Timer.SUPERGUM);
 			}
+			((Pacman) (game.characters[0])).setInvulnerable(Timer.SUPERGUM);
 			break;
 		case 'C':
 			game.setScore(game.getScore() + 100);
