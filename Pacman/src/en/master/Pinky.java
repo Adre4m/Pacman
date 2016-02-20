@@ -3,7 +3,7 @@ package en.master;
 public class Pinky extends Ghost {
 
 	public Pinky() {
-		super("sprites/Pinky");
+		super("Pinky");
 	}
 
 	@Override

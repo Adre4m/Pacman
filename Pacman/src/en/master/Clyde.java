@@ -3,7 +3,7 @@ package en.master;
 public class Clyde extends Ghost {
 
 	public Clyde() {
-		super("sprites/Clyde");
+		super("Clyde");
 	}
 	
 	@Override

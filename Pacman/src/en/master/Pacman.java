@@ -9,11 +9,11 @@ public class Pacman extends Character {
 	private boolean isInvunerable;
 
 	public Pacman() {
-		super("sprites/PacMan");
+		super("PacMan");
 		lives = 3;
 		eatenGhosts = 0;
 		invulnerable = 0;
-		invulnerableSprite = "sprites/PacMan_invulnerable";
+		invulnerableSprite = "PacMan_invulnerable";
 		isInvunerable = false;
 	}
 

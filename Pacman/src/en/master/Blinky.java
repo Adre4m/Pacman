@@ -3,7 +3,7 @@ package en.master;
 public class Blinky extends Ghost {
 
 	public Blinky() {
-		super("sprites/Blinky");
+		super("Blinky");
 	}
 
 	@Override

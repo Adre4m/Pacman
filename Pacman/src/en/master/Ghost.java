@@ -14,8 +14,8 @@ public abstract class Ghost extends Character {
 
 	public Ghost(String sprite) {
 		super(sprite);
-		vulnerableSprite = "sprites/Blue_ghost.gif";
-		eyeSprite = "sprites/Ghost_eyes";
+		vulnerableSprite = "Blue_ghost.gif";
+		eyeSprite = "Ghost_eyes";
 		isVunerable = false;
 		isFree = false;
 		isReturningToJail = false;
