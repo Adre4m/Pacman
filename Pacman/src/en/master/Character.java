@@ -30,10 +30,9 @@ public abstract class Character {
 	 * @return a boolean : true if the character moved, false if he didn't.
 	 */
 	public boolean move(Game game) {
-		int x = 0, y = 0;
+		int x = position.x, y = position.y;
 		switch (dir) {
 		case 'u':
-			y = position.y;
 			if (position.x != 0) {
 				if (game.getLab()[position.x - 1][position.y] == 'X'
 						|| game.getLab()[position.x - 1][position.y] == 'D')
@@ -44,29 +43,18 @@ public abstract class Character {
 				x = game.getLab().length - 1;
 			break;
 		case 'd':
-			y = position.y;
-			if (position.x != game.getLab().length - 1) {
-				if (game.getLab()[position.x + 1][position.y] == 'X'
-						|| game.getLab()[position.x + 1][position.y] == 'D')
-					return false;
-				else
-					x = position.x + 1;
-			} else
-				x = 0;
+			if (game.getLab()[(position.x + 1) % game.getLab().length][position.y] == 'X'
+					|| game.getLab()[(position.x + 1) % game.getLab().length][position.y] == 'D')
+				return false;
+			x = (position.x + 1) % game.getLab().length;
 			break;
 		case 'r':
-			x = position.x;
-			if (position.y != game.getLab()[0].length - 1) {
-				if (game.getLab()[position.x][position.y + 1] == 'X'
-						|| game.getLab()[position.x][position.y + 1] == 'D')
-					return false;
-				else
-					y = position.y + 1;
-			} else
-				y = 0;
+			if (game.getLab()[position.x][(position.y + 1) % game.getLab()[0].length] == 'X'
+					|| game.getLab()[position.x][(position.y + 1) % game.getLab()[0].length] == 'D')
+				return false;
+			y = (position.y + 1) % game.getLab()[0].length;
 			break;
 		case 'l':
-			x = position.x;
 			if (position.y != 0) {
 				if (game.getLab()[position.x][position.y - 1] == 'X'
 						|| game.getLab()[position.x][position.y - 1] == 'D')
