@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class FrameTest {
-	Frame f;
+	/*Frame f;
 	@Before
 	public void setUp() throws Exception {
 		f = new Frame();
@@ -25,6 +25,11 @@ public class FrameTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
+	
+	public static void main (String[] args) {
+		Frame f = new Frame();
+		while (true);
+}
 
 }

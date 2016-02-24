@@ -35,7 +35,7 @@ public class Frame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int height = (int) (screenSize.getHeight() * 0.90);
+	int height = (int) (screenSize.getHeight() * 0.95);
 	private JLabel labelImage = new JLabel();
 
 	public Frame() {
