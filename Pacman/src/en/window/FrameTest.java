@@ -20,7 +20,7 @@ public class FrameTest {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		assertTrue((int) (screenSize.height * 0.9) == f.getHeight());
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(50000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
