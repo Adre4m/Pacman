@@ -56,50 +56,16 @@ public class Game {
 	}
 
 	public void initTest() {
-		InputStream is = null;
-		int a;
-		char c;
-
-		try {
-			// new input stream created
-			is = new FileInputStream("labyrinths/test.txt");
-
-			String s = "";
-			boolean b = true;
-			// reads till the end of the stream
-			while ((a = is.read()) != -1) {
-				// converts integer to character
-				c = (char) a;
-				if (c != '\n') // avoid line breaks
-					s += c;
-				else {
-					s = s.substring(0, s.length() - 1); // There is a space
-														// which has nothing to
-														// do here
-				}
-
+		Stream stm = new Stream(); //Initiate the stream to read file
+		String grid = stm.initiateLab("labyrinths/test.txt");
+		
+		int index = 0;
+		for (int i = 0; i < lab.length; ++i)
+			for (int j = 0; j < lab[0].length; ++j) {
+				lab[i][j] = grid.charAt(index);
+				index++;
 			}
-			int index = 0;
-			for (int i = 0; i < lab.length; ++i)
-				for (int j = 0; j < lab[0].length; ++j) {
-					lab[i][j] = s.charAt(index);
-					index++;
-				}
-		} catch (Exception e) {
 
-			// if any I/O error occurs
-			e.printStackTrace();
-		} finally {
-
-			// releases system resources associated with this stream
-			if (is != null)
-				try {
-					is.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
 	}
 
 	public String toString() {
