@@ -22,6 +22,16 @@ public abstract class Ghost extends Character {
 		jailed = Timer.PRISON;
 	}
 
+	public Ghost(String sprite, int x, int y) {
+		super(sprite, x, y);
+		vulnerableSprite = "Blue_ghost.gif";
+		eyeSprite = "Ghost_eyes";
+		isVunerable = false;
+		isFree = false;
+		isReturningToJail = false;
+		jailed = Timer.PRISON;
+	}
+
 	public boolean isVunerable() {
 		return isVunerable;
 	}
@@ -39,6 +49,8 @@ public abstract class Ghost extends Character {
 	}
 
 	public void setReturningToJail(boolean isReturningToJail) {
+		isVunerable = false;
+		vulnerable = 0;
 		this.isReturningToJail = isReturningToJail;
 	}
 
@@ -46,19 +58,19 @@ public abstract class Ghost extends Character {
 	// trois fonctions de l'ia, la fonction dans le cas ou le fantome est mangé
 	// et ou il chasse sont communes
 
-	public void ia() {
+	public void ia(Game game) {
 		isEaten();
 		chased();
 	}
 
 	private void isEaten() {
-		//System.out.println("a complete");
+		// System.out.println("a complete");
 	}
 
 	protected abstract void patrol();
 
 	private void chased() {
-		//System.out.println("a complete");
+		// System.out.println("a complete");
 	}
 
 	public char getOld() {
@@ -112,6 +124,16 @@ public abstract class Ghost extends Character {
 
 	public void setEyeSprite(String eyeSprite) {
 		this.eyeSprite = eyeSprite;
+	}
+
+	public void reinit(Game game) {
+		vulnerableSprite = "Blue_ghost.gif";
+		eyeSprite = "Ghost_eyes";
+		isVunerable = false;
+		isFree = false;
+		isReturningToJail = false;
+		jailed = Timer.PRISON;
+		super.reinit(game);
 	}
 
 }

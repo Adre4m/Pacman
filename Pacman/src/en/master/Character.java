@@ -6,21 +6,36 @@ public abstract class Character {
 
 	protected String sprite;
 	protected Point position;
-	private char dir;
+	protected char dir;
+	private Point initialPosition;
 
 	public Character(String sprite) {
 		position = new Point(0, 0);
+		initialPosition = (Point) position.clone();
 		dir = 'u';
 		this.sprite = sprite;
 	}
 
-	public Character(int x, int y) {
+	public Character(String sprite, int x, int y) {
 		position = new Point(x, y);
+		initialPosition = (Point) position.clone();
 		dir = 'u';
+		this.sprite = sprite;
 	}
 
 	public Point getPosition() {
 		return position;
+	}
+
+	public Point getInitialPosition() {
+		return initialPosition;
+	}
+
+	public void reinit(Game game) {
+		dir = 'u';
+		game.getLab()[position.x][position.y] = ' ';
+		position.setLocation(initialPosition);
+		game.getLab()[position.x][position.y] = toChar();
 	}
 
 	/**
@@ -33,36 +48,28 @@ public abstract class Character {
 		int x = position.x, y = position.y;
 		switch (dir) {
 		case 'u':
-			if (position.x != 0) {
-				if (game.getLab()[position.x - 1][position.y] == 'X'
-						|| game.getLab()[position.x - 1][position.y] == 'D')
-					return false;
-				else
-					x = position.x - 1;
-			} else
-				x = game.getLab().length - 1;
+			if (game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] == 'X'
+					|| game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] == 'D')
+				return false;
+			x = Math.floorMod(position.x - 1, game.getLab().length);
 			break;
 		case 'd':
-			if (game.getLab()[(position.x + 1) % game.getLab().length][position.y] == 'X'
-					|| game.getLab()[(position.x + 1) % game.getLab().length][position.y] == 'D')
+			if (game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] == 'X'
+					|| game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] == 'D')
 				return false;
-			x = (position.x + 1) % game.getLab().length;
+			x = Math.floorMod(position.x + 1, game.getLab().length);
 			break;
 		case 'r':
-			if (game.getLab()[position.x][(position.y + 1) % game.getLab()[0].length] == 'X'
-					|| game.getLab()[position.x][(position.y + 1) % game.getLab()[0].length] == 'D')
+			if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab()[0].length)] == 'X'
+					|| game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab()[0].length)] == 'D')
 				return false;
-			y = (position.y + 1) % game.getLab()[0].length;
+			y = Math.floorMod(position.y + 1, game.getLab()[0].length);
 			break;
 		case 'l':
-			if (position.y != 0) {
-				if (game.getLab()[position.x][position.y - 1] == 'X'
-						|| game.getLab()[position.x][position.y - 1] == 'D')
-					return false;
-				else
-					y = position.y - 1;
-			} else
-				y = game.getLab()[0].length - 1;
+			if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab()[0].length)] == 'X'
+					|| game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab()[0].length)] == 'D')
+				return false;
+			y = Math.floorMod(position.y - 1, game.getLab()[0].length);
 			break;
 		}
 		if (this instanceof Pacman)
@@ -74,7 +81,7 @@ public abstract class Character {
 
 	private void makeMove(int x, int y, Game game) {
 		char old = game.getLab()[x][y];
-		game.getLab()[x][y] = game.getLab()[position.x][position.y];
+		game.getLab()[x][y] = toChar();
 		if (this instanceof Ghost) {
 			game.getLab()[position.x][position.y] = ((Ghost) this).getOld();
 			((Ghost) this).setOld(old);

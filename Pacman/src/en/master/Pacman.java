@@ -15,6 +15,16 @@ public class Pacman extends Character {
 		invulnerable = 0;
 		invulnerableSprite = "PacMan_invulnerable";
 		isInvunerable = false;
+		dir = 'l';
+	}
+
+	public Pacman(int x, int y) {
+		super("PacMan", x, y);
+		lives = 3;
+		eatenGhosts = 0;
+		invulnerable = 0;
+		invulnerableSprite = "PacMan_invulnerable";
+		isInvunerable = false;
 	}
 
 	public int getLives() {
