@@ -2,6 +2,8 @@ package en.master;
 
 import java.util.concurrent.TimeUnit;
 
+import en.window.Frame;
+
 public class Game {
 
 	// TODO En cas de mort restart puis attente de 1 seconde.
@@ -113,7 +115,7 @@ public class Game {
 	}
 
 	// TODO en cas de necessité liberer les fantomes
-	public void play() {
+	public void play(Frame f) {
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
 		while (((Pacman) characters[0]).getLives() > 0 && !win) {
 			long cpt = 0;

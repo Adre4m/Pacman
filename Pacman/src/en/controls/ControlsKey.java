@@ -92,7 +92,7 @@ public class ControlsKey implements KeyListener {
 				new ControlsKey(test);
 			}
 		});
-		test.play();
+		test.play(null);
 	}
 
 }
