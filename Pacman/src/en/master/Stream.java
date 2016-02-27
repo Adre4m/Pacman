@@ -6,6 +6,41 @@ import java.io.InputStream;
 
 public class Stream {
 	
+	public String readScore(String path){
+		InputStream is = null;
+		int a;
+		char c;
+		String s = "";
+		
+		try {
+			// new input stream created
+			is = new FileInputStream(path);
+			
+			boolean b = true;
+			// reads till the end of the stream
+			while ((a = is.read()) != -1) {
+				// converts integer to character
+				c = (char) a;
+					s += c;
+			}
+		} catch (Exception e) {
+	
+			// if any I/O error occurs
+			e.printStackTrace();
+		} finally {
+	
+			// releases system resources associated with this stream
+			if (is != null)
+				try {
+					is.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return s;
+	}
+	
 	public String initiateLab(String path){
 		InputStream is = null;
 		int a;
