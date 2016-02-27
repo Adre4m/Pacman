@@ -36,7 +36,6 @@ public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
-	private JLabel labelImage = new JLabel();
 
 	public Frame() {
 
@@ -243,16 +242,43 @@ public class Frame extends JFrame {
 		        th.add(r1);
 		        th.add(r2);
 		        th.add(r3);
-		        
+		       
 				JLabel l = new JLabel("Choose a Theme");
 				labelStyleB(l);
 
+				final ImageIcon classic = new ImageIcon("sprites/classic.png");
+				final ImageIcon sw = new ImageIcon("sprites/sw.png");
+				final ImageIcon bh6 = new ImageIcon("sprites/bh6.png");
+				
+				final JLabel image = new JLabel ();
+				image.setIcon(classic);
+				
+				class RadioButtonActionListener implements ActionListener {
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						JRadioButton button = (JRadioButton) event.getSource();
+						if (button == r1) {
+							image.setIcon(classic);
+						} else if (button == r2) {
+							image.setIcon(sw);
+						} else if (button == r3) {
+							image.setIcon(bh6);
+						}
+					}
+				}
+				
+				RadioButtonActionListener actionListener = new RadioButtonActionListener();
+				r1.addActionListener(actionListener);
+				r2.addActionListener(actionListener);
+				r3.addActionListener(actionListener);
+				
 				JPanel t = new JPanel();
 				t.setBackground(Color.BLACK);
 				t.setLayout(new BorderLayout());
 				t.add(l, BorderLayout.NORTH);
 				t.add(choice, BorderLayout.WEST);
-
+				t.add(image, BorderLayout.CENTER);
+				
 				// change pop-up background color
 				UIManager.put("OptionPane.background", Color.BLACK);
 				UIManager.put("Panel.background", Color.BLACK);
@@ -293,8 +319,8 @@ public class Frame extends JFrame {
 		// difficulte
 		JLabel difficulty = new JLabel("Difficulty");
 		labelStyleW(difficulty);
-		final JRadioButton easy = new JRadioButton("Easy", true);
-		final JRadioButton normal = new JRadioButton("Normal", false);
+		final JRadioButton easy = new JRadioButton("Easy", false);
+		final JRadioButton normal = new JRadioButton("Normal", true);
 		final JRadioButton hard = new JRadioButton("Hard", false);
 		radioStyle(easy);
 		radioStyle(normal);
@@ -370,9 +396,10 @@ public class Frame extends JFrame {
 			}
 		});
 
-		o.add(titleStyle(title));
-		o.add(option);
-		o.add(back);
+		o.setLayout(new BorderLayout());
+		o.add(titleStyle(title), BorderLayout.NORTH);
+		o.add(option, BorderLayout.CENTER);
+		o.add(back, BorderLayout.SOUTH);
 		return o;
 	}
 
