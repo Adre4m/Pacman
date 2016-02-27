@@ -157,9 +157,9 @@ public class Game {
 						lab[characters[i].position.x][characters[i].position.y] = characters[i].toChar();
 					lab[characters[0].position.x][characters[0].position.y] = characters[0].toChar();
 					System.out.println(this);
-					// frame.update(game);
+					// f.update(game);
 				} else {
-					// frame.update(game);
+					// f.update(game);
 					System.out.println(this);
 				}
 			}
@@ -179,11 +179,6 @@ public class Game {
 
 	public void setPaused(boolean paused) {
 		this.paused = paused;
-	}
-
-	public void pause() {
-		while (true)
-			;
 	}
 
 }
