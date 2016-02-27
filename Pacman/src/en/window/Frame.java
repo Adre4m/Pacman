@@ -34,12 +34,16 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int height = (int) (screenSize.getHeight() * 0.95);
+	private JPanel menu = new JPanel();
+	private JPanel game = new JPanel();
+	private JPanel highscore = new JPanel();
+	private JPanel options = new JPanel();
 
 	public Frame() {
 
 		// create frame
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = (int) (screenSize.getHeight() * 0.95);
 		this.setTitle("Pacman");
 		this.setSize((4 * height) / 3, height);
 		this.setResizable(false);
@@ -210,7 +214,6 @@ public class Frame extends JFrame {
 
 		// Jpanel final qui sera retourner
 		final JPanel o = new JPanel();
-		// o.setPreferredSize(new Dimension((4 * height) / 3, height - 50));
 		o.setBackground(Color.BLACK);
 
 		// titre du panel
@@ -219,7 +222,7 @@ public class Frame extends JFrame {
 		// changement de theme
 		final JButton theme = new JButton("Change Game's Theme");
 		theme.setBackground(Color.BLACK);
-		theme.setForeground(Color.WHITE);
+		theme.setForeground(Color.YELLOW);
 		theme.setFont(new java.awt.Font("Consolas", 1, 24));
 
 		theme.addActionListener(new ActionListener() {
@@ -234,6 +237,7 @@ public class Frame extends JFrame {
 				radioStyle(r3);
 				
 				Box choice = Box.createVerticalBox();
+				choice.add(Box.createRigidArea(new Dimension(0, 225)));
 				choice.add(r1);
 				choice.add(r2);
 				choice.add(r3);
@@ -243,8 +247,11 @@ public class Frame extends JFrame {
 		        th.add(r2);
 		        th.add(r3);
 		       
+				JPanel title = new JPanel();
+				title.setBackground(Color.BLACK);
 				JLabel l = new JLabel("Choose a Theme");
 				labelStyleB(l);
+				title.add(l);
 
 				final ImageIcon classic = new ImageIcon("sprites/classic.png");
 				final ImageIcon sw = new ImageIcon("sprites/sw.png");
@@ -271,11 +278,11 @@ public class Frame extends JFrame {
 				r1.addActionListener(actionListener);
 				r2.addActionListener(actionListener);
 				r3.addActionListener(actionListener);
-				
+							
 				JPanel t = new JPanel();
 				t.setBackground(Color.BLACK);
 				t.setLayout(new BorderLayout());
-				t.add(l, BorderLayout.NORTH);
+				t.add(title, BorderLayout.NORTH);
 				t.add(choice, BorderLayout.WEST);
 				t.add(image, BorderLayout.CENTER);
 				
@@ -292,12 +299,12 @@ public class Frame extends JFrame {
 
 		theme.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
-				theme.setForeground(Color.YELLOW);
+				theme.setForeground(Color.BLUE);
 				;
 			}
 
 			public void mouseExited(MouseEvent e) {
-				theme.setForeground(Color.WHITE);
+				theme.setForeground(Color.YELLOW);
 				;
 			}
 		});
@@ -364,42 +371,67 @@ public class Frame extends JFrame {
 		m2.setBackground(Color.BLACK);
 		m2.add(ns);
 
-		// jpanel musique final
-		JPanel m = new JPanel();
-		m.setBackground(Color.BLACK);
-		m.setLayout(new BorderLayout());
-		m.add(music, BorderLayout.NORTH);
-		m.add(m1, BorderLayout.WEST);
-		m.add(m2, BorderLayout.CENTER);
+		// musique final
+		Box m = Box.createHorizontalBox();
+		m.add(m1);
+		m.add(m2);
 		ButtonGroup so = new ButtonGroup();
         so.add(sound);
         so.add(noSound);
 
 		final Box option = Box.createVerticalBox();
+		option.add(Box.createRigidArea(new Dimension(0, 50)));
+		theme.setAlignmentX(CENTER_ALIGNMENT);
 		option.add(theme);
+		option.add(Box.createRigidArea(new Dimension(0, 50)));
+		controls.setAlignmentX(CENTER_ALIGNMENT);
+		c.setAlignmentX(CENTER_ALIGNMENT);
 		option.add(controls);
 		option.add(c);
+		option.add(Box.createRigidArea(new Dimension(0, 50)));
+		difficulty.setAlignmentX(CENTER_ALIGNMENT);
+		d.setAlignmentX(CENTER_ALIGNMENT);
 		option.add(difficulty);
 		option.add(d);
+		option.add(Box.createRigidArea(new Dimension(0, 50)));
+		music.setAlignmentX(CENTER_ALIGNMENT);
+		m.setAlignmentX(CENTER_ALIGNMENT);
+		option.add(music);
 		option.add(m);
+		option.add(Box.createRigidArea(new Dimension(0, 50)));
 
 		// bouton retour
 		final JButton back = new JButton("Back");
 		buttonStyle(back);
+		
+		final JButton apply = new JButton ("Apply");
+		buttonStyle(apply);
 
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				title.setVisible(false);
 				option.setVisible(false);
 				back.setVisible(false);
+				apply.setVisible(false);
 				o.add(menu());
 			}
 		});
 
+		/*apply.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//ajouter le flux
+			}
+		});*/
+		
+		Box button = Box.createHorizontalBox();
+		button.add(apply);
+		button.add(Box.createRigidArea(new Dimension(100, 0)));
+		button.add(back);
+		
 		o.setLayout(new BorderLayout());
 		o.add(titleStyle(title), BorderLayout.NORTH);
 		o.add(option, BorderLayout.CENTER);
-		o.add(back, BorderLayout.SOUTH);
+		o.add(button, BorderLayout.SOUTH);
 		return o;
 	}
 
