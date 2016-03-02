@@ -1,4 +1,4 @@
-package en.master;
+package en.master.characters;
 
 public class Pinky extends Ghost {
 

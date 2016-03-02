@@ -1,4 +1,6 @@
-package en.master;
+package en.master.characters;
+
+import en.master.Game;
 
 public class Blinky extends Ghost {
 

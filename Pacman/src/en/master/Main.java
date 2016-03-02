@@ -1,5 +1,5 @@
+package en.master;
 import en.controls.ControlsKey;
-import en.master.Game;
 import en.window.Frame;
 
 public class Main {

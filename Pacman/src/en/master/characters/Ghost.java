@@ -1,6 +1,9 @@
-package en.master;
+package en.master.characters;
 
 import java.awt.Point;
+
+import en.master.Game;
+import en.master.Timer;
 
 public abstract class Ghost extends Character {
 

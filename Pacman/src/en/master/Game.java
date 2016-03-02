@@ -2,6 +2,13 @@ package en.master;
 
 import java.util.concurrent.TimeUnit;
 
+import en.master.characters.Blinky;
+import en.master.characters.Character;
+import en.master.characters.Clyde;
+import en.master.characters.Ghost;
+import en.master.characters.Inky;
+import en.master.characters.Pacman;
+import en.master.characters.Pinky;
 import en.window.Frame;
 
 public class Game {
@@ -80,7 +87,7 @@ public class Game {
 
 	public Ghost getGhost(int x, int y) {
 		for (int i = 1; i < characters.length; ++i)
-			if (characters[i].position.x == x && characters[i].position.y == y)
+			if (characters[i].getPosition().x == x && characters[i].getPosition().y == y)
 				return (Ghost) characters[i];
 		return null;
 	}
@@ -159,8 +166,8 @@ public class Game {
 
 					cpt += fps;
 					for (int i = 1; i < characters.length; ++i)
-						lab[characters[i].position.x][characters[i].position.y] = characters[i].toChar();
-					lab[characters[0].position.x][characters[0].position.y] = characters[0].toChar();
+						lab[characters[i].getPosition().x][characters[i].getPosition().y] = characters[i].toChar();
+					lab[characters[0].getPosition().x][characters[0].getPosition().y] = characters[0].toChar();
 					System.out.println(this);
 					// f.update(game);
 				} else {
