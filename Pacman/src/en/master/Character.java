@@ -156,11 +156,12 @@ public abstract class Character {
 		makeMove(x, y, game);
 		Ghost g = (Ghost) this;
 		if (g.getOld() == 'P') {
-			if (!g.isReturningToJail()) {
+			if (!g.isReturningToJail() && !g.isVulnerable()) {
 				((Pacman) game.characters[0]).death();
 				game.setRestartNeed(true);
 			} else
 				game.getLab()[x][y] = 'P';
+			g.setOld(' ');
 		} else {
 			game.getLab()[x][y] = toChar();
 		}

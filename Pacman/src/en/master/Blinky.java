@@ -4,12 +4,20 @@ public class Blinky extends Ghost {
 
 	public Blinky() {
 		super("Blinky");
-		setJailed(0);
+		jailed = -1;
+		isFree = true;
 	}
 
 	public Blinky(int x, int y) {
 		super("Blinky", x, y);
-		setJailed(0);
+		setJailed(-1);
+		setFree(true);
+	}
+
+	public void reinit(Game game) {
+		super.reinit(game);
+		jailed = -1;
+		isFree = true;
 	}
 
 	@Override

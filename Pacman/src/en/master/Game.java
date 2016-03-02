@@ -95,7 +95,7 @@ public class Game {
 			TimeUnit.SECONDS.sleep(2);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}	
+		}
 	}
 
 	public boolean isRestartNeed() {
@@ -119,18 +119,23 @@ public class Game {
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
 		while (((Pacman) characters[0]).getLives() > 0 && !win) {
 			long cpt = 0;
-			long mvP = 1;
-			long mvG = 1;
+			long[] mv = { 1, 1, 1, 1, 1 };
 			while (cpt < Timer.FPS + 1) {
 				if (!paused) {
 					long begin = System.nanoTime();
-					if (((cpt / mvG) == (Timer.FPS / Timer.GMVPS)) || ((cpt / mvG) == (Timer.FPS / Timer.VMVPS))) {
-						mvG++;
-						for (int i = 1; i < characters.length; ++i)
-							((Ghost) characters[i]).ia(this);
+					for (int i = 1; i < characters.length; ++i) {
+						Ghost current = (Ghost) characters[i];
+						if (current.isVulnerable() && ((cpt / mv[i]) >= (Timer.FPS / Timer.VMVPS))) {
+							mv[i]++;
+							current.ia(this);
+						} else if (!current.isVulnerable() && (cpt / mv[i]) >= (Timer.FPS / Timer.GMVPS)) {
+							mv[i]++;
+							current.ia(this);
+						}
 					}
-					if ((cpt / (mvP)) == (Timer.FPS / Timer.PMVPS)) {
-						mvP++;
+
+					if ((cpt / (mv[0])) >= (Timer.FPS / Timer.PMVPS)) {
+						mv[0]++;
 						characters[0].move(this);
 					}
 					if (restartNeed) {
@@ -164,9 +169,9 @@ public class Game {
 				}
 			}
 			for (int i = 1; i < characters.length; ++i) {
-				if (0 < ((Ghost) characters[i]).getVulnerable())
+				if (0 <= ((Ghost) characters[i]).getVulnerable())
 					((Ghost) characters[i]).setVulnerable(((Ghost) characters[i]).getVulnerable() - 1);
-				if (0 < ((Ghost) characters[i]).getJailed())
+				if (0 <= ((Ghost) characters[i]).getJailed())
 					((Ghost) characters[i]).setJailed(((Ghost) characters[i]).getJailed() - 1);
 			}
 		}
