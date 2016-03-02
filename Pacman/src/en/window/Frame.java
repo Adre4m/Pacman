@@ -1,6 +1,6 @@
 package en.window;
 
-import java.awt.BorderLayout;
+/*import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -12,11 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -27,19 +22,31 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.UIManager;
+import javax.swing.UIManager;*/
+
+import javax.swing.*;
+
+import java.awt.event.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import en.master.Game;
+import en.master.Stream;
 
 public class Frame extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel menu = new JPanel();
+	/*private JPanel menu = new JPanel();
 	private JPanel game = new JPanel();
 	private JPanel highscore = new JPanel();
-	private JPanel options = new JPanel();
+	private JPanel options = new JPanel();*/
+	
 
 	public Frame() {
 
@@ -59,7 +66,7 @@ public class Frame extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+	
 		JPanel background = new JPanel();
 		background.setBackground(Color.BLACK);
 		background.setLayout(new BorderLayout());
@@ -98,6 +105,17 @@ public class Frame extends JFrame {
 			}
 		});
 
+
+		score.addActionListener(new ActionListener() { // Open game
+			public void actionPerformed(ActionEvent e) {
+				start.setVisible(false);
+				score.setVisible(false);
+				opt.setVisible(false);
+				l.setVisible(false);
+				menu.add(highscore());
+			}
+		});
+		
 		opt.addActionListener(new ActionListener() { // Open game
 			public void actionPerformed(ActionEvent e) {
 				start.setVisible(false);
@@ -156,12 +174,7 @@ public class Frame extends JFrame {
 		return openScreen;
 	}
 
-	private void buttonStyle(JButton b) {
-		b.setBackground(Color.BLACK);
-		b.setForeground(Color.BLUE);
-		b.setBorder(null);
-		b.setFont(new java.awt.Font("Consolas", 1, 36));
-	}
+
 
 	private JPanel logo() {
 		JPanel logo = new JPanel();
@@ -428,18 +441,22 @@ public class Frame extends JFrame {
 		option.add(Box.createRigidArea(new Dimension(0, 50)));
 
 		// bouton retour
-		final JButton back = new JButton("Back");
+		JButton back = new JButton("Back");
 		buttonStyle(back);
 		
-		final JButton apply = new JButton ("Apply");
+		JButton apply = new JButton ("Apply");
 		buttonStyle(apply);
+		
+		final Box button = Box.createHorizontalBox();
+		button.add(apply);
+		button.add(Box.createRigidArea(new Dimension(100, 0)));
+		button.add(back);
 
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				title.setVisible(false);
 				option.setVisible(false);
-				back.setVisible(false);
-				apply.setVisible(false);
+				button.setVisible(false);
 				o.add(menu());
 			}
 		});
@@ -450,10 +467,6 @@ public class Frame extends JFrame {
 			}
 		});*/
 		
-		Box button = Box.createHorizontalBox();
-		button.add(apply);
-		button.add(Box.createRigidArea(new Dimension(100, 0)));
-		button.add(back);
 		
 		o.setLayout(new BorderLayout());
 		o.add(titleStyle(title), BorderLayout.NORTH);
@@ -461,7 +474,45 @@ public class Frame extends JFrame {
 		o.add(button, BorderLayout.SOUTH);
 		return o;
 	}
+	
+	private JPanel highscore() {
+		Stream s = new Stream();
+		
+		final JPanel h = new JPanel();
+		h.setBackground(Color.BLACK);
+		h.setLayout(new BorderLayout());
+		
+		final JLabel title = new JLabel("HighScores :");
+		
+		final JLabel test = new JLabel (s.readScore("score.txt"));
+		labelStyleW(test);
+		
+		final JButton back = new JButton ("Back");
+		buttonStyle(back);
+		
+		h.add(titleStyle(title), BorderLayout.NORTH);
+		h.add(test);
+		h.add(back, BorderLayout.SOUTH);
+		
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				title.setVisible(false);
+				test.setVisible(false);
+				back.setVisible(false);
+				h.add(menu());
+			}
+		});
+		
+		return h;		
+	}
 
+	private void buttonStyle(JButton b) {
+		b.setBackground(Color.BLACK);
+		b.setForeground(Color.BLUE);
+		b.setBorder(null);
+		b.setFont(new java.awt.Font("Consolas", 1, 36));
+	}
+	
 	private void radioStyle(JRadioButton r) {
 		r.setBackground(Color.BLACK);
 		r.setForeground(Color.WHITE);
@@ -489,4 +540,5 @@ public class Frame extends JFrame {
 		t.add(l);
 		return t;
 	}
+	
 }
