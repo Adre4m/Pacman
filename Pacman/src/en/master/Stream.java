@@ -75,13 +75,17 @@ public class Stream {
 		try {
 			// new input stream created
 			is = new FileInputStream(path);
-			
+			s="<html>";
 			// reads till the end of the stream
 			while ((a = is.read()) != -1) {
 				// converts integer to character
 				c = (char) a;
-					s += c;
+				if(c=='\n'){
+					s += "<br>";
+				}
+				else s+=c;
 			}
+			s+="</html>";
 		} catch (Exception e) {
 	
 			// if any I/O error occurs
