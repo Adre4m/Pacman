@@ -127,7 +127,7 @@ public class Game {
 		while (((Pacman) characters[0]).getLives() > 0 && !win) {
 			long cpt = 0;
 			long[] mv = { 1, 1, 1, 1, 1 };
-			while (cpt < Timer.FPS + 1) {
+			while (cpt <= Timer.FPS) {
 				if (!paused) {
 					long begin = System.nanoTime();
 					for (int i = 1; i < characters.length; ++i) {
@@ -176,10 +176,8 @@ public class Game {
 				}
 			}
 			for (int i = 1; i < characters.length; ++i) {
-				if (0 <= ((Ghost) characters[i]).getVulnerable())
-					((Ghost) characters[i]).setVulnerable(((Ghost) characters[i]).getVulnerable() - 1);
-				if (0 <= ((Ghost) characters[i]).getJailed())
-					((Ghost) characters[i]).setJailed(((Ghost) characters[i]).getJailed() - 1);
+				((Ghost) characters[i]).heal();
+				((Ghost) characters[i]).release();
 			}
 		}
 

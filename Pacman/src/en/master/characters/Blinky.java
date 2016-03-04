@@ -12,7 +12,7 @@ public class Blinky extends Ghost {
 
 	public Blinky(int x, int y) {
 		super("Blinky", x, y);
-		setJailed(-1);
+		jailed = -1;
 		setFree(true);
 	}
 

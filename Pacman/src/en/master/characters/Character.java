@@ -48,38 +48,29 @@ public abstract class Character {
 	 * @return a boolean : true if the character moved, false if he didn't.
 	 */
 	public boolean move(Game game) {
-		int x = position.x, y = position.y;
-		switch (dir) {
-		case 'u':
-			if (game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] == 'X'
-					|| game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] == 'D')
-				return false;
-			x = Math.floorMod(position.x - 1, game.getLab().length);
-			break;
-		case 'd':
-			if (game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] == 'X'
-					|| game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] == 'D')
-				return false;
-			x = Math.floorMod(position.x + 1, game.getLab().length);
-			break;
-		case 'r':
-			if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab()[0].length)] == 'X'
-					|| game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab()[0].length)] == 'D')
-				return false;
-			y = Math.floorMod(position.y + 1, game.getLab()[0].length);
-			break;
-		case 'l':
-			if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab()[0].length)] == 'X'
-					|| game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab()[0].length)] == 'D')
-				return false;
-			y = Math.floorMod(position.y - 1, game.getLab()[0].length);
-			break;
-		}
-		if (this instanceof Pacman)
-			instancePacman(x, y, game);
-		else
-			instanceGhost(x, y, game);
-		return true;
+		if (canMove(game)) {
+			int x = position.x, y = position.y;
+			switch (dir) {
+			case 'u':
+				x = Math.floorMod(position.x - 1, game.getLab().length);
+				break;
+			case 'd':
+				x = Math.floorMod(position.x + 1, game.getLab().length);
+				break;
+			case 'r':
+				y = Math.floorMod(position.y + 1, game.getLab()[0].length);
+				break;
+			case 'l':
+				y = Math.floorMod(position.y - 1, game.getLab()[0].length);
+				break;
+			}
+			if (this instanceof Pacman)
+				instancePacman(x, y, game);
+			else
+				instanceGhost(x, y, game);
+			return true;
+		} else
+			return false;
 	}
 
 	private void makeMove(int x, int y, Game game) {
@@ -124,7 +115,7 @@ public abstract class Character {
 			game.setScore(game.getScore() + 50);
 			((Pacman) this).eatSupergum();
 			for (int i = 1; i < game.characters.length; ++i) {
-				((Ghost) (game.characters[i])).setVulnerable(Timer.SUPERGUM);
+				((Ghost) (game.characters[i])).ill();
 			}
 			((Pacman) (game.characters[0])).setInvulnerable(Timer.SUPERGUM);
 			break;
@@ -178,6 +169,28 @@ public abstract class Character {
 
 	public void setDir(char dir) {
 		this.dir = dir;
+	}
+
+	private boolean canMove(Game game) {
+		switch (dir) {
+		case 'u':
+			return game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] != 'X'
+					|| (this instanceof Pacman
+							&& game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] != 'D');
+		case 'd':
+			return game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] != 'X'
+					|| (this instanceof Pacman
+							&& game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] != 'D');
+		case 'l':
+			return game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab()[0].length)] != 'X'
+					|| (this instanceof Pacman && game.getLab()[position.x][Math.floorMod(position.y - 1,
+							game.getLab()[0].length)] != 'D');
+		case 'r':
+			return game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab()[0].length)] != 'X'
+					|| (this instanceof Pacman && game.getLab()[position.x][Math.floorMod(position.y + 1,
+							game.getLab()[0].length)] != 'D');
+		}
+		return false;
 	}
 
 }

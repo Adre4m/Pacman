@@ -23,9 +23,8 @@ public abstract class Ghost extends Character {
 		vulnerableSprite = "Blue_ghost.gif";
 		eyeSprite = "Ghost_eyes";
 		isVulnerable = false;
-		isFree = false;
 		isReturningToJail = false;
-		jailed = Timer.PRISON;
+		jail();
 	}
 
 	public Ghost(String sprite, int x, int y) {
@@ -33,9 +32,8 @@ public abstract class Ghost extends Character {
 		vulnerableSprite = "Blue_ghost.gif";
 		eyeSprite = "Ghost_eyes";
 		isVulnerable = false;
-		isFree = false;
 		isReturningToJail = false;
-		jailed = Timer.PRISON;
+		jail();
 	}
 
 	public boolean isVulnerable() {
@@ -65,19 +63,13 @@ public abstract class Ghost extends Character {
 	// et ou il chasse sont communes
 
 	public void ia(Game game) {
-		if (jailed <= 0)
-			isFree = true;
 		if (isFree) {
 			Point pacman;
-			System.out.println("Is" + ((isVulnerable) ? " " : " not ") + "vulnerable");
 			if (isReturningToJail) {
-				System.out.println("Is returning to jail");
 				isEaten();
 			} else if ((pacman = radius(game)) != null) {
-				System.out.println("Is chasing and is" + ((isVulnerable) ? " " : " not ") + "vulnerable");
 				chased(pacman);
 			} else {
-				System.out.println("Is patroling and is" + ((isVulnerable) ? " " : " not ") + "vulnerable");
 				patrol();
 			}
 			move(game);
@@ -91,11 +83,11 @@ public abstract class Ghost extends Character {
 	protected abstract void patrol();
 
 	private void chased(Point pacman) {
-		System.out.println("Pacman found at : " + pacman);
-		if (isVulnerable)
-			System.out.println("Ghost should runaway from Pacman");
-		else
-			System.out.println("Ghost should chase Pacman");
+		if (isVulnerable) {
+
+		} else {
+
+		}
 	}
 
 	public char getOld() {
@@ -119,20 +111,30 @@ public abstract class Ghost extends Character {
 		return jailed;
 	}
 
-	public void setJailed(long jailed) {
-		this.jailed = jailed;
+	public void jail() {
+		jailed = Timer.PRISON;
+		isFree = false;
+	}
+
+	public void release() {
+		jailed--;
 		if (0 < jailed)
-			this.isFree = true;
+			isFree = false;
 		else
-			this.isFree = false;
+			isFree = true;
 	}
 
 	public long getVulnerable() {
 		return vulnerable;
 	}
 
-	public void setVulnerable(long vulnerable) {
-		this.vulnerable = vulnerable;
+	public void ill() {
+		vulnerable = Timer.SUPERGUM;
+		this.isVulnerable = true;
+	}
+
+	public void heal() {
+		vulnerable--;
 		if (0 < vulnerable)
 			this.isVulnerable = true;
 		else
@@ -165,8 +167,8 @@ public abstract class Ghost extends Character {
 		super.reinit(game);
 	}
 
+	// D'apres l'algorithme de tracé de cercle d'Andres
 	public Point radius(Game game) {
-		System.out.println("Looking for pacman and is" + ((isVulnerable) ? " " : " not ") + "vulnerable");
 		for (int r = 1; r <= RADIUS; ++r) {
 			int x = 0;
 			int y = r;
@@ -210,6 +212,26 @@ public abstract class Ghost extends Character {
 			}
 		}
 		return null;
+
+	}
+
+	public boolean noReturn(char dir) {
+		if (this.dir == dir)
+			return true;
+		else {
+			switch (this.dir) {
+			case 'u':
+				return dir == 'd';
+			case 'd':
+				return dir == 'u';
+			case 'l':
+				return dir == 'r';
+			case 'r':
+				return dir == 'l';
+			default:
+				return false;
+			}
+		}
 	}
 
 }
