@@ -1,5 +1,8 @@
 package en.master;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 import en.master.characters.Blinky;
@@ -18,15 +21,19 @@ public class Game {
 	private int score;
 	public final Character[] characters = new Character[5];
 	private boolean restartNeed;
-	private boolean win;
 	private boolean paused;
+	private ArrayList<Point> doors;
+	private ArrayList<Point> jailWalls;
+	private int numGum;
 
 	public Game() {
-		lab = new char[28][32];
+		lab = new char[32][28];
 		score = 0;
 		restartNeed = false;
-		win = false;
 		paused = false;
+		numGum = 0;
+		doors = new ArrayList<Point>();
+		jailWalls = new ArrayList<Point>();
 	}
 
 	public int getScore() {
@@ -63,13 +70,55 @@ public class Game {
 
 	public void initTest() {
 		Stream stm = new Stream(); // Initiate the stream to read file
-		String grid = stm.initiateLab("labyrinths/test.txt");
-
+		String grid = stm.initiateLab("labyrinths/labyrinth2.txt");
+		grid = grid.replaceAll("[\n\r]", "");
 		int index = 0;
 		for (int i = 0; i < lab.length; ++i)
-			for (int j = 0; j < lab[0].length; ++j) {
-				lab[i][j] = grid.charAt(index);
-				index++;
+			for (int j = 0; j < lab[0].length; ++j, index++) {
+
+				switch (grid.charAt(index)) {
+				case '1':
+					characters[1] = new Blinky(i, j);
+					lab[i][j] = 'G';
+					break;
+				case '2':
+					characters[2] = new Clyde(i, j);
+					lab[i][j] = 'G';
+					break;
+				case '3':
+					characters[3] = new Inky(i, j);
+					lab[i][j] = 'G';
+					Point wall1 = new Point(i, j);
+					Iterator<Point> it = doors.iterator();
+					Point wall2 = it.next();
+					while (it.hasNext()) {
+						if (!wall1.equals(wall2))
+							jailWalls.add(wall2);
+						wall2 = it.next();
+					}
+					jailWalls.add(wall1);
+					break;
+				case '4':
+					characters[4] = new Pinky(i, j);
+					lab[i][j] = 'G';
+					break;
+				case 'D':
+					doors.add(new Point(i, j));
+					lab[i][j] = 'D';
+					break;
+				case 'g':
+				case 'S':
+					numGum++;
+					lab[i][j] = grid.charAt(index);
+					break;
+				case 'P':
+					characters[0] = new Pacman(i, j);
+					lab[i][j] = 'P';
+					break;
+				default:
+					lab[i][j] = grid.charAt(index);
+				}
+				// lab[i][j] = grid.charAt(index++);
 			}
 
 	}
@@ -79,9 +128,9 @@ public class Game {
 		for (int i = 0; i < lab.length; ++i) {
 			for (int j = 0; j < lab[0].length; ++j)
 				s += lab[i][j];
-			s += '\n';
+			s += "\n";
 		}
-		s += "Score : " + score + '\n';
+		s += "Score : " + score + "\n";
 		return s;
 	}
 
@@ -113,21 +162,17 @@ public class Game {
 		this.restartNeed = restartNeed;
 	}
 
-	public boolean isWin() {
-		return win;
-	}
-
-	public void setWin(boolean win) {
-		this.win = win;
+	public boolean win() {
+		return numGum <= 0;
 	}
 
 	// TODO en cas de necessité liberer les fantomes
 	public void play(Frame f) {
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
-		while (((Pacman) characters[0]).getLives() > 0 && !win) {
+		while (((Pacman) characters[0]).getLives() > 0 && !win()) {
 			long cpt = 0;
 			long[] mv = { 1, 1, 1, 1, 1 };
-			while (cpt <= Timer.FPS) {
+			while (cpt <= Timer.FPS && !win()) {
 				if (!paused) {
 					long begin = System.nanoTime();
 					for (int i = 1; i < characters.length; ++i) {
@@ -189,6 +234,10 @@ public class Game {
 
 	public void setPaused(boolean paused) {
 		this.paused = paused;
+	}
+
+	public void eatGum() {
+		numGum--;
 	}
 
 }

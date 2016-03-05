@@ -110,6 +110,7 @@ public abstract class Character {
 		switch (c) {
 		case 'g':
 			game.setScore(game.getScore() + 10);
+			game.eatGum();
 			break;
 		case 'S':
 			game.setScore(game.getScore() + 50);
@@ -118,6 +119,7 @@ public abstract class Character {
 				((Ghost) (game.characters[i])).ill();
 			}
 			((Pacman) (game.characters[0])).setInvulnerable(Timer.SUPERGUM);
+			game.eatGum();
 			break;
 		case 'C':
 			game.setScore(game.getScore() + 100);
@@ -174,21 +176,37 @@ public abstract class Character {
 	private boolean canMove(Game game) {
 		switch (dir) {
 		case 'u':
-			return game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] != 'X'
-					|| (this instanceof Pacman
-							&& game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] != 'D');
+			if (game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] == 'X')
+				return false;
+			else if (this instanceof Pacman
+					&& game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] == 'D')
+				return false;
+			else
+				return true;
 		case 'd':
-			return game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] != 'X'
-					|| (this instanceof Pacman
-							&& game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] != 'D');
+			if (game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] == 'X')
+				return false;
+			else if (this instanceof Pacman
+					&& game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] == 'D')
+				return false;
+			else
+				return true;
 		case 'l':
-			return game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab()[0].length)] != 'X'
-					|| (this instanceof Pacman && game.getLab()[position.x][Math.floorMod(position.y - 1,
-							game.getLab()[0].length)] != 'D');
+			if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab()[0].length)] == 'X')
+				return false;
+			else if (this instanceof Pacman
+					&& game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab()[0].length)] == 'D')
+				return false;
+			else
+				return true;
 		case 'r':
-			return game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab()[0].length)] != 'X'
-					|| (this instanceof Pacman && game.getLab()[position.x][Math.floorMod(position.y + 1,
-							game.getLab()[0].length)] != 'D');
+			if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab()[0].length)] == 'X')
+				return false;
+			else if (this instanceof Pacman
+					&& game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab()[0].length)] == 'D')
+				return false;
+			else
+				return true;
 		}
 		return false;
 	}

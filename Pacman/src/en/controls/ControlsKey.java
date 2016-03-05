@@ -86,7 +86,7 @@ public class ControlsKey implements KeyListener {
 
 	public static void main(String[] args) {
 		final Game test = new Game();
-		test.init();
+		test.initTest();
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				new ControlsKey(test);
