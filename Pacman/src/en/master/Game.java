@@ -90,12 +90,14 @@ public class Game {
 					lab[i][j] = 'G';
 					Point wall1 = new Point(i, j);
 					Iterator<Point> it = doors.iterator();
-					Point wall2 = it.next();
-					while (it.hasNext()) {
-						if (!wall1.equals(wall2))
-							jailWalls.add(wall2);
-						wall2 = it.next();
-					}
+					do {
+						Point wall2 = it.next();
+						if (wall1.y == (wall2.y + 1) || wall1.y == (wall2.y - 1)) {
+							jailWalls.add(new Point(wall1.x, wall2.y));
+						} else if (wall1.x == wall2.x || wall1.x == (wall2.x + 1)) {
+							jailWalls.add(new Point(wall2.x, wall1.y));
+						}
+					} while (it.hasNext());
 					jailWalls.add(wall1);
 					break;
 				case '4':
@@ -118,7 +120,6 @@ public class Game {
 				default:
 					lab[i][j] = grid.charAt(index);
 				}
-				// lab[i][j] = grid.charAt(index++);
 			}
 
 	}

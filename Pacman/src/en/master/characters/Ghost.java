@@ -168,6 +168,7 @@ public abstract class Ghost extends Character {
 	}
 
 	// D'apres l'algorithme de tracé de cercle d'Andres
+	// https://fr.wikipedia.org/wiki/Algorithme_de_trac%C3%A9_de_cercle_d%27Andres
 	public Point radius(Game game) {
 		for (int r = 1; r <= RADIUS; ++r) {
 			int x = 0;
@@ -215,23 +216,22 @@ public abstract class Ghost extends Character {
 
 	}
 
-	public boolean noReturn(char dir) {
-		if (this.dir == dir)
+	public boolean noReturn(Point goal) {
+		if (goal.equals(position))
 			return true;
-		else {
-			switch (this.dir) {
+		else
+			switch (dir) {
 			case 'u':
-				return dir == 'd';
+				return goal.x == (position.x + 1);
 			case 'd':
-				return dir == 'u';
+				return goal.x == (position.x - 1);
 			case 'l':
-				return dir == 'r';
+				return goal.y == (position.y + 1);
 			case 'r':
-				return dir == 'l';
+				return goal.y == (position.y - 1);
 			default:
 				return false;
 			}
-		}
 	}
 
 }

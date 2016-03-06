@@ -1,57 +1,48 @@
 package en.master.graph;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
 
-public class Node {
+public class Node implements Comparable<Node>, Comparator<Node> {
 
 	private Node father;
-	private int g;
-	private Point currentPos;
-	private ArrayList<Arc> arcs;
-	private String name;
+	private int cost;
+	private Point pos;
+	private Set<Node> arcs;
+	private Point goal;
 
 	public Node() {
 		father = null;
-		g = 0;
-		arcs = new ArrayList<Arc>();
-		this.name = "n0";
+		cost = 0;
+		arcs = new TreeSet<Node>();
+		pos = new Point(0, 0);
 	}
 
-	public Node(String name) {
+	public Node(Point pos) {
 		father = null;
-		g = 0;
-		arcs = new ArrayList<Arc>();
-		this.name = name;
+		cost = 0;
+		arcs = new TreeSet<Node>();
+		this.pos = pos;
 	}
 
-	public Node(Node father) {
+	public Node(Node father, Point pos) {
 		if (father != null) {
 			this.father = father;
-			g = this.father.g + 1;
+			cost = this.father.cost + 1;
 		} else
-			g = 0;
-		arcs = new ArrayList<Arc>();
+			cost = 0;
+		arcs = new TreeSet<Node>();
+		this.pos = pos;
 	}
 
-	private int md(Point goal) {
-		return Math.abs(currentPos.x - goal.x) + Math.abs(currentPos.y - goal.y);
+	private int md() {
+		return Math.abs(pos.x - goal.x) + Math.abs(pos.y - goal.y);
 	}
 
-	public int h(Point goal) {
-		return g + md(goal);
-	}
-
-	public int compareTo(Object n, Point goal) {
-		if (n instanceof Node) {
-			int heuristic1 = this.h(goal);
-			int heuristic2 = ((Node) n).h(goal);
-			if (heuristic1 < heuristic2)
-				return 1;
-			else if (heuristic1 == heuristic2)
-				return 0;
-		}
-		return -1;
+	public int h() {
+		return cost + md();
 	}
 
 	@Override
@@ -62,23 +53,25 @@ public class Node {
 			return false;
 		if (obj instanceof Node) {
 			Node n = (Node) obj;
-			return this.name.equals(n.name);
+			return this.pos.x == n.pos.x && this.pos.y == n.pos.y;
 		}
 		return false;
 	}
 
+	@Override
+	public int compareTo(Node o) {
+		if (o == null)
+			return 1;
+		else if (equals(o))
+			return 0;
+		else
+			return (h() < o.h()) ? -1 : 1;
+	}
+
 	public boolean addArc(Node n) {
-		if (this.equals(n))
-			return false;
-		else {
-			Arc toAdd = new Arc(this, n, g + 1);
-			if (arcs.contains(toAdd))
-				return false;
-			else {
-				arcs.add(toAdd);
-				return true;
-			}
-		}
+		if (!equals(n))
+			return arcs.add(n);
+		return false;
 	}
 
 	public Node getFather() {
@@ -89,40 +82,57 @@ public class Node {
 		this.father = father;
 	}
 
-	public int getG() {
-		return g;
+	public int getCost() {
+		return cost;
 	}
 
-	public void setG(int g) {
-		this.g = g;
+	public void setCost(int cost) {
+		this.cost = cost;
 	}
 
-	public Point getCurrentPos() {
-		return currentPos;
+	public Point getPos() {
+		return pos;
 	}
 
-	public void setCurrentPos(Point currentPos) {
-		this.currentPos = currentPos;
+	public void setPos(Point pos) {
+		this.pos = pos;
 	}
 
-	public ArrayList<Arc> getArcs() {
+	public Set<Node> getArcs() {
 		return arcs;
 	}
 
-	public void setArcs(ArrayList<Arc> arcs) {
+	public void setArcs(Set<Node> arcs) {
 		this.arcs = arcs;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public int degree() {
 		return arcs.size();
+	}
+
+	public Set<Node> neighbours(char[][] game) {
+		if (game[Math.floorMod(pos.x + 1, game.length)][pos.y] != 'X')
+			addArc(new Node(this, new Point(Math.floorMod(pos.x + 1, game.length), pos.y)));
+		if (game[Math.floorMod(pos.x - 1, game.length)][pos.y] != 'X')
+			addArc(new Node(this, new Point(Math.floorMod(pos.x - 1, game.length), pos.y)));
+		if (game[pos.x][Math.floorMod(pos.y - 1, game[0].length)] != 'X')
+			addArc(new Node(this, new Point(pos.x, Math.floorMod(pos.y - 1, game[0].length))));
+		if (game[pos.x][Math.floorMod(pos.y + 1, game[0].length)] != 'X')
+			addArc(new Node(this, new Point(pos.x, Math.floorMod(pos.y + 1, game[0].length))));
+		return arcs;
+	}
+
+	@Override
+	public int compare(Node arg0, Node arg1) {
+		return arg0.compareTo(arg1);
+	}
+
+	public Point getGoal() {
+		return goal;
+	}
+
+	public void setGoal(Point goal) {
+		this.goal = goal;
 	}
 
 }
