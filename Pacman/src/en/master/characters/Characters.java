@@ -5,21 +5,21 @@ import java.awt.Point;
 import en.master.Game;
 import en.master.Timer;
 
-public abstract class Character {
+public abstract class Characters {
 
 	protected String sprite;
 	protected Point position;
 	protected char dir;
 	private Point initialPosition;
 
-	public Character(String sprite) {
+	public Characters(String sprite) {
 		position = new Point(0, 0);
 		initialPosition = (Point) position.clone();
 		dir = 'u';
 		this.sprite = sprite;
 	}
 
-	public Character(String sprite, int x, int y) {
+	public Characters(String sprite, int x, int y) {
 		position = new Point(x, y);
 		initialPosition = (Point) position.clone();
 		dir = 'u';
@@ -209,6 +209,10 @@ public abstract class Character {
 				return true;
 		}
 		return false;
+	}
+
+	public String toString() {
+		return position.toString();
 	}
 
 }

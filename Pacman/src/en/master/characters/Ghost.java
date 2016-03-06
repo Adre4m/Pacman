@@ -1,11 +1,13 @@
 package en.master.characters;
 
 import java.awt.Point;
+import java.util.Stack;
 
 import en.master.Game;
 import en.master.Timer;
+import en.master.graph.Node;
 
-public abstract class Ghost extends Character {
+public abstract class Ghost extends Characters {
 
 	private static final int RADIUS = 8;
 	protected boolean isVulnerable;
@@ -16,6 +18,7 @@ public abstract class Ghost extends Character {
 	protected char old;
 	protected String vulnerableSprite;
 	protected String eyeSprite;
+	private Stack<Character> directions;
 	// private int speed;
 
 	public Ghost(String sprite) {
@@ -25,6 +28,7 @@ public abstract class Ghost extends Character {
 		isVulnerable = false;
 		isReturningToJail = false;
 		jail();
+		directions = new Stack<Character>();
 	}
 
 	public Ghost(String sprite, int x, int y) {
@@ -33,6 +37,7 @@ public abstract class Ghost extends Character {
 		eyeSprite = "Ghost_eyes";
 		isVulnerable = false;
 		isReturningToJail = false;
+		directions = new Stack<Character>();
 		jail();
 	}
 
@@ -66,9 +71,9 @@ public abstract class Ghost extends Character {
 		if (isFree) {
 			Point pacman;
 			if (isReturningToJail) {
-				isEaten();
+				isEaten(game);
 			} else if ((pacman = radius(game)) != null) {
-				chased(pacman);
+				chased(pacman, game);
 			} else {
 				patrol();
 			}
@@ -76,17 +81,29 @@ public abstract class Ghost extends Character {
 		}
 	}
 
-	private void isEaten() {
-		System.out.println("a complete");
+	private void isEaten(Game game) {
+		if (directions.isEmpty()) {
+			for (Node n = game.getGraph().reach(game.getJailWall(), position, this); n != null; n = n.getFather()) {
+				directions.push(n.getDirection());
+			}
+		}
+		dir = directions.pop();
+		if (directions.isEmpty())
+			isReturningToJail = false;
 	}
 
 	protected abstract void patrol();
 
-	private void chased(Point pacman) {
+	private void chased(Point pacman, Game game) {
 		if (isVulnerable) {
 
 		} else {
-
+			//System.out.println(pacman);
+			for (Node n = game.getGraph().reach(pacman, position, this); n != null; n = n.getFather()) {
+				directions.push(n.getDirection());
+			}
+			//System.out.println(directions);
+			dir = directions.pop();
 		}
 	}
 
@@ -216,22 +233,12 @@ public abstract class Ghost extends Character {
 
 	}
 
-	public boolean noReturn(Point goal) {
-		if (goal.equals(position))
-			return true;
-		else
-			switch (dir) {
-			case 'u':
-				return goal.x == (position.x + 1);
-			case 'd':
-				return goal.x == (position.x - 1);
-			case 'l':
-				return goal.y == (position.y + 1);
-			case 'r':
-				return goal.y == (position.y - 1);
-			default:
-				return false;
-			}
-	}
+	/*
+	 * public boolean noReturn(Point goal) { if (goal.equals(position)) return
+	 * true; else switch (dir) { case 'u': return goal.x == (position.x + 1);
+	 * case 'd': return goal.x == (position.x - 1); case 'l': return goal.y ==
+	 * (position.y + 1); case 'r': return goal.y == (position.y - 1); default:
+	 * return false; } }
+	 */
 
 }

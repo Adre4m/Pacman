@@ -1,6 +1,6 @@
 package en.master.characters;
 
-public class Pacman extends Character {
+public class Pacman extends Characters {
 
 	private int lives;
 	private int eatenGhosts;
