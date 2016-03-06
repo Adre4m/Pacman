@@ -82,29 +82,13 @@ public abstract class Ghost extends Characters {
 	}
 
 	private void isEaten(Game game) {
-		if (directions.isEmpty()) {
-			for (Node n = game.getGraph().reach(game.getJailWall(), position, this); n != null; n = n.getFather()) {
-				directions.push(n.getDirection());
-			}
-		}
-		dir = directions.pop();
-		if (directions.isEmpty())
-			isReturningToJail = false;
+
 	}
 
 	protected abstract void patrol();
 
 	private void chased(Point pacman, Game game) {
-		if (isVulnerable) {
 
-		} else {
-			//System.out.println(pacman);
-			for (Node n = game.getGraph().reach(pacman, position, this); n != null; n = n.getFather()) {
-				directions.push(n.getDirection());
-			}
-			//System.out.println(directions);
-			dir = directions.pop();
-		}
 	}
 
 	public char getOld() {

@@ -111,7 +111,6 @@ public class Game {
 					lab[i][j] = grid.charAt(index);
 				}
 			}
-		graph = new Graph(lab);
 	}
 
 	public String toString() {
