@@ -2,16 +2,16 @@ package en.master;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 import en.master.characters.Blinky;
-import en.master.characters.Character;
+import en.master.characters.Characters;
 import en.master.characters.Clyde;
 import en.master.characters.Ghost;
 import en.master.characters.Inky;
 import en.master.characters.Pacman;
 import en.master.characters.Pinky;
+import en.master.graph.Graph;
 import en.window.Frame;
 
 public class Game {
@@ -19,12 +19,13 @@ public class Game {
 	// TODO En cas de mort restart puis attente de 1 seconde.
 	private char[][] lab;
 	private int score;
-	public final Character[] characters = new Character[5];
+	public final Characters[] characters = new Characters[5];
 	private boolean restartNeed;
 	private boolean paused;
 	private ArrayList<Point> doors;
-	private ArrayList<Point> jailWalls;
+	private Point jailWall;
 	private int numGum;
+	private Graph graph;
 
 	public Game() {
 		lab = new char[32][28];
@@ -33,7 +34,6 @@ public class Game {
 		paused = false;
 		numGum = 0;
 		doors = new ArrayList<Point>();
-		jailWalls = new ArrayList<Point>();
 	}
 
 	public int getScore() {
@@ -68,9 +68,9 @@ public class Game {
 		characters[4] = new Pinky(i, j - 4);
 	}
 
-	public void initTest() {
+	public void initTest(String file) {
 		Stream stm = new Stream(); // Initiate the stream to read file
-		String grid = stm.initiateLab("labyrinths/labyrinth2.txt");
+		String grid = stm.initiateLab(file);
 		grid = grid.replaceAll("[\n\r]", "");
 		int index = 0;
 		for (int i = 0; i < lab.length; ++i)
@@ -88,17 +88,7 @@ public class Game {
 				case '3':
 					characters[3] = new Inky(i, j);
 					lab[i][j] = 'G';
-					Point wall1 = new Point(i, j);
-					Iterator<Point> it = doors.iterator();
-					do {
-						Point wall2 = it.next();
-						if (wall1.y == (wall2.y + 1) || wall1.y == (wall2.y - 1)) {
-							jailWalls.add(new Point(wall1.x, wall2.y));
-						} else if (wall1.x == wall2.x || wall1.x == (wall2.x + 1)) {
-							jailWalls.add(new Point(wall2.x, wall1.y));
-						}
-					} while (it.hasNext());
-					jailWalls.add(wall1);
+					jailWall = new Point(i, j);
 					break;
 				case '4':
 					characters[4] = new Pinky(i, j);
@@ -121,7 +111,7 @@ public class Game {
 					lab[i][j] = grid.charAt(index);
 				}
 			}
-
+		graph = new Graph(lab);
 	}
 
 	public String toString() {
@@ -214,11 +204,11 @@ public class Game {
 					for (int i = 1; i < characters.length; ++i)
 						lab[characters[i].getPosition().x][characters[i].getPosition().y] = characters[i].toChar();
 					lab[characters[0].getPosition().x][characters[0].getPosition().y] = characters[0].toChar();
-					System.out.println(this);
+					// System.out.println(this);
 					// f.update(game);
 				} else {
+					// System.out.println(this);
 					// f.update(game);
-					System.out.println(this);
 				}
 			}
 			for (int i = 1; i < characters.length; ++i) {
@@ -239,6 +229,18 @@ public class Game {
 
 	public void eatGum() {
 		numGum--;
+	}
+
+	public Graph getGraph() {
+		return graph;
+	}
+
+	public Point getJailWall() {
+		return jailWall;
+	}
+
+	public void setJailWall(Point jailWall) {
+		this.jailWall = jailWall;
 	}
 
 }

@@ -35,7 +35,7 @@ public class GameScreen extends JLayeredPane{
 	    //##########Grid###########
 	    // enlever l'initialisation du jeu dès que possible
 		g = new Game(); // load labyrinth
-		g.initTest();
+		g.initTest("labyrinths/labyrinth2.txt");
 		grid = new JPanel();
 		grid.setBackground(Color.BLACK);
 	    grid.setBounds(2*height/10, -15, 4 * height /3 - 4*height/10, height);

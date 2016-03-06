@@ -4,49 +4,81 @@ import java.awt.Point;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
+import java.util.Set;
+import java.util.TreeSet;
 
-import en.master.Game;
 import en.master.characters.Ghost;
 
 public class Graph {
 
-	private PriorityQueue<Node> openList;
-	private Game game;
+	private Set<Node> set;
 
-	public Graph(Game game) {
-		this.game = game;
-		openList = new PriorityQueue<Node>();
+	public Graph(char[][] game) {
+		set = new TreeSet<Node>();
+		initiate(game);
+	}
+
+	private void initiate(char[][] game) {
+		Node n = new Node();
+		System.out.println(n);
+		n.initiate(set, game);
+		System.out.println("Set : " + set);
 	}
 
 	// Algorithme d'A*
 	// https://fr.wikipedia.org/wiki/Algorithme_A*
-	public void reach(Node goal, Point start, Ghost g) {
+	public Node reach(Point goal, Point start, Ghost g) {
+		PriorityQueue<Node> openList = new PriorityQueue<Node>();
 		LinkedList<Node> closedList = new LinkedList<Node>();
-		openList.add(new Node(start));
+		Node initial = getNode(start);
+		initial.setGoal(goal);
+		initial.setDirection(g);
+		openList.add(initial);
 		while (!openList.isEmpty()) {
 			Node u = openList.poll();
-			if (u.getPos().x == goal.getPos().x && u.getPos().y == goal.getPos().y) {
-				// TODO reconstituer chemin
-				// terminer sans erreur
+			// System.out.println("U : " + u);
+			if (u.getPos().x == goal.x && u.getPos().y == goal.y) {
+				return u;
 			} else {
-				Iterator<Node> it = u.neighbours(game.getLab()).iterator();
-				for (Node v = it.next(); it.hasNext(); v = it.next()) {
-					if (g.noReturn(v.getPos())) {
-						if (closedList.contains(v) && closedList.get(closedList.indexOf(v)).compareTo(v) != -1
-								|| openList.contains(v)) {
-							Iterator<Node> list = openList.iterator();
-							for (Node n = list.next(); list.hasNext(); n = list.next())
-								if (n.equals(v))
-									if (n.compareTo(v) != -1) {
-										openList.add(v);
-										break;
-									}
+				// System.out.println("OBJECTIF NON ATTEINT");
+				Iterator<Node> it = u.neighbours().iterator();
+				while (it.hasNext()) {
+					Node v = it.next();
+					if (u.noReturn(v)) {
+						// System.out.println("V : " + v);
+					}
+					Node tmp = null;
+					if (openList.contains(v)) {
+						Iterator<Node> list = openList.iterator();
+						while (list.hasNext()) {
+							tmp = list.next();
+							if (tmp.equals(v))
+								break;
 						}
+					}
+					if (closedList.contains(v) && closedList.get(closedList.indexOf(v)).compareTo(v) == -1
+							|| openList.contains(v) && tmp.compareTo(v) == -1)
+						continue;
+					else {
+						tmp.update();
+						// openList.add(v);
 					}
 				}
 				closedList.add(u);
 			}
 		}
+		return null;
 	}
 
+	public Node getNode(Point p) {
+		System.out.println(set);
+		Iterator<Node> it = set.iterator();
+		while (it.hasNext()) {
+			Node n = it.next();
+			System.out.println(n);
+			if (n.equalsPos(p))
+				return n;
+		}
+		return null;
+	}
 }

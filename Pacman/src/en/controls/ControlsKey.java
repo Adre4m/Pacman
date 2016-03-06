@@ -12,7 +12,7 @@ import en.master.Game;
 
 public class ControlsKey implements KeyListener {
 
-	static final String newline = System.getProperty("line.separator");
+	// static final String newline = System.getProperty("line.separator");
 
 	// TODO ne doit pas rester ! juste la pour tester
 	class QuickFrame extends JFrame {
@@ -86,7 +86,7 @@ public class ControlsKey implements KeyListener {
 
 	public static void main(String[] args) {
 		final Game test = new Game();
-		test.initTest();
+		test.initTest("labyrinths/labyrinth2.txt");
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				new ControlsKey(test);
