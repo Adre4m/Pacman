@@ -1,7 +1,5 @@
 package en.window;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,13 +8,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -37,8 +34,6 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-
 
 	public Frame() {
 
@@ -60,16 +55,16 @@ public class Frame extends JFrame {
 		}
 
 		// musique de demarage
-		URL url = Frame.class.getResource("Immortals - FOB.wav");
-		final AudioClip clip = Applet.newAudioClip(url);
-
-		// pour l'exécuter au moment ou la fenêtre s'ouvre
-		/*this.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent e) {
-				clip.play();
-			}
-		});*/
+		/*
+		 * URL url = Frame.class.getResource("Immortals - FOB.wav"); final
+		 * AudioClip clip = Applet.newAudioClip(url);
+		 * 
+		 * // pour l'exécuter au moment ou la fenêtre s'ouvre
+		 * this.addWindowListener(new WindowAdapter() {
+		 * 
+		 * @Override public void windowOpened(WindowEvent e) { clip.play(); }
+		 * });
+		 */
 
 		menu();
 
@@ -104,7 +99,7 @@ public class Frame extends JFrame {
 			}
 		});
 
-		score.addActionListener(new ActionListener() { // Open game
+		score.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				start.setVisible(false);
 				score.setVisible(false);
@@ -114,7 +109,7 @@ public class Frame extends JFrame {
 			}
 		});
 
-		opt.addActionListener(new ActionListener() { // Open game
+		opt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				start.setVisible(false);
 				score.setVisible(false);
@@ -170,7 +165,7 @@ public class Frame extends JFrame {
 		openScreen.add(l, BorderLayout.NORTH);
 		openScreen.add(button, BorderLayout.CENTER);
 		openScreen.add(copyright(), BorderLayout.SOUTH);
-		
+
 		this.setContentPane(openScreen);
 	}
 
@@ -200,7 +195,7 @@ public class Frame extends JFrame {
 
 	private void options() {
 
-		// Jpanel final qui sera retourner
+		// Jpanel final
 		final JPanel o = new JPanel();
 		o.setBackground(Color.BLACK);
 
@@ -330,45 +325,38 @@ public class Frame extends JFrame {
 		dif.add(hard);
 
 		// musique
-		JLabel music = new JLabel("Music");
+		JLabel music = new JLabel("Music : ");
 		labelStyleW(music);
 
-		// son
-		final JRadioButton sound = new JRadioButton("", true);
-		radioStyle(sound);
-		JLabel image = new JLabel();
-		ImageIcon l = new ImageIcon("sprites/sound.png");
-		image.setIcon(l);
-		Box s = Box.createHorizontalBox();
+		final JButton sound = new JButton("ON");
+		sound.setBackground(Color.BLACK);
+		sound.setForeground(Color.GREEN);
+		sound.setBorder(null);
+		sound.setFont(new java.awt.Font("Consolas", 1, 25));
+		sound.setSelected(true);
+
+		sound.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (sound.getText() == "ON") {
+					sound.setText("OFF");
+					sound.setForeground(Color.RED);
+					sound.setSelected(false);
+				} else {
+					sound.setText("ON");
+					sound.setForeground(Color.GREEN);
+					sound.setSelected(true);
+				}
+			}
+		});
+
+		JPanel s = new JPanel();
+		s.setBackground(Color.BLACK);
+		s.add(music);
 		s.add(sound);
-		s.add(image);
-		JPanel m1 = new JPanel();
-		m1.setBackground(Color.BLACK);
-		m1.add(s);
 
-		// pas de son
-		final JRadioButton noSound = new JRadioButton("", true);
-		radioStyle(noSound);
-		JLabel image1 = new JLabel();
-		ImageIcon l1 = new ImageIcon("sprites/No_sound.png");
-		image1.setIcon(l1);
-		Box ns = Box.createHorizontalBox();
-		ns.add(noSound);
-		ns.add(image1);
-		JPanel m2 = new JPanel();
-		m2.setBackground(Color.BLACK);
-		m2.add(ns);
-
-		// musique final
-		Box m = Box.createHorizontalBox();
-		m.add(m1);
-		m.add(m2);
-		ButtonGroup so = new ButtonGroup();
-		so.add(sound);
-		so.add(noSound);
-
+		// option final
 		final Box option = Box.createVerticalBox();
-		option.add(Box.createRigidArea(new Dimension(0, 50)));
+		option.add(Box.createRigidArea(new Dimension(0, 100)));
 		theme.setAlignmentX(CENTER_ALIGNMENT);
 		option.add(theme);
 		option.add(Box.createRigidArea(new Dimension(0, 50)));
@@ -382,14 +370,10 @@ public class Frame extends JFrame {
 		option.add(difficulty);
 		option.add(d);
 		option.add(Box.createRigidArea(new Dimension(0, 50)));
-		music.setAlignmentX(CENTER_ALIGNMENT);
-		m.setAlignmentX(CENTER_ALIGNMENT);
-		option.add(music);
-		option.add(m);
-		option.add(Box.createRigidArea(new Dimension(0, 50)));
+		option.add(s);
 
 		// bouton retour
-		JButton back = new JButton("Back");
+		JButton back = new JButton("Cancel");
 		buttonStyle(back);
 
 		JButton apply = new JButton("Confirm");
@@ -399,9 +383,7 @@ public class Frame extends JFrame {
 		button.add(apply);
 		button.add(Box.createRigidArea(new Dimension(100, 0)));
 		button.add(back);
-		
-	
-		
+
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				title.setVisible(false);
@@ -411,17 +393,23 @@ public class Frame extends JFrame {
 			}
 		});
 
-		/*
-		 * apply.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { //ajouter le flux } });
-		 */
+		apply.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// ajouter le flux
+				title.setVisible(false);
+				option.setVisible(false);
+				button.setVisible(false);
+				menu();
+			}
+		});
+
 		option.add(button);
 
 		o.setLayout(new BorderLayout());
 		o.add(titleStyle(title), BorderLayout.NORTH);
 		o.add(option, BorderLayout.CENTER);
 		o.add(copyright(), BorderLayout.SOUTH);
-		
+
 		this.setContentPane(o);
 	}
 
@@ -441,8 +429,7 @@ public class Frame extends JFrame {
 		buttonStyle(back);
 
 		h.add(titleStyle(title), BorderLayout.NORTH);
-		h.add(name);
-		h.add(back, BorderLayout.SOUTH);
+		h.add(copyright(), BorderLayout.SOUTH);
 
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -452,6 +439,21 @@ public class Frame extends JFrame {
 				menu();
 			}
 		});
+
+		JPanel b = new JPanel();
+		b.setBackground(Color.BLACK);
+		b.setLayout(new BorderLayout());
+
+		JPanel score = new JPanel();
+		score.setBackground(Color.BLACK);
+		score.setLayout(new FlowLayout(FlowLayout.CENTER));
+		score.add(name);
+
+		b.add(score);
+		// le bouton fait tout le south layout
+		b.add(back, BorderLayout.SOUTH);
+
+		h.add(b);
 
 		this.setContentPane(h);
 	}
