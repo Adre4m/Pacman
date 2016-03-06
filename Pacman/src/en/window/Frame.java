@@ -1,40 +1,35 @@
 package en.window;
 
-/*import java.awt.BorderLayout;
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Label;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.UIManager;*/
+import javax.swing.UIManager;
 
-import javax.swing.*;
-
-import java.awt.event.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import en.master.Game;
 import en.master.Stream;
 
 public class Frame extends JFrame {
@@ -42,11 +37,8 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	/*private JPanel menu = new JPanel();
-	private JPanel game = new JPanel();
-	private JPanel highscore = new JPanel();
-	private JPanel options = new JPanel();*/
 	
+
 
 	public Frame() {
 
@@ -66,20 +58,27 @@ public class Frame extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	
-		JPanel background = new JPanel();
-		background.setBackground(Color.BLACK);
-		background.setLayout(new BorderLayout());
-		background.add(copyright(), BorderLayout.SOUTH);
-		background.add(menu());
 
-		this.setContentPane(background);
+		// musique de demarage
+		URL url = Frame.class.getResource("Immortals - FOB.wav");
+		final AudioClip clip = Applet.newAudioClip(url);
+
+		// pour l'exécuter au moment ou la fenêtre s'ouvre
+		/*this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				clip.play();
+			}
+		});*/
+
+		menu();
+
 		this.setVisible(true);
 		while (true)
 			;
 	}
 
-	private JPanel menu() {
+	private void menu() {
 
 		final JPanel l = logo();
 
@@ -105,24 +104,23 @@ public class Frame extends JFrame {
 			}
 		});
 
-
 		score.addActionListener(new ActionListener() { // Open game
 			public void actionPerformed(ActionEvent e) {
 				start.setVisible(false);
 				score.setVisible(false);
 				opt.setVisible(false);
 				l.setVisible(false);
-				menu.add(highscore());
+				highscore();
 			}
 		});
-		
+
 		opt.addActionListener(new ActionListener() { // Open game
 			public void actionPerformed(ActionEvent e) {
 				start.setVisible(false);
 				score.setVisible(false);
 				opt.setVisible(false);
 				l.setVisible(false);
-				menu.add(options());
+				options();
 			}
 		});
 
@@ -171,10 +169,10 @@ public class Frame extends JFrame {
 		openScreen.setLayout(new BorderLayout());
 		openScreen.add(l, BorderLayout.NORTH);
 		openScreen.add(button, BorderLayout.CENTER);
-		return openScreen;
+		openScreen.add(copyright(), BorderLayout.SOUTH);
+		
+		this.setContentPane(openScreen);
 	}
-
-
 
 	private JPanel logo() {
 		JPanel logo = new JPanel();
@@ -194,14 +192,13 @@ public class Frame extends JFrame {
 				"Done by BOURGEOIS Adrien, GRIGNON Lindsay, RIETZ Vincent");
 		name.setForeground(Color.WHITE);
 		JPanel j = new JPanel();
-		j.setBackground(null);
+		j.setBackground(Color.BLACK);
 		j.setLayout(new BorderLayout());
 		j.add(name, BorderLayout.WEST);
 		return j;
 	}
 
-
-	private JPanel options() {
+	private void options() {
 
 		// Jpanel final qui sera retourner
 		final JPanel o = new JPanel();
@@ -226,18 +223,18 @@ public class Frame extends JFrame {
 				radioStyle(r1);
 				radioStyle(r2);
 				radioStyle(r3);
-				
+
 				Box choice = Box.createVerticalBox();
 				choice.add(Box.createRigidArea(new Dimension(0, 225)));
 				choice.add(r1);
 				choice.add(r2);
 				choice.add(r3);
-				
+
 				ButtonGroup th = new ButtonGroup();
-		        th.add(r1);
-		        th.add(r2);
-		        th.add(r3);
-		       
+				th.add(r1);
+				th.add(r2);
+				th.add(r3);
+
 				JPanel title = new JPanel();
 				title.setBackground(Color.BLACK);
 				JLabel l = new JLabel("Choose a Theme");
@@ -247,10 +244,10 @@ public class Frame extends JFrame {
 				final ImageIcon classic = new ImageIcon("sprites/classic.png");
 				final ImageIcon sw = new ImageIcon("sprites/sw.png");
 				final ImageIcon bh6 = new ImageIcon("sprites/bh6.png");
-				
-				final JLabel image = new JLabel ();
+
+				final JLabel image = new JLabel();
 				image.setIcon(classic);
-				
+
 				class RadioButtonActionListener implements ActionListener {
 					@Override
 					public void actionPerformed(ActionEvent event) {
@@ -264,19 +261,19 @@ public class Frame extends JFrame {
 						}
 					}
 				}
-				
+
 				RadioButtonActionListener actionListener = new RadioButtonActionListener();
 				r1.addActionListener(actionListener);
 				r2.addActionListener(actionListener);
 				r3.addActionListener(actionListener);
-							
+
 				JPanel t = new JPanel();
 				t.setBackground(Color.BLACK);
 				t.setLayout(new BorderLayout());
 				t.add(title, BorderLayout.NORTH);
 				t.add(choice, BorderLayout.WEST);
 				t.add(image, BorderLayout.CENTER);
-				
+
 				// change pop-up background color
 				UIManager.put("OptionPane.background", Color.BLACK);
 				UIManager.put("Panel.background", Color.BLACK);
@@ -311,8 +308,8 @@ public class Frame extends JFrame {
 		c.add(keyboard);
 		c.add(mouse);
 		ButtonGroup ctrl = new ButtonGroup();
-        ctrl.add(keyboard);
-        ctrl.add(mouse);
+		ctrl.add(keyboard);
+		ctrl.add(mouse);
 
 		// difficulte
 		JLabel difficulty = new JLabel("Difficulty");
@@ -328,9 +325,9 @@ public class Frame extends JFrame {
 		d.add(normal);
 		d.add(hard);
 		ButtonGroup dif = new ButtonGroup();
-        dif.add(easy);
-        dif.add(normal);
-        dif.add(hard);
+		dif.add(easy);
+		dif.add(normal);
+		dif.add(hard);
 
 		// musique
 		JLabel music = new JLabel("Music");
@@ -367,8 +364,8 @@ public class Frame extends JFrame {
 		m.add(m1);
 		m.add(m2);
 		ButtonGroup so = new ButtonGroup();
-        so.add(sound);
-        so.add(noSound);
+		so.add(sound);
+		so.add(noSound);
 
 		final Box option = Box.createVerticalBox();
 		option.add(Box.createRigidArea(new Dimension(0, 50)));
@@ -394,67 +391,69 @@ public class Frame extends JFrame {
 		// bouton retour
 		JButton back = new JButton("Back");
 		buttonStyle(back);
-		
-		JButton apply = new JButton ("Apply");
+
+		JButton apply = new JButton("Confirm");
 		buttonStyle(apply);
-		
+
 		final Box button = Box.createHorizontalBox();
 		button.add(apply);
 		button.add(Box.createRigidArea(new Dimension(100, 0)));
 		button.add(back);
-
+		
+	
+		
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				title.setVisible(false);
 				option.setVisible(false);
 				button.setVisible(false);
-				o.add(menu());
+				menu();
 			}
 		});
 
-		/*apply.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//ajouter le flux
-			}
-		});*/
-		
-		
+		/*
+		 * apply.addActionListener(new ActionListener() { public void
+		 * actionPerformed(ActionEvent e) { //ajouter le flux } });
+		 */
+		option.add(button);
+
 		o.setLayout(new BorderLayout());
 		o.add(titleStyle(title), BorderLayout.NORTH);
 		o.add(option, BorderLayout.CENTER);
-		o.add(button, BorderLayout.SOUTH);
-		return o;
-	}
-	
-	private JPanel highscore() {
-		Stream s = new Stream();
+		o.add(copyright(), BorderLayout.SOUTH);
 		
+		this.setContentPane(o);
+	}
+
+	private void highscore() {
+		Stream s = new Stream();
+
 		final JPanel h = new JPanel();
 		h.setBackground(Color.BLACK);
 		h.setLayout(new BorderLayout());
-		
+
 		final JLabel title = new JLabel("HighScores :");
-		
-		final JLabel test = new JLabel (s.readScore("score.txt"));
-		labelStyleW(test);
-		
-		final JButton back = new JButton ("Back");
+
+		final JLabel name = new JLabel(s.readScore("score.txt"));
+		labelStyleW(name);
+
+		final JButton back = new JButton("Back");
 		buttonStyle(back);
-		
+
 		h.add(titleStyle(title), BorderLayout.NORTH);
-		h.add(test);
+		h.add(name);
 		h.add(back, BorderLayout.SOUTH);
-		
+
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				title.setVisible(false);
-				test.setVisible(false);
+				name.setVisible(false);
 				back.setVisible(false);
-				h.add(menu());
+				menu();
 			}
 		});
-		
-		return h;		
+
+		this.setContentPane(h);
 	}
 
 	private void buttonStyle(JButton b) {
@@ -463,7 +462,7 @@ public class Frame extends JFrame {
 		b.setBorder(null);
 		b.setFont(new java.awt.Font("Consolas", 1, 36));
 	}
-	
+
 	private void radioStyle(JRadioButton r) {
 		r.setBackground(Color.BLACK);
 		r.setForeground(Color.WHITE);
@@ -491,5 +490,5 @@ public class Frame extends JFrame {
 		t.add(l);
 		return t;
 	}
-	
+
 }
