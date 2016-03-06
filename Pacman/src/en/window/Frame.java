@@ -331,28 +331,46 @@ public class Frame extends JFrame {
 		final JButton sound = new JButton("ON");
 		sound.setBackground(Color.BLACK);
 		sound.setForeground(Color.GREEN);
-		sound.setBorder(null);
 		sound.setFont(new java.awt.Font("Consolas", 1, 25));
-		sound.setSelected(true);
+		
+		final JButton no_sound = new JButton("OFF");
+		no_sound.setBackground(Color.BLACK);
+		no_sound.setForeground(Color.WHITE);
+		no_sound.setFont(new java.awt.Font("Consolas", 1, 25));
+		
+		/*ButtonGroup so = new ButtonGroup();
+		so.add(sound);
+		so.add(no_sound);*/
 
-		sound.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (sound.getText() == "ON") {
-					sound.setText("OFF");
-					sound.setForeground(Color.RED);
-					sound.setSelected(false);
-				} else {
-					sound.setText("ON");
+		JLabel l = new JLabel(" / ");
+		labelStyleW(l);
+	
+		class ButtonActionListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				JButton button = (JButton) event.getSource();
+				if (button == sound) {
 					sound.setForeground(Color.GREEN);
-					sound.setSelected(true);
+					no_sound.setForeground(Color.WHITE);
+				} else {
+					if (button == no_sound) {
+					sound.setForeground(Color.WHITE);
+					no_sound.setForeground(Color.RED);
+					}
 				}
 			}
-		});
+		}
+		
+		ButtonActionListener bal =  new ButtonActionListener();
+		sound.addActionListener(bal);
+		no_sound.addActionListener(bal);
 
 		JPanel s = new JPanel();
 		s.setBackground(Color.BLACK);
 		s.add(music);
 		s.add(sound);
+		s.add(l);
+		s.add(no_sound);
 
 		// option final
 		final Box option = Box.createVerticalBox();
