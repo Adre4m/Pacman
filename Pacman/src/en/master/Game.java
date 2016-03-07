@@ -23,7 +23,7 @@ public class Game {
 	private boolean restartNeed;
 	private boolean paused;
 	private ArrayList<Point> doors;
-	private Point jailWall;
+	private ArrayList<Point> jailWalls;
 	private int numGum;
 	private Graph graph;
 
@@ -34,6 +34,7 @@ public class Game {
 		paused = false;
 		numGum = 0;
 		doors = new ArrayList<Point>();
+		jailWalls = new ArrayList<Point>();
 	}
 
 	public int getScore() {
@@ -84,11 +85,12 @@ public class Game {
 				case '2':
 					characters[2] = new Clyde(i, j);
 					lab[i][j] = 'G';
+					jailWalls.add(new Point(i, j));
 					break;
 				case '3':
 					characters[3] = new Inky(i, j);
 					lab[i][j] = 'G';
-					jailWall = new Point(i, j);
+					jailWalls.add(new Point(i, j));
 					break;
 				case '4':
 					characters[4] = new Pinky(i, j);
@@ -156,7 +158,6 @@ public class Game {
 		return numGum <= 0;
 	}
 
-	// TODO en cas de necessité liberer les fantomes
 	public void play(Frame f) {
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
 		while (((Pacman) characters[0]).getLives() > 0 && !win()) {
@@ -234,12 +235,12 @@ public class Game {
 		return graph;
 	}
 
-	public Point getJailWall() {
-		return jailWall;
+	public ArrayList<Point> getJailWall() {
+		return jailWalls;
 	}
 
-	public void setJailWall(Point jailWall) {
-		this.jailWall = jailWall;
+	public void setJailWalls(ArrayList<Point> jailWalls) {
+		this.jailWalls = jailWalls;
 	}
 
 }
