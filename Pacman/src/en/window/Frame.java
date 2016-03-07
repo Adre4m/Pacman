@@ -87,6 +87,7 @@ public class Frame extends JFrame {
 		buttonStyle(start);
 		buttonStyle(score);
 		buttonStyle(opt);
+		final JPanel c = copyright();
 
 		start.addActionListener(new ActionListener() { // Open game
 			public void actionPerformed(ActionEvent e) {
@@ -95,6 +96,7 @@ public class Frame extends JFrame {
 				score.setVisible(false);
 				opt.setVisible(false);
 				l.setVisible(false);
+				c.setVisible(false);
 				menu.add(set);
 			}
 		});
@@ -164,7 +166,7 @@ public class Frame extends JFrame {
 		openScreen.setLayout(new BorderLayout());
 		openScreen.add(l, BorderLayout.NORTH);
 		openScreen.add(button, BorderLayout.CENTER);
-		openScreen.add(copyright(), BorderLayout.SOUTH);
+		openScreen.add(c, BorderLayout.SOUTH);
 
 		this.setContentPane(openScreen);
 	}
