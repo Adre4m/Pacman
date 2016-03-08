@@ -79,10 +79,11 @@ public class Frame extends JFrame {
 
 		final JPanel openScreen = new JPanel();
 		openScreen.setBackground(Color.BLACK);
-		JPanel button = new JPanel();
+		
+		final JPanel button = new JPanel();
 		button.setBackground(Color.BLACK);
 		button.setLayout(new FlowLayout(FlowLayout.CENTER));
-		final Box menu = Box.createVerticalBox();
+		Box menu = Box.createVerticalBox();
 		final JButton start = new JButton("Start Game");
 		final JButton score = new JButton("Highscores");
 		final JButton opt = new JButton("Options");
@@ -94,9 +95,7 @@ public class Frame extends JFrame {
 		start.addActionListener(new ActionListener() { // Open game
 			public void actionPerformed(ActionEvent e) {
 				GameScreen set = new GameScreen();
-				menu.setVisible(false);
-				//score.setVisible(false);
-				//opt.setVisible(false);
+				button.setVisible(false);
 				l.setVisible(false);
 				c.setVisible(false);
 				openScreen.add(set);
@@ -105,7 +104,7 @@ public class Frame extends JFrame {
 
 		score.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				menu.setVisible(false);
+				button.setVisible(false);
 				l.setVisible(false);
 				highscore();
 			}
@@ -113,7 +112,7 @@ public class Frame extends JFrame {
 
 		opt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				menu.setVisible(false);
+				button.setVisible(false);
 				l.setVisible(false);
 				options();
 			}
@@ -163,7 +162,6 @@ public class Frame extends JFrame {
 		menu.add(opt);
 		button.add(menu);
 
-		
 		openScreen.setLayout(new BorderLayout());
 		openScreen.add(l, BorderLayout.NORTH);
 		openScreen.add(button, BorderLayout.CENTER);
