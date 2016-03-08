@@ -84,9 +84,9 @@ public class Frame extends JFrame {
 		final JButton start = new JButton("Start Game");
 		final JButton score = new JButton("Highscores");
 		final JButton opt = new JButton("Options");
-		buttonStyle(start);
-		buttonStyle(score);
-		buttonStyle(opt);
+		buttonStyleMenu(start);
+		buttonStyleMenu(score);
+		buttonStyleMenu(opt);
 		final JPanel c = copyright();
 
 		start.addActionListener(new ActionListener() { // Open game
@@ -157,8 +157,11 @@ public class Frame extends JFrame {
 			}
 		});
 
+		menu.add(Box.createRigidArea(new Dimension(0, 40)));
 		menu.add(start);
+		menu.add(Box.createRigidArea(new Dimension(0, 40)));
 		menu.add(score);
+		menu.add(Box.createRigidArea(new Dimension(0, 40)));
 		menu.add(opt);
 		button.add(menu);
 
@@ -340,9 +343,6 @@ public class Frame extends JFrame {
 		no_sound.setForeground(Color.WHITE);
 		no_sound.setFont(new java.awt.Font("Consolas", 1, 25));
 		
-		/*ButtonGroup so = new ButtonGroup();
-		so.add(sound);
-		so.add(no_sound);*/
 
 		JLabel l = new JLabel(" / ");
 		labelStyleW(l);
@@ -485,11 +485,19 @@ public class Frame extends JFrame {
 		b.setFont(new java.awt.Font("Consolas", 1, 36));
 	}
 
+	private void buttonStyleMenu(JButton b) {
+		b.setBackground(Color.BLACK);
+		b.setForeground(Color.BLUE);
+		b.setBorder(null);
+		b.setFont(new java.awt.Font("Consolas", 1, 45));
+	}
+	
 	private void radioStyle(JRadioButton r) {
 		r.setBackground(Color.BLACK);
 		r.setForeground(Color.WHITE);
 		r.setFont(new java.awt.Font("Consolas", 1, 20));
 	}
+	
 
 	private void labelStyleB(JLabel l) {
 		l.setBackground(Color.BLACK);
@@ -500,7 +508,7 @@ public class Frame extends JFrame {
 	private void labelStyleW(JLabel l) {
 		l.setBackground(Color.BLACK);
 		l.setForeground(Color.WHITE);
-		l.setFont(new java.awt.Font("Consolas", 1, 25));
+		l.setFont(new java.awt.Font("Consolas", 1, 30));
 	}
 
 	private JPanel titleStyle(JLabel l) {

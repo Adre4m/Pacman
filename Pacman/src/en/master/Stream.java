@@ -1,9 +1,11 @@
 package en.master;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,7 +54,8 @@ public class Stream {
 
 		if (firstLaunch) {
 			try {
-				BufferedWriter writer = new BufferedWriter(new FileWriter(new File("options/config.opt")));
+				BufferedWriter writer = new BufferedWriter(new FileWriter(
+						new File("options/config.opt")));
 				// if the file doesn't exist, it is created in the root of the
 				// project
 				writer.write(s); // copy default in config
@@ -65,49 +68,39 @@ public class Stream {
 	}
 
 	public String readScore(String path) {
-		InputStream is = null;
-		int a;
-		char c;
+		BufferedReader br;
+		int i = 1;
 		String s = "";
-
+		String alt;
 		try {
-			// new input stream created
-			is = new FileInputStream(path);
+			// open input stream test.txt for reading purpose.
+			br = new BufferedReader(new FileReader(new File(path)));
 			s = "<html>";
-			// reads till the end of the stream
-			while ((a = is.read()) != -1) {
-				// converts integer to character
-				c = (char) a;
-				if (c == '\n') {
+			while ((alt = br.readLine()) != null) {
+				if (alt.equals("")) {
 					s += "<br>";
-				} else
-					s += c;
+				} else {
+					if (i < 10) 
+						s += i +"° "+ alt + "<br>";
+					i++;
+				}
 			}
 			s += "</html>";
-		} catch (Exception e) {
-
-			// if any I/O error occurs
+			br.close();
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} finally {
-
-			// releases system resources associated with this stream
-			if (is != null)
-				try {
-					is.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return s;
 	}
 
-	public String initiateLab(String path){
+	public String initiateLab(String path) {
 		InputStream is = null;
 		int a;
 		char c;
 		String s = "";
-		
+
 		try {
 			// new input stream created
 			is = new FileInputStream(path);
@@ -122,14 +115,14 @@ public class Stream {
 														// which has nothing to
 														// do here
 				}
-	
+
 			}
 		} catch (Exception e) {
-	
+
 			// if any I/O error occurs
 			e.printStackTrace();
 		} finally {
-	
+
 			// releases system resources associated with this stream
 			if (is != null)
 				try {
