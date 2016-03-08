@@ -77,6 +77,8 @@ public class Frame extends JFrame {
 
 		final JPanel l = logo();
 
+		final JPanel openScreen = new JPanel();
+		openScreen.setBackground(Color.BLACK);
 		JPanel button = new JPanel();
 		button.setBackground(Color.BLACK);
 		button.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -92,20 +94,18 @@ public class Frame extends JFrame {
 		start.addActionListener(new ActionListener() { // Open game
 			public void actionPerformed(ActionEvent e) {
 				GameScreen set = new GameScreen();
-				start.setVisible(false);
-				score.setVisible(false);
-				opt.setVisible(false);
+				menu.setVisible(false);
+				//score.setVisible(false);
+				//opt.setVisible(false);
 				l.setVisible(false);
 				c.setVisible(false);
-				menu.add(set);
+				openScreen.add(set);
 			}
 		});
 
 		score.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				start.setVisible(false);
-				score.setVisible(false);
-				opt.setVisible(false);
+				menu.setVisible(false);
 				l.setVisible(false);
 				highscore();
 			}
@@ -113,9 +113,7 @@ public class Frame extends JFrame {
 
 		opt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				start.setVisible(false);
-				score.setVisible(false);
-				opt.setVisible(false);
+				menu.setVisible(false);
 				l.setVisible(false);
 				options();
 			}
@@ -165,7 +163,7 @@ public class Frame extends JFrame {
 		menu.add(opt);
 		button.add(menu);
 
-		JPanel openScreen = new JPanel();
+		
 		openScreen.setLayout(new BorderLayout());
 		openScreen.add(l, BorderLayout.NORTH);
 		openScreen.add(button, BorderLayout.CENTER);
