@@ -17,12 +17,12 @@ import javax.swing.JPanel;
 public class Case extends JPanel{
 	char content; //type of image
 	JLabel label; //contains the image
-	
+	String theme;
 	public Case(char content){
 		URL url; //url of the image
 		Image img; //image without a resize
 		Image newimg; //image resized
-		
+		theme="classic";
 		switch(content){
 		
 			case ' ': 
@@ -30,14 +30,19 @@ public class Case extends JPanel{
 				add(label);
 				break;
 			case 'X': 
-				this.label = new JLabel("X");
+				setBackground(Color.BLACK);
+				setLayout(new FlowLayout(FlowLayout.CENTER));
+				label = new JLabel();
+				img = new ImageIcon("sprites/"+theme+"/wall.gif").getImage();
+				newimg = img.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+				label.setIcon(new ImageIcon(newimg));
 				add(label);
 				break;
 			case 'g':
 				setBackground(Color.BLACK);
 				setLayout(new FlowLayout(FlowLayout.CENTER));
 				label = new JLabel();
-				img = new ImageIcon("sprites/classic/PacGum.gif").getImage();
+				img = new ImageIcon("sprites/"+theme+"/PacGum.gif").getImage();
 				newimg = img.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
 				label.setIcon(new ImageIcon(newimg));
 				add(label);
@@ -46,7 +51,7 @@ public class Case extends JPanel{
 				setBackground(Color.BLACK);
 				setLayout(new FlowLayout(FlowLayout.CENTER));
 				label = new JLabel();
-				img = new ImageIcon("sprites/classic/Super pacgum.gif").getImage();
+				img = new ImageIcon("sprites/"+theme+"/Super pacgum.gif").getImage();
 				newimg = img.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
 				label = new JLabel(new ImageIcon(newimg));
 				add(label);
@@ -58,7 +63,7 @@ public class Case extends JPanel{
 				setBackground(Color.BLACK);
 				setLayout(new FlowLayout(FlowLayout.CENTER));
 				label = new JLabel();
-				img = new ImageIcon("sprites/classic/PacMan_right.gif").getImage();
+				img = new ImageIcon("sprites/"+theme+"/PacMan_right.gif").getImage();
 				newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
 //				label.setIcon(new ImageIcon(newimg));
 				label = new JLabel(new ImageIcon(newimg));
@@ -68,7 +73,7 @@ public class Case extends JPanel{
 				setBackground(Color.BLACK);
 				setLayout(new FlowLayout(FlowLayout.CENTER));
 				label = new JLabel();
-				img = new ImageIcon("sprites/classic/Blinky_down.gif").getImage();
+				img = new ImageIcon("sprites/"+theme+"/Blinky_down.gif").getImage();
 				newimg = img.getScaledInstance(15, 15, Image.SCALE_DEFAULT);
 				label.setIcon(new ImageIcon(newimg));
 				add(label);

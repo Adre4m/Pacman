@@ -62,7 +62,7 @@ public class GameScreen extends JLayeredPane{
 		g.initTest("labyrinths/labyrinth2.txt");
 		grid = new JLabel(/*after*/);
 		grid.setBackground(Color.BLACK);
-	    grid.setBounds(2*height/10, 0, 4 * height /3 - 4*height/10, height);
+	    grid.setBounds(2*height/10, -height/32, 4 * height /3 - 4*height/10, height);
 	    grid.setOpaque(true);
 	    grid.setLayout(new GridLayout(32,28));
 //	    grid.setLayout(new GridBagLayout());
@@ -81,7 +81,7 @@ public class GameScreen extends JLayeredPane{
 //	    Label l1 = (Label) grid.getComponent(7);
 //	    getCase(7).setText("F");
 	    grid.setVisible(true);
-	    this.add(grid, new Integer(0), 0);
+	    this.add(grid, new Integer(1), 0);
 //	    this.add(piclabel, new Integer(0), 0);
 	
 	}
