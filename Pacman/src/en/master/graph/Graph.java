@@ -2,17 +2,28 @@ package en.master.graph;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Stack;
+
+import en.master.characters.Ghost;
 
 public class Graph {
 
 	private int adj[][];
-	private ArrayList<Point> vertex;
+	private ArrayList<Node> vertex;
+	private int heigh;
+	private int length;
 
 	public Graph(char[][] game) {
-		vertex = new ArrayList<Point>();
+		vertex = new ArrayList<Node>();
+		heigh = game.length;
+		length = game[0].length;
 		init(game);
-		adjancy();
+		adjacency();
 	}
 
 	private void init(char[][] game) {
@@ -20,47 +31,125 @@ public class Graph {
 		for (int i = 0; i < game.length; i++)
 			for (int j = 0; j < game[0].length; ++j)
 				if (game[i][j] != 'X') {
-					vertex.add(new Point(i, j));
+					vertex.add(new Node(new Point(i, j)));
 					numv++;
 				}
 		adj = new int[numv][numv];
 	}
 
-	private void adjancy() {
+	private void adjacency() {
 		for (int i = 0; i < adj.length; ++i) {
-			Point p1 = vertex.get(i);
+			Node n1 = vertex.get(i);
 			adj[i][i] = 0;
-			for (int j = 0; j < adj.length; ++j) {
-				if (j != i) {
-					Point p2 = vertex.get(j);
-					if (p1.x == p2.x || p1.y == p2.y)
-						adj[i][j] = Math.abs((p1.x - p2.x) + (p1.y - p2.y));
+			for (int j = i + 1; j < adj.length; ++j) {
+				Node n2 = vertex.get(j);
+				if (n1.getPosition().x == n2.getPosition().x || n1.getPosition().y == n2.getPosition().y) {
+					adj[i][j] = Math
+							.abs((n1.getPosition().x - n2.getPosition().x) + (n1.getPosition().y - n2.getPosition().y));
+					adj[j][i] = Math
+							.abs((n1.getPosition().x - n2.getPosition().x) + (n1.getPosition().y - n2.getPosition().y));
+				} else {
+					adj[i][j] = 0;
+					adj[j][i] = 0;
 				}
 			}
 		}
 	}
 
-	public Stack<Point> reach(Point start, Point goal) {
-		int index = 0, end = 0;
-		for (int i = 0; i < vertex.size(); ++i) {
-			if (vertex.get(i).equals(start))
-				index = i;
-			if (vertex.get(i).equals(goal))
-				end = i;
-		}
-		return reach(index, end);
+	public Stack<Character> reach(Point start, Point goal, Ghost g) {
+		return reach(vertex.get(vertex.indexOf(new Node(start))), vertex.get(vertex.indexOf(new Node(goal))),
+				g.getDir());
 	}
 
-	private Stack<Point> reach(int index, int goal) {
+	private Stack<Character> reach(Node start, Node goal, char dir) {
+		LinkedList<Node> closedSet = new LinkedList<Node>();
+		PriorityQueue<Node> openSet = new PriorityQueue<Node>();
+		Map<Node, Node> cameFrom = new HashMap<Node, Node>();
+		start.setDir(dir);
+		openSet.add(start);
+		while (!openSet.isEmpty()) {
+			Node current = openSet.poll();
+			if (current.equals(goal)) {
+				return path(cameFrom, start, goal, dir);
+			}
+			closedSet.add(current);
+			int index = vertex.indexOf(current);
+			for (int i = 0; i < adj.length; ++i) {
+				if (1 == adj[index][i]) {
+					Node neighbour = vertex.get(i);
+					if (noReturn(current.getPosition(), neighbour.getPosition(), current.getDir())) {
+						if (closedSet.contains(neighbour))
+							continue;
+						neighbour.setCost(current.getCost() + adj[index][i]);
+						neighbour.setHeuristic(neighbour.getCost() + neighbour.manhattan(goal.getPosition()));
+						neighbour.setDir(findDir(current, neighbour));
+						if (!openSet.contains(neighbour))
+							openSet.add(neighbour);
+						else if (getQueue(openSet, neighbour).compareTo(neighbour) == 1)
+							continue;
+						cameFrom.put(neighbour, current);
+					}
+				}
+			}
+		}
 		return null;
 	}
 
-	private int manhattan(Point start, Point goal) {
-		return Math.abs(start.x - goal.x) + Math.abs(start.y + goal.y);
+	public boolean noReturn(Point start, Point goal, char dir) {
+		switch (dir) {
+		case 'd':
+			return goal.x != Math.floorMod(start.x - 1, heigh);
+		case 'u':
+			return goal.x != Math.floorMod(start.x + 1, heigh);
+		case 'r':
+			return goal.y != Math.floorMod(start.y - 1, length);
+		case 'l':
+			return goal.y != Math.floorMod(start.y + 1, length);
+		}
+		return false;
 	}
 
-	private int heuristic(int start, int goal) {
-		return adj[start][goal] + manhattan(vertex.get(start), vertex.get(goal));
+	public int[][] getAdj() {
+		return adj;
+	}
+
+	public void setAdj(int[][] adj) {
+		this.adj = adj;
+	}
+
+	public ArrayList<Node> getVertex() {
+		return vertex;
+	}
+
+	public void setVertex(ArrayList<Node> vertex) {
+		this.vertex = vertex;
+	}
+
+	private Node getQueue(PriorityQueue<Node> list, Node n) {
+		Iterator<Node> it = list.iterator();
+		while (it.hasNext()) {
+			Node other = it.next();
+			if (n.equals(other))
+				return other;
+		}
+		return null;
+	}
+
+	private Stack<Character> path(Map<Node, Node> cameFrom, Node start, Node goal, char dir) {
+		Stack<Character> moves = new Stack<Character>();
+		Node current = goal;
+		while (!current.equals(start)) {
+			moves.push(current.getDir());
+			current = cameFrom.get(current);
+		}
+		return moves;
+	}
+
+	public char findDir(Node current, Node neighbour) {
+		if (current.getPosition().x == neighbour.getPosition().x)
+			return (current.getPosition().y == neighbour.getPosition().y - 1) ? 'r' : 'l';
+		else
+			return (current.getPosition().x == neighbour.getPosition().x - 1) ? 'd' : 'u';
 	}
 
 }
