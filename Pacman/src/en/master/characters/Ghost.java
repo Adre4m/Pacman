@@ -83,9 +83,9 @@ public abstract class Ghost extends Characters {
 	protected abstract void patrol();
 
 	private void chased(Point pacman, Game game) {
-		System.out.println(this.position);
-		System.out.println(pacman);
-		Stack<Character> directions = game.graph.reach(this.position, pacman, this.dir);
+		//System.out.println(position);
+		//System.out.println(pacman);
+		Stack<Character> directions = game.graph.reach(position, pacman, dir);
 		dir = directions.pop();
 	}
 

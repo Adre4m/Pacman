@@ -113,6 +113,7 @@ public class Game {
 					lab[i][j] = grid.charAt(index);
 				}
 			}
+		graph = new Graph(lab);
 	}
 
 	public String toString() {
@@ -204,10 +205,10 @@ public class Game {
 					for (int i = 1; i < characters.length; ++i)
 						lab[characters[i].getPosition().x][characters[i].getPosition().y] = characters[i].toChar();
 					lab[characters[0].getPosition().x][characters[0].getPosition().y] = characters[0].toChar();
-					// System.out.println(this);
+					System.out.println(this);
 					// f.update(game);
 				} else {
-					// System.out.println(this);
+					System.out.println(this);
 					// f.update(game);
 				}
 			}

@@ -151,4 +151,8 @@ public class Graph {
 			return (current.getPosition().x == neighbour.getPosition().x - 1) ? 'd' : 'u';
 	}
 
+	public String toString() {
+		return "Graph containing : " + adj.length + " nodes.";
+	}
+
 }
