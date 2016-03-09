@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
-import en.master.characters.Ghost;
-
 public class Graph {
 
 	private int adj[][];
@@ -56,11 +54,12 @@ public class Graph {
 		}
 	}
 
-	public Stack<Character> reach(Point start, Point goal, Ghost g) {
-		return reach(vertex.get(vertex.indexOf(new Node(start))), vertex.get(vertex.indexOf(new Node(goal))),
-				g.getDir());
+	public Stack<Character> reach(Point start, Point goal, char dir) {
+		return reach(vertex.get(vertex.indexOf(new Node(start))), vertex.get(vertex.indexOf(new Node(goal))), dir);
 	}
 
+	// Algorithme A*, tel que lu sur le wikipédia anglais.
+	// https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
 	private Stack<Character> reach(Node start, Node goal, char dir) {
 		LinkedList<Node> closedSet = new LinkedList<Node>();
 		PriorityQueue<Node> openSet = new PriorityQueue<Node>();

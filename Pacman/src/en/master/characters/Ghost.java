@@ -1,6 +1,7 @@
 package en.master.characters;
 
 import java.awt.Point;
+import java.util.Stack;
 
 import en.master.Game;
 import en.master.Timer;
@@ -16,8 +17,6 @@ public abstract class Ghost extends Characters {
 	protected char old;
 	protected String vulnerableSprite;
 	protected String eyeSprite;
-	// private Stack<Character> directions;
-	// private int speed;
 
 	public Ghost(String sprite) {
 		super(sprite);
@@ -26,7 +25,6 @@ public abstract class Ghost extends Characters {
 		isVulnerable = false;
 		isReturningToJail = false;
 		jail();
-		// directions = new Stack<Character>();
 	}
 
 	public Ghost(String sprite, int x, int y) {
@@ -35,7 +33,6 @@ public abstract class Ghost extends Characters {
 		eyeSprite = "Ghost_eyes";
 		isVulnerable = false;
 		isReturningToJail = false;
-		// directions = new Stack<Character>();
 		jail();
 	}
 
@@ -86,7 +83,10 @@ public abstract class Ghost extends Characters {
 	protected abstract void patrol();
 
 	private void chased(Point pacman, Game game) {
-
+		System.out.println(this.position);
+		System.out.println(pacman);
+		Stack<Character> directions = game.graph.reach(this.position, pacman, this.dir);
+		dir = directions.pop();
 	}
 
 	public char getOld() {

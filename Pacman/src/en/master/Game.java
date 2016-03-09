@@ -25,7 +25,7 @@ public class Game {
 	private ArrayList<Point> doors;
 	private ArrayList<Point> jailWalls;
 	private int numGum;
-	private Graph graph;
+	public Graph graph;
 
 	public Game() {
 		lab = new char[32][28];

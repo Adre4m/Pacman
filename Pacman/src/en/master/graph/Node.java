@@ -8,12 +8,10 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	private Point position;
 	private int cost;
 	private int heuristic;
-	private Node father;
 	private char dir;
 
 	public Node(Point position) {
 		this.position = position;
-		father = null;
 	}
 
 	@Override
@@ -62,21 +60,6 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	public int manhattan(Point goal) {
 		return Math.abs(position.x - goal.x) + Math.abs(position.y + goal.y);
 	}
-
-	public Node getFather() {
-		return father;
-	}
-
-	public void setFather(Node father) {
-		this.father = father;
-	}
-
-	/*
-	 * public void heuristic(Node goal) { heuristic = manhattan(position,
-	 * goal.position); // adj[start][goal] +
-	 * manhattan(vertex.get(start).getPosition(), //
-	 * vertex.get(goal).getPosition()); }
-	 */
 
 	public String toString() {
 		return position.toString();
