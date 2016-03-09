@@ -8,12 +8,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -79,7 +79,7 @@ public class Frame extends JFrame {
 
 		final JPanel openScreen = new JPanel();
 		openScreen.setBackground(Color.BLACK);
-		
+
 		final JPanel button = new JPanel();
 		button.setBackground(Color.BLACK);
 		button.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -99,6 +99,8 @@ public class Frame extends JFrame {
 				l.setVisible(false);
 				c.setVisible(false);
 				openScreen.add(set);
+				set.setFocusable(true);
+				set.requestFocusInWindow();
 			}
 		});
 
@@ -333,16 +335,15 @@ public class Frame extends JFrame {
 		sound.setBackground(Color.BLACK);
 		sound.setForeground(Color.GREEN);
 		sound.setFont(new java.awt.Font("Consolas", 1, 25));
-		
+
 		final JButton no_sound = new JButton("OFF");
 		no_sound.setBackground(Color.BLACK);
 		no_sound.setForeground(Color.WHITE);
 		no_sound.setFont(new java.awt.Font("Consolas", 1, 25));
-		
 
 		JLabel l = new JLabel(" / ");
 		labelStyleW(l);
-	
+
 		class ButtonActionListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -352,14 +353,14 @@ public class Frame extends JFrame {
 					no_sound.setForeground(Color.WHITE);
 				} else {
 					if (button == no_sound) {
-					sound.setForeground(Color.WHITE);
-					no_sound.setForeground(Color.RED);
+						sound.setForeground(Color.WHITE);
+						no_sound.setForeground(Color.RED);
 					}
 				}
 			}
 		}
-		
-		ButtonActionListener bal =  new ButtonActionListener();
+
+		ButtonActionListener bal = new ButtonActionListener();
 		sound.addActionListener(bal);
 		no_sound.addActionListener(bal);
 
@@ -438,8 +439,13 @@ public class Frame extends JFrame {
 
 		final JLabel title = new JLabel("HighScores :");
 
-		final JLabel name = new JLabel(s.readScore("score.txt"));
-		labelStyleW(name);
+		LinkedList<NodeScore> ns = s.readScore("score.txt");
+		Iterator<NodeScore> it = ns.iterator();
+		NodeScore courant = it.next();
+		while (it.hasNext()) {
+			// ton code;
+			courant = it.next();
+		}
 
 		final JButton back = new JButton("Back");
 		buttonStyle(back);
@@ -450,10 +456,10 @@ public class Frame extends JFrame {
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				title.setVisible(false);
-				name.setVisible(false);
 				back.setVisible(false);
 				menu();
 			}
+
 		});
 
 		JPanel b = new JPanel();
@@ -463,7 +469,6 @@ public class Frame extends JFrame {
 		JPanel score = new JPanel();
 		score.setBackground(Color.BLACK);
 		score.setLayout(new FlowLayout(FlowLayout.CENTER));
-		score.add(name);
 
 		b.add(score);
 		// le bouton fait tout le south layout
@@ -472,6 +477,7 @@ public class Frame extends JFrame {
 		h.add(b);
 
 		this.setContentPane(h);
+
 	}
 
 	private void buttonStyle(JButton b) {
@@ -487,13 +493,12 @@ public class Frame extends JFrame {
 		b.setBorder(null);
 		b.setFont(new java.awt.Font("Consolas", 1, 45));
 	}
-	
+
 	private void radioStyle(JRadioButton r) {
 		r.setBackground(Color.BLACK);
 		r.setForeground(Color.WHITE);
 		r.setFont(new java.awt.Font("Consolas", 1, 20));
 	}
-	
 
 	private void labelStyleB(JLabel l) {
 		l.setBackground(Color.BLACK);

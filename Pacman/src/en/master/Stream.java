@@ -9,6 +9,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+import en.window.NodeScore;
 
 public class Stream {
 
@@ -67,32 +71,28 @@ public class Stream {
 		return s;
 	}
 
-	public String readScore(String path) {
+	public LinkedList readScore(String path) {
 		BufferedReader br;
+		LinkedList<NodeScore> score = new LinkedList<NodeScore>(); 
 		int i = 1;
-		String s = "";
 		String alt;
 		try {
 			// open input stream test.txt for reading purpose.
 			br = new BufferedReader(new FileReader(new File(path)));
-			s = "<html>";
 			while ((alt = br.readLine()) != null) {
-				if (alt.equals("")) {
-					s += "<br>";
-				} else {
-					if (i < 10) 
-						s += i +"° "+ alt + "<br>";
-					i++;
-				}
+				String s = i +"° "+ alt + /*"<br>"*/" ";
+				String[] split =s.split(" ");
+				NodeScore ns = new NodeScore (split[0], split[1], split[2]);
+				i++;
+				score.add(ns);
 			}
-			s += "</html>";
 			br.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return s;
+		return score;
 	}
 
 	public String initiateLab(String path) {
