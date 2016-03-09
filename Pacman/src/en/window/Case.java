@@ -19,6 +19,7 @@ public class Case extends JPanel{
 	JLabel label; //contains the image
 	String theme;
 	public Case(char content){
+		this.content=content;
 		URL url; //url of the image
 		Image img; //image without a resize
 		Image newimg; //image resized
@@ -37,6 +38,7 @@ public class Case extends JPanel{
 				newimg = img.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
 				label.setIcon(new ImageIcon(newimg));
 				add(label);
+				
 				break;
 			case 'g':
 				setBackground(Color.BLACK);
@@ -78,47 +80,6 @@ public class Case extends JPanel{
 				label.setIcon(new ImageIcon(newimg));
 				add(label);
 				break;
-//			case '1': 
-//				setBackground(Color.BLACK);
-//				setLayout(new FlowLayout(FlowLayout.CENTER));
-//				label = new JLabel();
-//				url = getClass().getResource("Super pacgum.gif");
-//				img = new ImageIcon(url).getImage();
-//				newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
-////				label.setIcon(new ImageIcon(newimg));
-//				label = new JLabel(new ImageIcon(newimg));
-//				add(label);
-//				System.out.println("lol");
-//				break;
-//			case '2': 
-//				setBackground(Color.BLACK);
-//				setLayout(new FlowLayout(FlowLayout.CENTER));
-//				label = new JLabel();
-//				url = getClass().getResource("Clyde_down.gif");
-//				img = new ImageIcon(url).getImage();
-//				newimg = img.getScaledInstance(30, 20, Image.SCALE_DEFAULT);
-//				label.setIcon(new ImageIcon(newimg));
-//				add(label);
-//				break;
-//			case '3':
-//				setLayout(new FlowLayout(FlowLayout.CENTER));
-//				label = new JLabel();
-//				url = getClass().getResource("Inky_down.gif");
-//				img = new ImageIcon(url).getImage();
-//				newimg = img.getScaledInstance(30, 20, Image.SCALE_DEFAULT);
-//				label.setIcon(new ImageIcon(newimg));
-//				add(label);
-//				break;
-//			case '4':
-//				setBackground(Color.BLACK);
-//				setLayout(new FlowLayout(FlowLayout.CENTER));
-//				label = new JLabel();
-//				url = getClass().getResource("Pinky_down.gif");
-//				img = new ImageIcon(url).getImage();
-//				newimg = img.getScaledInstance(30, 20, Image.SCALE_DEFAULT);
-//				label.setIcon(new ImageIcon(newimg));
-//				add(label);
-//				break;
 			default:
 				break;
 	
@@ -126,5 +87,22 @@ public class Case extends JPanel{
 		
 		this.setBackground(Color.BLACK);
 	}
+	public char getContent(){
+		return this.content;
+	}
 	
+	public void setContent(char c){
+		this.content=c;
+	}
+	public JLabel getLabel(){
+		return this.label;
+	}
+	public void setLabel(JLabel l){
+		this.label=label;
+	}
+	
+	public void setCase(Case c){
+		this.label = c.getLabel();
+		this.content = c.getContent();
+	}
 }
