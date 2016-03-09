@@ -87,91 +87,102 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 	
 	public void moveRight(int x, int y){
 		int numCase = x*28+y;
-		
-		JLabel label = new JLabel();
-		Image img = new ImageIcon("sprites/classic/PacMan_right.gif").getImage();
-		Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
-		label = new JLabel(new ImageIcon(newimg));
-		JLabel l = getCase(numCase+1).getLabel();
-
-		getCase(numCase+1).removeAll(); //Enlever le JLabel de la case suivante
-		getCase(numCase+1).add(label); // On y ajoute le nouveau JLabel
-		getCase(numCase+1).setContent('P'); // Et on met à jour les attributs de la case
-		
-		getCase(numCase).removeAll();
-		getCase(numCase).add(new JLabel(" "));
-		getCase(numCase).setContent(' ');
-		
-		getCase(numCase).revalidate();
-		getCase(numCase).repaint();
-		getCase(numCase+1).revalidate();
-		getCase(numCase+1).repaint();
+		if(getCase(numCase+1).getContent()!='X' && getCase(numCase+1).getContent()!='G'){
+			JLabel label = new JLabel();
+			Image img = new ImageIcon("sprites/classic/PacMan_right.gif").getImage();
+			Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
+			label = new JLabel(new ImageIcon(newimg));
+			JLabel l = getCase(numCase+1).getLabel();
+	
+			getCase(numCase+1).removeAll(); //Enlever le JLabel de la case suivante
+			getCase(numCase+1).add(label); // On y ajoute le nouveau JLabel
+			getCase(numCase+1).setContent('P'); // Et on met à jour les attributs de la case
+			
+			getCase(numCase).removeAll();
+			getCase(numCase).add(new JLabel(" "));
+			getCase(numCase).setContent(' ');
+			
+			getCase(numCase).revalidate();
+			getCase(numCase).repaint();
+			getCase(numCase+1).revalidate();
+			getCase(numCase+1).repaint();
+			pacmanY++;
+		}
 	}
 	
 	public void moveLeft(int x, int y){
 		int numCase = x*28+y;
-		JLabel label = new JLabel();
-		Image img = new ImageIcon("sprites/classic/PacMan_left.gif").getImage();
-		Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
-		label = new JLabel(new ImageIcon(newimg));
-		JLabel l = getCase(numCase+1).getLabel();
+		if(getCase(numCase-1).getContent()!='X' && getCase(numCase-1).getContent()!='G'){
+			JLabel label = new JLabel();
+			Image img = new ImageIcon("sprites/classic/PacMan_left.gif").getImage();
+			Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
+			label = new JLabel(new ImageIcon(newimg));
+			JLabel l = getCase(numCase+1).getLabel();
+			
+			getCase(numCase).removeAll();
+			getCase(numCase).add(new JLabel(" "));
+			getCase(numCase).setContent(' ');
 		
-		getCase(numCase).removeAll();
-		getCase(numCase).add(new JLabel(" "));
-		getCase(numCase).setContent(' ');
-
-		getCase(numCase-1).removeAll();
-		getCase(numCase-1).add(label);
-		getCase(numCase-1).setContent('P');
-
-		getCase(numCase).revalidate();
-		getCase(numCase).repaint();
-		getCase(numCase-1).revalidate();
-		getCase(numCase-1).repaint();
+			getCase(numCase-1).removeAll();
+			getCase(numCase-1).add(label);
+			getCase(numCase-1).setContent('P');
+		
+			getCase(numCase).revalidate();
+			getCase(numCase).repaint();
+			getCase(numCase-1).revalidate();
+			getCase(numCase-1).repaint();
+			pacmanY--;
+		}
 	}
 	
 	public void moveUp(int x, int y){
 		int numCase = x*28+y;
-		JLabel label = new JLabel();
-		Image img = new ImageIcon("sprites/classic/PacMan_up.gif").getImage();
-		Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
-		label = new JLabel(new ImageIcon(newimg));
-		JLabel l = getCase(numCase+1).getLabel();
-		
-		getCase(numCase).removeAll();
-		getCase(numCase).add(new JLabel(" "));
-		getCase(numCase).setContent(' ');
-
-		getCase(numCase-28).removeAll();
-		getCase(numCase-28).add(label);
-		getCase(numCase-28).setContent('P');
-
-		getCase(numCase).revalidate();
-		getCase(numCase).repaint();
-		getCase(numCase-28).revalidate();
-		getCase(numCase-28).repaint();
+		if(getCase(numCase-28).getContent()!='X' && getCase(numCase-28).getContent()!='G'){
+			JLabel label = new JLabel();
+			Image img = new ImageIcon("sprites/classic/PacMan_up.gif").getImage();
+			Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
+			label = new JLabel(new ImageIcon(newimg));
+			JLabel l = getCase(numCase+1).getLabel();
+			
+			getCase(numCase).removeAll();
+			getCase(numCase).add(new JLabel(" "));
+			getCase(numCase).setContent(' ');
+	
+			getCase(numCase-28).removeAll();
+			getCase(numCase-28).add(label);
+			getCase(numCase-28).setContent('P');
+	
+			getCase(numCase).revalidate();
+			getCase(numCase).repaint();
+			getCase(numCase-28).revalidate();
+			getCase(numCase-28).repaint();
+			pacmanX--;
+		}
 	}
 	
 	public void moveDown(int x, int y){
 		int numCase = x*28+y;
-		JLabel label = new JLabel();
-		Image img = new ImageIcon("sprites/classic/PacMan_down.gif").getImage();
-		Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
-		label = new JLabel(new ImageIcon(newimg));
-		JLabel l = getCase(numCase+1).getLabel();
-		
-		getCase(numCase).removeAll();
-		getCase(numCase).add(new JLabel(" "));
-		getCase(numCase).setContent(' ');
-
-		getCase(numCase+28).removeAll();
-		getCase(numCase+28).add(label);
-		getCase(numCase+28).setContent('P');
-
-		getCase(numCase).revalidate();
-		getCase(numCase).repaint();
-		getCase(numCase+28).revalidate();
-		getCase(numCase+28).repaint();
+		if(getCase(numCase+28).getContent()!='X' && getCase(numCase+28).getContent()!='G'){
+			JLabel label = new JLabel();
+			Image img = new ImageIcon("sprites/classic/PacMan_down.gif").getImage();
+			Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
+			label = new JLabel(new ImageIcon(newimg));
+			JLabel l = getCase(numCase+1).getLabel();
+			
+			getCase(numCase).removeAll();
+			getCase(numCase).add(new JLabel(" "));
+			getCase(numCase).setContent(' ');
+	
+			getCase(numCase+28).removeAll();
+			getCase(numCase+28).add(label);
+			getCase(numCase+28).setContent('P');
+	
+			getCase(numCase).revalidate();
+			getCase(numCase).repaint();
+			getCase(numCase+28).revalidate();
+			getCase(numCase+28).repaint();
+			pacmanX++;
+		}
 	}
 
 	@Override
@@ -179,21 +190,21 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             moveRight(pacmanX,pacmanY);
-            pacmanY++;            
+                        
         }
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             moveLeft(pacmanX,pacmanY);
-            pacmanY--;
+            
         }
 		
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
             moveUp(pacmanX,pacmanY);
-            pacmanX--;
+            
             
         }
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             moveDown(pacmanX,pacmanY);
-            pacmanX++;
+            
         }
 	}
 
