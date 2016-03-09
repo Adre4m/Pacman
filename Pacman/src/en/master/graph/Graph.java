@@ -79,13 +79,13 @@ public class Graph {
 					if (noReturn(current.getPosition(), neighbour.getPosition(), current.getDir())) {
 						if (closedSet.contains(neighbour))
 							continue;
-						neighbour.setCost(current.getCost() + adj[index][i]);
-						neighbour.setHeuristic(neighbour.getCost() + neighbour.manhattan(goal.getPosition()));
-						neighbour.setDir(findDir(current, neighbour));
 						if (!openSet.contains(neighbour))
 							openSet.add(neighbour);
 						else if (getQueue(openSet, neighbour).compareTo(neighbour) == 1)
 							continue;
+						neighbour.setCost(current.getCost() + adj[index][i]);
+						neighbour.setHeuristic(neighbour.getCost() + neighbour.manhattan(goal.getPosition()));
+						neighbour.setDir(findDir(current, neighbour));
 						cameFrom.put(neighbour, current);
 					}
 				}
