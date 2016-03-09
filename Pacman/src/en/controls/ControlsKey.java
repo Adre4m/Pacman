@@ -1,6 +1,7 @@
 package en.controls;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -51,18 +52,23 @@ public class ControlsKey implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		Point p = game.characters[0].getPosition();
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			game.characters[0].setDir('l');
+			if (game.getLab()[p.x][Math.floorMod(p.y - 1, game.getLab()[0].length)] != 'X')
+				game.characters[0].setDir('l');
 			break;
 		case KeyEvent.VK_RIGHT:
-			game.characters[0].setDir('r');
+			if (game.getLab()[p.x][Math.floorMod(p.y + 1, game.getLab()[0].length)] != 'X')
+				game.characters[0].setDir('r');
 			break;
 		case KeyEvent.VK_UP:
-			game.characters[0].setDir('u');
+			if (game.getLab()[Math.floorMod(p.x - 1, game.getLab().length)][p.y] != 'X')
+				game.characters[0].setDir('u');
 			break;
 		case KeyEvent.VK_DOWN:
-			game.characters[0].setDir('d');
+			if (game.getLab()[Math.floorMod(p.x + 1, game.getLab().length)][p.y] != 'X')
+				game.characters[0].setDir('d');
 			break;
 		case KeyEvent.VK_ESCAPE:
 			if (game.isPaused()) {

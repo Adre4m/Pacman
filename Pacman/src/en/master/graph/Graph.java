@@ -61,6 +61,10 @@ public class Graph {
 	// Algorithme A*, tel que lu sur le wikipédia anglais.
 	// https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
 	private Stack<Character> reach(Node start, Node goal, char dir) {
+		Map<Node, Integer> cost = new HashMap<Node, Integer>();
+		cost.put(start, 0);
+		Map<Node, Integer> heuristic = new HashMap<Node, Integer>();
+		heuristic.put(start, start.heuristic(goal));
 		LinkedList<Node> closedSet = new LinkedList<Node>();
 		PriorityQueue<Node> openSet = new PriorityQueue<Node>();
 		Map<Node, Node> cameFrom = new HashMap<Node, Node>();
@@ -83,8 +87,9 @@ public class Graph {
 							openSet.add(neighbour);
 						else if (getQueue(openSet, neighbour).compareTo(neighbour) == 1)
 							continue;
-						neighbour.setCost(current.getCost() + adj[index][i]);
-						neighbour.setHeuristic(neighbour.getCost() + neighbour.manhattan(goal.getPosition()));
+						cameFrom.put(neighbour, current);
+						cost.put(neighbour, cost.get(current) + adj[index][i]);
+						heuristic.put(neighbour, cost.get(neighbour) + neighbour.manhattan(goal.getPosition()));
 						neighbour.setDir(findDir(current, neighbour));
 						cameFrom.put(neighbour, current);
 					}

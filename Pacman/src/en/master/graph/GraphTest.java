@@ -29,9 +29,13 @@ public class GraphTest {
 
 	@Test
 	public void testReach() {
-		Point start = new Point(1, 1);
-		Point goal = new Point(30, 26);
+		Point start = new Point(1, 14);
+		Point goal = new Point(30, 14);
 		Stack<Character> moves = g.reach(start, goal, 'u');
+		System.out.println(moves);
+		start = new Point(1, 14);
+		goal = new Point(30, 14);
+		moves = g.reach(start, goal, 'u');
 		System.out.println(moves);
 	}
 

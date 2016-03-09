@@ -17,6 +17,7 @@ public abstract class Ghost extends Characters {
 	protected char old;
 	protected String vulnerableSprite;
 	protected String eyeSprite;
+	private Stack<Character> directions;
 
 	public Ghost(String sprite) {
 		super(sprite);
@@ -77,16 +78,32 @@ public abstract class Ghost extends Characters {
 	}
 
 	private void isEaten(Game game) {
-
+		if (directions == null || directions.isEmpty()) {
+			Stack<Character> directions1 = game.graph.reach(position, game.getJailWall().get(0), dir);
+			Stack<Character> directions2 = game.graph.reach(position, game.getJailWall().get(1), dir);
+			directions = (directions1.size() <= directions2.size()) ? directions1 : directions2;
+		}
+		dir = directions.pop();
+		if (directions.isEmpty())
+			isReturningToJail = false;
 	}
 
 	protected abstract void patrol();
 
 	private void chased(Point pacman, Game game) {
-		//System.out.println(position);
-		//System.out.println(pacman);
-		Stack<Character> directions = game.graph.reach(position, pacman, dir);
+		int walls = 0;
+		if (game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] != 'X')
+			walls++;
+		if (game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] != 'X')
+			walls++;
+		if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab()[0].length)] != 'X')
+			walls++;
+		if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab()[0].length)] != 'X')
+			walls++;
+		if (directions == null || directions.isEmpty() || 2 < walls)
+			directions = game.graph.reach(position, pacman, dir);
 		dir = directions.pop();
+		directions.clear();
 	}
 
 	public char getOld() {
