@@ -76,7 +76,7 @@ public abstract class Characters {
 	private void makeMove(int x, int y, Game game) {
 		char old = game.getLab()[x][y];
 		game.getLab()[x][y] = toChar();
-		if (this instanceof Ghost && old != 'G') {
+		if (this instanceof Ghost && old != 'G' && old != 'V' && old != 'E') {
 			game.getLab()[position.x][position.y] = ((Ghost) this).getOld();
 			((Ghost) this).setOld(old);
 		} else {

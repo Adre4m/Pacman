@@ -91,7 +91,9 @@ public abstract class Ghost extends Characters {
 	protected abstract void patrol();
 
 	private void chased(Point pacman, Game game) {
-		int walls = 0;
+		/*int walls = 0;
+		if (isVulnerable)
+			pacman = opposite(game, pacman);
 		if (game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] != 'X')
 			walls++;
 		if (game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] != 'X')
@@ -99,11 +101,12 @@ public abstract class Ghost extends Characters {
 		if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab()[0].length)] != 'X')
 			walls++;
 		if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab()[0].length)] != 'X')
-			walls++;
-		if (directions == null || directions.isEmpty() || 2 < walls)
+			walls++;*/
+		//if (directions == null || directions.isEmpty() || walls <= 1)
 			directions = game.graph.reach(position, pacman, dir);
 		dir = directions.pop();
-		directions.clear();
+		if (radius(game) == null)
+			directions.clear();
 	}
 
 	public char getOld() {
@@ -230,6 +233,20 @@ public abstract class Ghost extends Characters {
 		}
 		return null;
 
+	}
+
+	public Point opposite(Game game, Point p) {
+		System.out.println(p);
+		p.x = Math.floorMod(-p.x, game.getLab().length);
+		p.y = Math.floorMod(-p.y, game.getLab()[0].length);
+		if (game.getLab()[p.x][p.y] == 'X') {
+			while (game.getLab()[p.x][p.y] == 'X') {
+				p.x = Math.floorMod(p.x - 1, game.getLab().length);
+				p.y = Math.floorMod(p.y - 1, game.getLab().length);
+			}
+		}
+		System.out.println(p);
+		return p;
 	}
 
 	/*
