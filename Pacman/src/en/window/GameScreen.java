@@ -22,7 +22,7 @@ import en.master.Game;
 
 public class GameScreen extends JLayeredPane implements KeyListener{
 	Game g;
-	String theme="sw";
+	String theme="zelda";
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
 	JLabel grid;

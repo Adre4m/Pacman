@@ -23,7 +23,7 @@ public class Case extends JPanel{
 		URL url; //url of the image
 		Image img; //image without a resize
 		Image newimg; //image resized
-		theme="sw";
+		theme="zelda";
 		switch(content){
 		
 			case ' ': 
@@ -31,7 +31,6 @@ public class Case extends JPanel{
 				add(label);
 				break;
 			case 'X': 
-				setBackground(Color.BLACK);
 				setLayout(new FlowLayout(FlowLayout.CENTER));
 				label = new JLabel();
 				img = new ImageIcon("sprites/"+theme+"/wall.gif").getImage();
@@ -41,7 +40,6 @@ public class Case extends JPanel{
 				
 				break;
 			case 'g':
-				setBackground(Color.BLACK);
 				setLayout(new FlowLayout(FlowLayout.CENTER));
 				label = new JLabel();
 				img = new ImageIcon("sprites/"+theme+"/PacGum.gif").getImage();
@@ -50,7 +48,6 @@ public class Case extends JPanel{
 				add(label);
 				break;
 			case 'S':
-				setBackground(Color.BLACK);
 				setLayout(new FlowLayout(FlowLayout.CENTER));
 				label = new JLabel();
 				img = new ImageIcon("sprites/"+theme+"/Super pacgum.gif").getImage();
@@ -62,7 +59,6 @@ public class Case extends JPanel{
 				this.label = new JLabel("D");
 				break;
 			case 'P':
-				setBackground(Color.BLACK);
 				setLayout(new FlowLayout(FlowLayout.CENTER));
 				label = new JLabel();
 				img = new ImageIcon("sprites/"+theme+"/PacMan_right.gif").getImage();
@@ -72,7 +68,6 @@ public class Case extends JPanel{
 				add(label);
 				break;
 			case 'G':
-				setBackground(Color.BLACK);
 				setLayout(new FlowLayout(FlowLayout.CENTER));
 				label = new JLabel();
 				img = new ImageIcon("sprites/"+theme+"/Blinky_down.gif").getImage();
@@ -85,7 +80,7 @@ public class Case extends JPanel{
 	
 			}
 		
-		this.setBackground(Color.BLACK);
+		this.setBackground(new Color(150,160,50));
 	}
 	public char getContent(){
 		return this.content;
