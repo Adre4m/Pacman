@@ -80,7 +80,7 @@ public class Stream {
 			// open input stream test.txt for reading purpose.
 			br = new BufferedReader(new FileReader(new File(path)));
 			while ((alt = br.readLine()) != null) {
-				String s = i +"° "+ alt + /*"<br>"*/" ";
+				String s = i +"° "+ alt + " ";
 				String[] split =s.split(" ");
 				NodeScore ns = new NodeScore (split[0], split[1], split[2]);
 				i++;

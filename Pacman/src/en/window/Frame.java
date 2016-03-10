@@ -236,7 +236,9 @@ public class Frame extends JFrame {
 				JPanel title = new JPanel();
 				title.setBackground(Color.BLACK);
 				JLabel l = new JLabel("Choose a Theme");
-				labelStyleB(l);
+				l.setBackground(Color.BLACK);
+				l.setForeground(Color.BLUE);
+				l.setFont(new java.awt.Font("Consolas", 1, 25));
 				title.add(l);
 
 				final ImageIcon classic = new ImageIcon("sprites/classic.png");
@@ -436,17 +438,46 @@ public class Frame extends JFrame {
 		final JPanel h = new JPanel();
 		h.setBackground(Color.BLACK);
 		h.setLayout(new BorderLayout());
+		
+		JPanel score = new JPanel();
+		score.setBackground(Color.BLACK);
 
 		final JLabel title = new JLabel("HighScores :");
 
+		Box n = Box.createVerticalBox();
+		Box p = Box.createVerticalBox();
+		Box sc = Box.createVerticalBox();
 		LinkedList<NodeScore> ns = s.readScore("score.txt");
 		Iterator<NodeScore> it = ns.iterator();
-		NodeScore courant = it.next();
-		while (it.hasNext()) {
-			// ton code;
-			courant = it.next();
+		 while (it.hasNext()) {
+			NodeScore courant = it.next();
+			
+			JLabel num = new JLabel (courant.getNum());
+			labelStyleY(num);
+			num.setAlignmentX(RIGHT_ALIGNMENT);
+			n.add(num);
+			n.add(Box.createRigidArea(new Dimension(0, 35)));
+			
+			JLabel pseudo = new JLabel (courant.getPseudo());
+			labelStyleW(pseudo);
+			p.add(pseudo);
+			p.add(Box.createRigidArea(new Dimension(0, 35)));
+			
+			JLabel sco = new JLabel (courant.getScore());
+			labelStyleW(sco);
+			sco.setAlignmentX(RIGHT_ALIGNMENT);
+			sc.add(sco);
+			sc.add(Box.createRigidArea(new Dimension(0, 35)));
+			
 		}
-
+		Box scoreFinal = Box.createHorizontalBox();
+		scoreFinal.add(n);
+		scoreFinal.add(Box.createRigidArea(new Dimension(100, 0)));
+		scoreFinal.add(p);
+		scoreFinal.add(Box.createRigidArea(new Dimension(250, 0)));
+		scoreFinal.add(sc);
+		score.add(scoreFinal);
+		 
 		final JButton back = new JButton("Back");
 		buttonStyle(back);
 
@@ -465,11 +496,7 @@ public class Frame extends JFrame {
 		JPanel b = new JPanel();
 		b.setBackground(Color.BLACK);
 		b.setLayout(new BorderLayout());
-
-		JPanel score = new JPanel();
-		score.setBackground(Color.BLACK);
-		score.setLayout(new FlowLayout(FlowLayout.CENTER));
-
+		
 		b.add(score);
 		// le bouton fait tout le south layout
 		b.add(back, BorderLayout.SOUTH);
@@ -500,15 +527,16 @@ public class Frame extends JFrame {
 		r.setFont(new java.awt.Font("Consolas", 1, 20));
 	}
 
-	private void labelStyleB(JLabel l) {
-		l.setBackground(Color.BLACK);
-		l.setForeground(Color.BLUE);
-		l.setFont(new java.awt.Font("Consolas", 1, 25));
-	}
 
 	private void labelStyleW(JLabel l) {
 		l.setBackground(Color.BLACK);
 		l.setForeground(Color.WHITE);
+		l.setFont(new java.awt.Font("Consolas", 1, 30));
+	}
+	
+	private void labelStyleY(JLabel l) {
+		l.setBackground(Color.BLACK);
+		l.setForeground(Color.YELLOW);
 		l.setFont(new java.awt.Font("Consolas", 1, 30));
 	}
 
