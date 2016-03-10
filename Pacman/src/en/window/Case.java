@@ -23,7 +23,7 @@ public class Case extends JPanel{
 		URL url; //url of the image
 		Image img; //image without a resize
 		Image newimg; //image resized
-		theme="classic";
+		theme="sw";
 		switch(content){
 		
 			case ' ': 

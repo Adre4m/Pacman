@@ -22,6 +22,7 @@ import en.master.Game;
 
 public class GameScreen extends JLayeredPane implements KeyListener{
 	Game g;
+	String theme="sw";
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
 	JLabel grid;
@@ -87,101 +88,117 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 	
 	public void moveRight(int x, int y){
 		int numCase = x*28+y;
-		if(getCase(numCase+1).getContent()!='X' && getCase(numCase+1).getContent()!='G'){
+		int numNextCase;
+		if(y==27)numNextCase = numCase-27;
+		else numNextCase = numCase+1;
+		
+		if(getCase(numNextCase).getContent()!='X' && getCase(numNextCase).getContent()!='G'){
 			JLabel label = new JLabel();
-			Image img = new ImageIcon("sprites/classic/PacMan_right.gif").getImage();
+			Image img = new ImageIcon("sprites/"+theme+"/PacMan_right.gif").getImage();
 			Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
 			label = new JLabel(new ImageIcon(newimg));
-			JLabel l = getCase(numCase+1).getLabel();
-	
-			getCase(numCase+1).removeAll(); //Enlever le JLabel de la case suivante
-			getCase(numCase+1).add(label); // On y ajoute le nouveau JLabel
-			getCase(numCase+1).setContent('P'); // Et on met à jour les attributs de la case
 			
 			getCase(numCase).removeAll();
 			getCase(numCase).add(new JLabel(" "));
 			getCase(numCase).setContent(' ');
 			
+			getCase(numNextCase).removeAll(); //Enlever le JLabel de la case suivante
+			getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
+			getCase(numNextCase).setContent('P'); // Et on met à jour les attributs de la case
+			
 			getCase(numCase).revalidate();
 			getCase(numCase).repaint();
-			getCase(numCase+1).revalidate();
-			getCase(numCase+1).repaint();
-			pacmanY++;
+			getCase(numNextCase).revalidate();
+			getCase(numNextCase).repaint();
+			if(y!=27)pacmanY++;
+			else pacmanY=0;
 		}
 	}
 	
 	public void moveLeft(int x, int y){
 		int numCase = x*28+y;
-		if(getCase(numCase-1).getContent()!='X' && getCase(numCase-1).getContent()!='G'){
+		int numNextCase;
+		if(y==0)numNextCase = numCase+27;
+		else numNextCase = numCase-1;
+		
+		if(getCase(numNextCase).getContent()!='X' && getCase(numNextCase).getContent()!='G'){
 			JLabel label = new JLabel();
-			Image img = new ImageIcon("sprites/classic/PacMan_left.gif").getImage();
+			Image img = new ImageIcon("sprites/"+theme+"/PacMan_left.gif").getImage();
 			Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
 			label = new JLabel(new ImageIcon(newimg));
-			JLabel l = getCase(numCase+1).getLabel();
 			
 			getCase(numCase).removeAll();
 			getCase(numCase).add(new JLabel(" "));
 			getCase(numCase).setContent(' ');
-		
-			getCase(numCase-1).removeAll();
-			getCase(numCase-1).add(label);
-			getCase(numCase-1).setContent('P');
-		
+			
+			getCase(numNextCase).removeAll();
+			getCase(numNextCase).add(label);
+			getCase(numNextCase).setContent('P');
+			
 			getCase(numCase).revalidate();
 			getCase(numCase).repaint();
-			getCase(numCase-1).revalidate();
-			getCase(numCase-1).repaint();
-			pacmanY--;
+			getCase(numNextCase).revalidate();
+			getCase(numNextCase).repaint();
+			if(y!=0)pacmanY--;
+			else pacmanY=27;
 		}
 	}
 	
 	public void moveUp(int x, int y){
 		int numCase = x*28+y;
-		if(getCase(numCase-28).getContent()!='X' && getCase(numCase-28).getContent()!='G'){
+		int numNextCase;
+		if(x==0)numNextCase = numCase+28*31;
+		else numNextCase = numCase-28;
+		
+		if(getCase(numNextCase).getContent()!='X' && getCase(numNextCase).getContent()!='G'){
 			JLabel label = new JLabel();
-			Image img = new ImageIcon("sprites/classic/PacMan_up.gif").getImage();
+			Image img = new ImageIcon("sprites/"+theme+"/PacMan_up.gif").getImage();
 			Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
 			label = new JLabel(new ImageIcon(newimg));
-			JLabel l = getCase(numCase+1).getLabel();
 			
 			getCase(numCase).removeAll();
 			getCase(numCase).add(new JLabel(" "));
 			getCase(numCase).setContent(' ');
 	
-			getCase(numCase-28).removeAll();
-			getCase(numCase-28).add(label);
-			getCase(numCase-28).setContent('P');
+			getCase(numNextCase).removeAll();
+			getCase(numNextCase).add(label);
+			getCase(numNextCase).setContent('P');
 	
 			getCase(numCase).revalidate();
 			getCase(numCase).repaint();
-			getCase(numCase-28).revalidate();
-			getCase(numCase-28).repaint();
-			pacmanX--;
+			getCase(numNextCase).revalidate();
+			getCase(numNextCase).repaint();
+			if(x!=0)pacmanX--;
+			else pacmanX=31;
 		}
 	}
 	
 	public void moveDown(int x, int y){
 		int numCase = x*28+y;
-		if(getCase(numCase+28).getContent()!='X' && getCase(numCase+28).getContent()!='G'){
+		int numNextCase;
+		if(x==31)numNextCase = numCase-28*31;
+		else numNextCase = numCase+28;
+		
+		if(getCase(numNextCase).getContent()!='X' && getCase(numNextCase).getContent()!='G'){
 			JLabel label = new JLabel();
-			Image img = new ImageIcon("sprites/classic/PacMan_down.gif").getImage();
+			Image img = new ImageIcon("sprites/"+theme+"/PacMan_down.gif").getImage();
 			Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
 			label = new JLabel(new ImageIcon(newimg));
-			JLabel l = getCase(numCase+1).getLabel();
 			
 			getCase(numCase).removeAll();
 			getCase(numCase).add(new JLabel(" "));
 			getCase(numCase).setContent(' ');
 	
-			getCase(numCase+28).removeAll();
-			getCase(numCase+28).add(label);
-			getCase(numCase+28).setContent('P');
+			getCase(numNextCase).removeAll();
+			getCase(numNextCase).add(label);
+			getCase(numNextCase).setContent('P');
 	
 			getCase(numCase).revalidate();
 			getCase(numCase).repaint();
-			getCase(numCase+28).revalidate();
-			getCase(numCase+28).repaint();
-			pacmanX++;
+			getCase(numNextCase).revalidate();
+			getCase(numNextCase).repaint();
+			if(x!=31)pacmanX++;
+			else pacmanX=0;
 		}
 	}
 
@@ -199,6 +216,7 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 		
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
             moveUp(pacmanX,pacmanY);
+            System.out.println("("+pacmanX+","+pacmanY+")");
             
             
         }
