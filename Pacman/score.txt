@@ -6,5 +6,4 @@ Boss 3000
 ME 2500
 Greater_Dog 2000
 Waymond 1500
-Fuck 1000 
 Sans 100

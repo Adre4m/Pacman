@@ -34,12 +34,14 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	int height = (int) (screenSize.getHeight() * 0.95);
+	
 	public Frame() {
 
 		// create frame
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int height = (int) (screenSize.getHeight() * 0.95);
+		//Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		//int height = (int) (screenSize.getHeight() * 0.95);
 		this.setTitle("Pacman");
 		this.setSize((4 * height) / 3, height);
 		this.setResizable(false);
@@ -435,6 +437,8 @@ public class Frame extends JFrame {
 	private void highscore() {
 		Stream s = new Stream();
 
+		int space = (height - 100) /20 ;
+		
 		final JPanel h = new JPanel();
 		h.setBackground(Color.BLACK);
 		h.setLayout(new BorderLayout());
@@ -456,18 +460,18 @@ public class Frame extends JFrame {
 			labelStyleY(num);
 			num.setAlignmentX(RIGHT_ALIGNMENT);
 			n.add(num);
-			n.add(Box.createRigidArea(new Dimension(0, 35)));
+			n.add(Box.createRigidArea(new Dimension(0, space)));
 			
 			JLabel pseudo = new JLabel (courant.getPseudo());
 			labelStyleW(pseudo);
 			p.add(pseudo);
-			p.add(Box.createRigidArea(new Dimension(0, 35)));
+			p.add(Box.createRigidArea(new Dimension(0, space)));
 			
 			JLabel sco = new JLabel (courant.getScore());
 			labelStyleW(sco);
 			sco.setAlignmentX(RIGHT_ALIGNMENT);
 			sc.add(sco);
-			sc.add(Box.createRigidArea(new Dimension(0, 35)));
+			sc.add(Box.createRigidArea(new Dimension(0, space)));
 			
 		}
 		Box scoreFinal = Box.createHorizontalBox();
