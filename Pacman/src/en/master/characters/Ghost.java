@@ -8,22 +8,19 @@ import en.master.Timer;
 
 public abstract class Ghost extends Characters {
 
-	private static final int MAXRADIUS = 8;
+	private static final int MAXRADIUS = 7;
 	protected boolean isVulnerable;
 	protected boolean isFree;
 	protected boolean isReturningToJail;
 	protected long jailed;
 	protected long vulnerable;
 	protected char old;
-	protected String vulnerableSprite;
-	protected String eyeSprite;
+	protected String altSprite;
 	private Stack<Character> directions;
 	protected Point patrolStart;
 
 	public Ghost(String sprite) {
 		super(sprite);
-		vulnerableSprite = "Blue_ghost.gif";
-		eyeSprite = "Ghost_eyes";
 		isVulnerable = false;
 		isReturningToJail = false;
 		jail();
@@ -31,8 +28,6 @@ public abstract class Ghost extends Characters {
 
 	public Ghost(String sprite, int x, int y) {
 		super(sprite, x, y);
-		vulnerableSprite = "Blue_ghost.gif";
-		eyeSprite = "Ghost_eyes";
 		isVulnerable = false;
 		isReturningToJail = false;
 		jail();
@@ -171,24 +166,14 @@ public abstract class Ghost extends Characters {
 	}
 
 	public String getVulnerableSprite() {
-		return vulnerableSprite;
+		return altSprite;
 	}
 
 	public void setVulnerableSprite(String vulnerableSprite) {
-		this.vulnerableSprite = vulnerableSprite;
-	}
-
-	public String getEyeSprite() {
-		return eyeSprite;
-	}
-
-	public void setEyeSprite(String eyeSprite) {
-		this.eyeSprite = eyeSprite;
+		this.altSprite = vulnerableSprite;
 	}
 
 	public void reinit(Game game) {
-		vulnerableSprite = "Blue_ghost.gif";
-		eyeSprite = "Ghost_eyes";
 		isVulnerable = false;
 		isFree = false;
 		isReturningToJail = false;
@@ -264,11 +249,14 @@ public abstract class Ghost extends Characters {
 	public String sprite() {
 		String s = "";
 		if (isReturningToJail)
-			s += eyeSprite;
-		else if (isVulnerable)
-			s += vulnerableSprite;
+			s += "Ghost_eye";
+		else if (isVulnerable && 3 < vulnerable)
+			s += "Blue_ghost";
+		else if (isVulnerable && vulnerable <= 3)
+			s += "Blue_ghost_blinking";
 		else
 			return super.sprite();
+
 		switch (dir) {
 		case 'u':
 			s += "_up";
@@ -283,7 +271,7 @@ public abstract class Ghost extends Characters {
 			s += "_left";
 			break;
 		}
-		return s + ".gif";
+		return s + altSprite + "_.gif";
 	}
 
 }

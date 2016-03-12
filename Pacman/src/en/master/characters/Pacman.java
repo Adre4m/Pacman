@@ -13,7 +13,7 @@ public class Pacman extends Characters {
 		lives = 3;
 		eatenGhosts = 0;
 		invulnerable = 0;
-		invulnerableSprite = "PacMan_invulnerable";
+		invulnerableSprite = "_invu";
 		isInvunerable = false;
 		dir = 'l';
 	}
@@ -23,7 +23,7 @@ public class Pacman extends Characters {
 		lives = 3;
 		eatenGhosts = 0;
 		invulnerable = 0;
-		invulnerableSprite = "PacMan_invulnerable";
+		invulnerableSprite = "_invu";
 		isInvunerable = false;
 	}
 
@@ -89,11 +89,9 @@ public class Pacman extends Characters {
 
 	@Override
 	public String sprite() {
-		String s = "";
-		if (isInvunerable)
-			s += invulnerableSprite;
-		else
+		if (!isInvunerable)
 			return super.sprite();
+		String s = sprite;
 		switch (dir) {
 		case 'u':
 			s += "_up";
@@ -108,7 +106,7 @@ public class Pacman extends Characters {
 			s += "_left";
 			break;
 		}
-		return s + ".gif";
+		return s + invulnerableSprite + ".gif";
 	}
 
 }
