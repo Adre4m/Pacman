@@ -76,9 +76,12 @@ public abstract class Characters {
 	private void makeMove(int x, int y, Game game) {
 		char old = game.getLab()[x][y];
 		game.getLab()[x][y] = toChar();
-		if (this instanceof Ghost && old != 'G' && old != 'V' && old != 'E') {
+		if (this instanceof Ghost) {
 			game.getLab()[position.x][position.y] = ((Ghost) this).getOld();
-			((Ghost) this).setOld(old);
+			if (old != 'G' && old != 'V' && old != 'E')
+				((Ghost) this).setOld(old);
+			else
+				((Ghost) this).setOld(' ');
 		} else {
 			game.getLab()[position.x][position.y] = ' ';
 		}
@@ -216,6 +219,25 @@ public abstract class Characters {
 
 	public String toString() {
 		return position.toString();
+	}
+
+	public String sprite() {
+		String s = sprite;
+		switch (dir) {
+		case 'u':
+			s += "_up";
+			break;
+		case 'd':
+			s += "_down";
+			break;
+		case 'r':
+			s += "_right";
+			break;
+		case 'l':
+			s += "_left";
+			break;
+		}
+		return s + ".gif";
 	}
 
 }

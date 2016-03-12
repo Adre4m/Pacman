@@ -260,4 +260,30 @@ public abstract class Ghost extends Characters {
 		this.patrolStart = patrolStart;
 	}
 
+	@Override
+	public String sprite() {
+		String s = "";
+		if (isReturningToJail)
+			s += eyeSprite;
+		else if (isVulnerable)
+			s += vulnerableSprite;
+		else
+			return super.sprite();
+		switch (dir) {
+		case 'u':
+			s += "_up";
+			break;
+		case 'd':
+			s += "_down";
+			break;
+		case 'r':
+			s += "_right";
+			break;
+		case 'l':
+			s += "_left";
+			break;
+		}
+		return s + ".gif";
+	}
+
 }
