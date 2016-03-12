@@ -10,10 +10,4 @@ public class Pinky extends Ghost {
 		super("Pinky", x, y);
 	}
 
-	@Override
-	public void patrol() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

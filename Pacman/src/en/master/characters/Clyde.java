@@ -10,10 +10,4 @@ public class Clyde extends Ghost {
 		super("Clyde", x, y);
 	}
 
-	@Override
-	public void patrol() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

@@ -155,8 +155,11 @@ public abstract class Characters {
 			if (!g.isReturningToJail() && !g.isVulnerable()) {
 				((Pacman) game.characters[0]).death();
 				game.setRestartNeed(true);
-			} else
+			} else {
 				game.getLab()[x][y] = 'P';
+				game.setScore(game.getScore() + (200 * (int) Math.pow(2, ((Pacman) game.characters[0]).eatGhost())));
+				g.setReturningToJail(true);
+			}
 			g.setOld(' ');
 		} else {
 			game.getLab()[x][y] = toChar();

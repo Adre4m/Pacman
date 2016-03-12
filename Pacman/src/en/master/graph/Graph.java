@@ -64,7 +64,7 @@ public class Graph {
 		Map<Node, Integer> cost = new HashMap<Node, Integer>();
 		cost.put(start, 0);
 		Map<Node, Integer> heuristic = new HashMap<Node, Integer>();
-		heuristic.put(start, start.heuristic(goal));
+		heuristic.put(start, start.heuristic(0, goal));
 		LinkedList<Node> closedSet = new LinkedList<Node>();
 		PriorityQueue<Node> openSet = new PriorityQueue<Node>();
 		Map<Node, Node> cameFrom = new HashMap<Node, Node>();
@@ -89,7 +89,7 @@ public class Graph {
 							continue;
 						cameFrom.put(neighbour, current);
 						cost.put(neighbour, cost.get(current) + adj[index][i]);
-						heuristic.put(neighbour, cost.get(neighbour) + neighbour.manhattan(goal.getPosition()));
+						heuristic.put(neighbour, neighbour.heuristic(cost.get(neighbour), goal));
 						neighbour.setDir(findDir(current, neighbour));
 						cameFrom.put(neighbour, current);
 					}

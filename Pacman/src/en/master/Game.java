@@ -80,20 +80,24 @@ public class Game {
 				switch (grid.charAt(index)) {
 				case '1':
 					characters[1] = new Blinky(i, j);
+					((Ghost) characters[1]).setPatrolStart(new Point(1, lab[0].length - 2));
 					lab[i][j] = 'G';
 					break;
 				case '2':
 					characters[2] = new Clyde(i, j);
+					((Ghost) characters[2]).setPatrolStart(new Point(lab.length - 2, 1));
 					lab[i][j] = 'G';
 					jailWalls.add(new Point(i, j));
 					break;
 				case '3':
 					characters[3] = new Inky(i, j);
+					((Ghost) characters[3]).setPatrolStart(new Point(lab.length - 2, lab[0].length - 2));
 					lab[i][j] = 'G';
 					jailWalls.add(new Point(i, j));
 					break;
 				case '4':
 					characters[4] = new Pinky(i, j);
+					((Ghost) characters[4]).setPatrolStart(new Point(1, 1));
 					lab[i][j] = 'G';
 					break;
 				case 'D':

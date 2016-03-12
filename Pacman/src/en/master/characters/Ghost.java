@@ -8,7 +8,7 @@ import en.master.Timer;
 
 public abstract class Ghost extends Characters {
 
-	private static final int RADIUS = 8;
+	private static final int MAXRADIUS = 8;
 	protected boolean isVulnerable;
 	protected boolean isFree;
 	protected boolean isReturningToJail;
@@ -18,6 +18,7 @@ public abstract class Ghost extends Characters {
 	protected String vulnerableSprite;
 	protected String eyeSprite;
 	private Stack<Character> directions;
+	protected Point patrolStart;
 
 	public Ghost(String sprite) {
 		super(sprite);
@@ -59,10 +60,6 @@ public abstract class Ghost extends Characters {
 		this.isReturningToJail = isReturningToJail;
 	}
 
-	// TODO IA
-	// trois fonctions de l'ia, la fonction dans le cas ou le fantome est mangé
-	// et ou il chasse sont communes
-
 	public void ia(Game game) {
 		if (isFree) {
 			Point pacman;
@@ -71,7 +68,7 @@ public abstract class Ghost extends Characters {
 			} else if ((pacman = radius(game)) != null) {
 				chased(pacman, game);
 			} else {
-				patrol();
+				patrol(game);
 			}
 			move(game);
 		}
@@ -88,25 +85,38 @@ public abstract class Ghost extends Characters {
 			isReturningToJail = false;
 	}
 
-	protected abstract void patrol();
+	private void patrol(Game game) {
+		if (position.x == patrolStart.x && position.y == patrolStart.y) {
+			directions.clear();
+			switch (dir) {
+			case 'u':
+			case 'd':
+				if (position.y == 1)
+					dir = 'r';
+				else
+					dir = 'l';
+				break;
+			case 'r':
+			case 'l':
+				if (position.x == 1)
+					dir = 'd';
+				else
+					dir = 'u';
+				break;
+			}
+		} else {
+			if (directions == null || directions.isEmpty())
+				directions = game.graph.reach(position, patrolStart, dir);
+			dir = directions.pop();
+		}
+	}
 
 	private void chased(Point pacman, Game game) {
-		/*int walls = 0;
 		if (isVulnerable)
-			pacman = opposite(game, pacman);
-		if (game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] != 'X')
-			walls++;
-		if (game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] != 'X')
-			walls++;
-		if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab()[0].length)] != 'X')
-			walls++;
-		if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab()[0].length)] != 'X')
-			walls++;*/
-		//if (directions == null || directions.isEmpty() || walls <= 1)
-			directions = game.graph.reach(position, pacman, dir);
+			opposite(game, pacman);
+		directions = game.graph.reach(position, pacman, dir);
 		dir = directions.pop();
-		if (radius(game) == null)
-			directions.clear();
+		directions.clear();
 	}
 
 	public char getOld() {
@@ -189,7 +199,7 @@ public abstract class Ghost extends Characters {
 	// D'apres l'algorithme de tracé de cercle d'Andres
 	// https://fr.wikipedia.org/wiki/Algorithme_de_trac%C3%A9_de_cercle_d%27Andres
 	public Point radius(Game game) {
-		for (int r = 1; r <= RADIUS; ++r) {
+		for (int r = 1; r <= MAXRADIUS; ++r) {
 			int x = 0;
 			int y = r;
 			int d = r - 1;
@@ -235,8 +245,7 @@ public abstract class Ghost extends Characters {
 
 	}
 
-	public Point opposite(Game game, Point p) {
-		System.out.println(p);
+	public void opposite(Game game, Point p) {
 		p.x = Math.floorMod(-p.x, game.getLab().length);
 		p.y = Math.floorMod(-p.y, game.getLab()[0].length);
 		if (game.getLab()[p.x][p.y] == 'X') {
@@ -245,16 +254,10 @@ public abstract class Ghost extends Characters {
 				p.y = Math.floorMod(p.y - 1, game.getLab().length);
 			}
 		}
-		System.out.println(p);
-		return p;
 	}
 
-	/*
-	 * public boolean noReturn(Point goal) { if (goal.equals(position)) return
-	 * true; else switch (dir) { case 'u': return goal.x == (position.x + 1);
-	 * case 'd': return goal.x == (position.x - 1); case 'l': return goal.y ==
-	 * (position.y + 1); case 'r': return goal.y == (position.y - 1); default:
-	 * return false; } }
-	 */
+	public void setPatrolStart(Point patrolStart) {
+		this.patrolStart = patrolStart;
+	}
 
 }

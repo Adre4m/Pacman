@@ -11,11 +11,6 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 
 	public Node(Point position) {
 		this.position = position;
-		heuristic = Integer.MAX_VALUE;
-	}
-
-	public void setMax() {
-		heuristic = Integer.MAX_VALUE;
 	}
 
 	@Override
@@ -61,8 +56,8 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return position.toString();
 	}
 
-	public int heuristic(Node goal) {
-		return manhattan(goal.position);
+	public int heuristic(int cost, Node goal) {
+		return cost + manhattan(goal.position);
 	}
 
 	public char getDir() {

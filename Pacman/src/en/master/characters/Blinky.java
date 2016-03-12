@@ -22,10 +22,4 @@ public class Blinky extends Ghost {
 		isFree = true;
 	}
 
-	@Override
-	public void patrol() {
-		// TODO Auto-generated method stub
-
-	}
-
 }
