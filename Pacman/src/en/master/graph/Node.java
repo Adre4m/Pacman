@@ -24,11 +24,11 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	@Override
 	public int compare(Node arg0, Node arg1) {
 		if (arg0.heuristic < arg1.heuristic)
-			return 1;
+			return -1;
 		else if (arg0.heuristic == arg1.heuristic)
 			return 0;
 		else
-			return -1;
+			return 1;
 	}
 
 	@Override
@@ -36,20 +36,12 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return compare(this, other);
 	}
 
-	public int getHeuristic() {
-		return heuristic;
-	}
-
-	public void setHeuristic(int heuristic) {
-		this.heuristic = heuristic;
-	}
-
 	public Point getPosition() {
 		return position;
 	}
 
 	public int manhattan(Point goal) {
-		return Math.abs(position.x - goal.x) + Math.abs(position.y + goal.y);
+		return Math.abs(position.x - goal.x) + Math.abs(position.y - goal.y);
 	}
 
 	public String toString() {
@@ -57,7 +49,8 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 	}
 
 	public int heuristic(int cost, Node goal) {
-		return cost + manhattan(goal.position);
+		heuristic = cost + manhattan(goal.position);
+		return heuristic;
 	}
 
 	public char getDir() {
