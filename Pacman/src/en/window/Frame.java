@@ -36,12 +36,12 @@ public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
-	
+
 	public Frame() {
 
 		// create frame
-		//Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		//int height = (int) (screenSize.getHeight() * 0.95);
+		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		// int height = (int) (screenSize.getHeight() * 0.95);
 		this.setTitle("Pacman");
 		this.setSize((4 * height) / 3, height);
 		this.setResizable(false);
@@ -377,7 +377,7 @@ public class Frame extends JFrame {
 
 		// option final
 		final Box option = Box.createVerticalBox();
-		option.add(Box.createRigidArea(new Dimension(0, 100)));
+		option.add(Box.createRigidArea(new Dimension(0, height / 10)));
 		theme.setAlignmentX(CENTER_ALIGNMENT);
 		option.add(theme);
 		option.add(Box.createRigidArea(new Dimension(0, 50)));
@@ -437,12 +437,16 @@ public class Frame extends JFrame {
 	private void highscore() {
 		Stream s = new Stream();
 
-		int space = (height - 100) /20 ;
-		
+		//System.out.println(height);
+
+		int space = (height - 520) / 9;
+
+		//System.out.println(space);
+
 		final JPanel h = new JPanel();
 		h.setBackground(Color.BLACK);
 		h.setLayout(new BorderLayout());
-		
+
 		JPanel score = new JPanel();
 		score.setBackground(Color.BLACK);
 
@@ -452,36 +456,43 @@ public class Frame extends JFrame {
 		Box p = Box.createVerticalBox();
 		Box sc = Box.createVerticalBox();
 		LinkedList<NodeScore> ns = s.readScore("score.txt");
-		Iterator<NodeScore> it = ns.iterator();
-		 while (it.hasNext()) {
-			NodeScore courant = it.next();
+		if (ns.isEmpty()) {
+			JLabel no_s = new JLabel ("No highscore yet");
+			labelStyleW(no_s);
+			score.add(no_s);
 			
-			JLabel num = new JLabel (courant.getNum());
-			labelStyleY(num);
-			num.setAlignmentX(RIGHT_ALIGNMENT);
-			n.add(num);
-			n.add(Box.createRigidArea(new Dimension(0, space)));
-			
-			JLabel pseudo = new JLabel (courant.getPseudo());
-			labelStyleW(pseudo);
-			p.add(pseudo);
-			p.add(Box.createRigidArea(new Dimension(0, space)));
-			
-			JLabel sco = new JLabel (courant.getScore());
-			labelStyleW(sco);
-			sco.setAlignmentX(RIGHT_ALIGNMENT);
-			sc.add(sco);
-			sc.add(Box.createRigidArea(new Dimension(0, space)));
-			
+		} else {
+			Iterator<NodeScore> it = ns.iterator();
+			while (it.hasNext()) {
+				NodeScore courant = it.next();
+
+				JLabel num = new JLabel(courant.getNum());
+				labelStyleY(num);
+				num.setAlignmentX(RIGHT_ALIGNMENT);
+				n.add(num);
+				n.add(Box.createRigidArea(new Dimension(0, space)));
+
+				JLabel pseudo = new JLabel(courant.getPseudo());
+				labelStyleW(pseudo);
+				p.add(pseudo);
+				p.add(Box.createRigidArea(new Dimension(0, space)));
+
+				JLabel sco = new JLabel(courant.getScore());
+				labelStyleW(sco);
+				sco.setAlignmentX(RIGHT_ALIGNMENT);
+				sc.add(sco);
+				sc.add(Box.createRigidArea(new Dimension(0, space)));
+
+			}
+			Box scoreFinal = Box.createHorizontalBox();
+			scoreFinal.add(n);
+			scoreFinal.add(Box.createRigidArea(new Dimension(100, 0)));
+			scoreFinal.add(p);
+			scoreFinal.add(Box.createRigidArea(new Dimension(250, 0)));
+			scoreFinal.add(sc);
+			score.add(scoreFinal);
 		}
-		Box scoreFinal = Box.createHorizontalBox();
-		scoreFinal.add(n);
-		scoreFinal.add(Box.createRigidArea(new Dimension(100, 0)));
-		scoreFinal.add(p);
-		scoreFinal.add(Box.createRigidArea(new Dimension(250, 0)));
-		scoreFinal.add(sc);
-		score.add(scoreFinal);
-		 
+
 		final JButton back = new JButton("Back");
 		buttonStyle(back);
 
@@ -500,7 +511,7 @@ public class Frame extends JFrame {
 		JPanel b = new JPanel();
 		b.setBackground(Color.BLACK);
 		b.setLayout(new BorderLayout());
-		
+
 		b.add(score);
 		// le bouton fait tout le south layout
 		b.add(back, BorderLayout.SOUTH);
@@ -531,13 +542,12 @@ public class Frame extends JFrame {
 		r.setFont(new java.awt.Font("Consolas", 1, 20));
 	}
 
-
 	private void labelStyleW(JLabel l) {
 		l.setBackground(Color.BLACK);
 		l.setForeground(Color.WHITE);
 		l.setFont(new java.awt.Font("Consolas", 1, 30));
 	}
-	
+
 	private void labelStyleY(JLabel l) {
 		l.setBackground(Color.BLACK);
 		l.setForeground(Color.YELLOW);
