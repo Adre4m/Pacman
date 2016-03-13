@@ -18,8 +18,11 @@ public class Case extends JPanel{
 	char content; //type of image
 	JLabel label; //contains the image
 	String theme;
-	public Case(char content){
+	int number;
+	public Case(char content, int number){
 		this.content=content;
+		this.number=number;
+		
 		URL url; //url of the image
 		Image img; //image without a resize
 		Image newimg; //image resized
@@ -85,7 +88,9 @@ public class Case extends JPanel{
 	public char getContent(){
 		return this.content;
 	}
-	
+	public int getNumber(){
+		return this.number;
+	}
 	public void setContent(char c){
 		this.content=c;
 	}

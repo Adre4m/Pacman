@@ -8,6 +8,8 @@ import java.awt.Label;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,15 +22,16 @@ import javax.swing.JPanel;
 
 import en.master.Game;
 
-public class GameScreen extends JLayeredPane implements KeyListener{
+public class GameScreen extends JLayeredPane implements KeyListener, MouseListener{
 	Game g;
 	String theme="zelda";
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
 	JLabel grid;
 	JLabel piclabel;
-	int pacmanX=19;
-	int pacmanY=14;
+	int pacmanX=14;
+	int pacmanY=19;
+	
 	
 	public GameScreen(){
 		
@@ -65,11 +68,14 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 	    grid.setLayout(new GridLayout(32,28));
 	    Label l;
 		String s = "";
+		int number=0; //case's numbers
 		for (int i = 0; i < g.getLab().length; ++i) {
 			for (int j = 0; j < g.getLab()[0].length; ++j) {
 				s += g.getLab()[i][j];
-				Case c = new Case(s.charAt(0));
+				Case c = new Case(s.charAt(0),number);
+				c.addMouseListener(this);
 				grid.add(c);
+				number++;
 				s = "";
 			}
 		}
@@ -86,8 +92,9 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 		
 	}
 	
+	//movements
 	public void moveRight(int x, int y){
-		int numCase = x*28+y;
+		int numCase = y*28+x; //number of its case
 		int numNextCase;
 		if(y==27)numNextCase = numCase-27;
 		else numNextCase = numCase+1;
@@ -110,13 +117,13 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 			getCase(numCase).repaint();
 			getCase(numNextCase).revalidate();
 			getCase(numNextCase).repaint();
-			if(y!=27)pacmanY++;
-			else pacmanY=0;
+			if(y!=27)pacmanX++;
+			else pacmanX=0;
 		}
 	}
 	
 	public void moveLeft(int x, int y){
-		int numCase = x*28+y;
+		int numCase = y*28+x; //number of its case
 		int numNextCase;
 		if(y==0)numNextCase = numCase+27;
 		else numNextCase = numCase-1;
@@ -139,13 +146,13 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 			getCase(numCase).repaint();
 			getCase(numNextCase).revalidate();
 			getCase(numNextCase).repaint();
-			if(y!=0)pacmanY--;
-			else pacmanY=27;
+			if(y!=0)pacmanX--;
+			else pacmanX=27;
 		}
 	}
 	
 	public void moveUp(int x, int y){
-		int numCase = x*28+y;
+		int numCase = y*28+x; //number of its case
 		int numNextCase;
 		if(x==0)numNextCase = numCase+28*31;
 		else numNextCase = numCase-28;
@@ -168,13 +175,13 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 			getCase(numCase).repaint();
 			getCase(numNextCase).revalidate();
 			getCase(numNextCase).repaint();
-			if(x!=0)pacmanX--;
-			else pacmanX=31;
+			if(x!=0)pacmanY--;
+			else pacmanY=31;
 		}
 	}
 	
 	public void moveDown(int x, int y){
-		int numCase = x*28+y;
+		int numCase = y*28+x; //number of its case
 		int numNextCase;
 		if(x==31)numNextCase = numCase-28*31;
 		else numNextCase = numCase+28;
@@ -197,11 +204,12 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 			getCase(numCase).repaint();
 			getCase(numNextCase).revalidate();
 			getCase(numNextCase).repaint();
-			if(x!=31)pacmanX++;
-			else pacmanX=0;
+			if(x!=31)pacmanY++;
+			else pacmanY=0;
 		}
 	}
 
+	//############# Keylisteners ###############
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -234,6 +242,61 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	//################# MouseListener ##################
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		Case c = (Case) e.getSource();
+		int position = c.getNumber(); // to see where we have clicked
+		int pacmanPos = pacmanY * 28 + pacmanX;
+		int posX = position % 28;
+		int posY = (position - posX)/28;
+		System.out.println(posX+" "+posY);
+		if(Math.abs(posX-pacmanX)>=Math.abs(posY-pacmanY)){
+			System.out.println("horizontal "+Math.abs(posX-pacmanX));
+			if(posX>pacmanX)
+				moveRight(pacmanX,pacmanY);
+			
+			else if(pacmanX>posX)
+				moveLeft(pacmanX,pacmanY);
+			
+			
+		}
+		else if(Math.abs(posY-pacmanY)>Math.abs(posX-pacmanX)){
+			System.out.println("vertical "+Math.abs(posY-pacmanY));
+			if(posY>pacmanY)
+				moveDown(pacmanX,pacmanY);
+			
+			else if(pacmanY>posY)
+				moveUp(pacmanX,pacmanY);
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
