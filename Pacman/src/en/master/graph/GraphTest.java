@@ -19,7 +19,7 @@ public class GraphTest {
 
 	@Before
 	public void setUp() throws Exception {
-		game.initTest("labyrinths/test2.txt");
+		game.init("labyrinths/test2.txt");
 		g = new Graph(game.getLab());
 	}
 

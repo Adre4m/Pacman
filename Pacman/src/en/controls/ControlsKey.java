@@ -92,7 +92,7 @@ public class ControlsKey implements KeyListener {
 
 	public static void main(String[] args) {
 		final Game test = new Game();
-		test.initTest("labyrinths/test2.txt");
+		test.init("labyrinths/test2.txt");
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				new ControlsKey(test);

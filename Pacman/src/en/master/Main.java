@@ -10,7 +10,7 @@ public class Main {
 			// Menu de f etc, jusqu'à l'initialisation du jeu
 			// while (!f.gameStarted())
 			final Game game = new Game();
-			game.init();
+			game.init("");
 			// Selon le choix utilisateur
 			// si clavier
 			// ici ce serai style f.getControlsChoice()

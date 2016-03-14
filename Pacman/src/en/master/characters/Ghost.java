@@ -174,17 +174,17 @@ public abstract class Ghost extends Characters {
 	}
 
 	public void reinit(Game game) {
+		super.reinit(game);
 		isVulnerable = false;
 		isFree = false;
 		isReturningToJail = false;
 		jailed = Timer.PRISON;
-		super.reinit(game);
 	}
 
 	// D'apres l'algorithme de tracé de cercle d'Andres
 	// https://fr.wikipedia.org/wiki/Algorithme_de_trac%C3%A9_de_cercle_d%27Andres
 	public Point radius(Game game) {
-		for (int r = 1; r <= MAXRADIUS; ++r) {
+		for (int r = 1; r <= (MAXRADIUS + (game.level * game.difficulty)); ++r) {
 			int x = 0;
 			int y = r;
 			int d = r - 1;

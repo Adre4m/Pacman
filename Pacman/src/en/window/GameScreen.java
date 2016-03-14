@@ -60,7 +60,7 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 	    //##########Grid###########
 	    // enlever l'initialisation du jeu dès que possible
 		g = new Game(); // load labyrinth
-		g.initTest("labyrinths/labyrinth2.txt");
+		g.init("labyrinths/labyrinth2.txt");
 		grid = new JLabel(/*after*/);
 		grid.setBackground(Color.BLACK);
 	    grid.setBounds(2*height/10, -height/32, 4 * height /3 - 4*height/10, height);
