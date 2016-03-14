@@ -71,7 +71,7 @@ public class Stream {
 		return s;
 	}
 
-	public LinkedList readScore(String path) {
+	public LinkedList<NodeScore> readScore(String path) {
 		BufferedReader br;
 		LinkedList<NodeScore> score = new LinkedList<NodeScore>(); 
 		int i = 1;

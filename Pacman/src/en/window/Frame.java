@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import en.master.Stream;
@@ -36,6 +37,7 @@ public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
+	Stream s = new Stream();
 
 	public Frame() {
 
@@ -110,7 +112,8 @@ public class Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				button.setVisible(false);
 				l.setVisible(false);
-				highscore();
+				//highscore();
+				addScore();
 			}
 		});
 
@@ -435,7 +438,7 @@ public class Frame extends JFrame {
 	}
 
 	private void highscore() {
-		Stream s = new Stream();
+
 
 		//System.out.println(height);
 
@@ -522,6 +525,41 @@ public class Frame extends JFrame {
 
 	}
 
+	public void addScore(/*int score, int place, LinkedList<NodeScore> ls*/) {
+		//cree pop up
+		//add(index, elem)
+		//verifier que la liste fait bien 10 elem  si size > 10
+		// removeLast()
+		//appel au stream
+		Box sco = Box.createVerticalBox();
+		
+		JLabel n = new JLabel ("Enter your name : ");
+		n.setBackground(Color.BLACK);
+		n.setForeground(Color.WHITE);
+		n.setFont(new java.awt.Font("Consolas", 0, 20));
+		
+		JLabel ns = new JLabel ("(No space)");
+		ns.setBackground(Color.BLACK);
+		ns.setForeground(Color.WHITE);
+		ns.setFont(new java.awt.Font("Consolas", 0, 20));
+		
+		JTextField name = new JTextField();
+		
+		n.setAlignmentX(CENTER_ALIGNMENT);
+		sco.add(n);
+		ns.setAlignmentX(CENTER_ALIGNMENT);
+		sco.add(ns);
+		sco.add(Box.createRigidArea(new Dimension (00, 10)));
+		sco.add(name);
+		
+		UIManager.put("OptionPane.background", Color.BLACK);
+		UIManager.put("Panel.background", Color.BLACK);
+
+		JOptionPane
+		.showMessageDialog(null, sco, "You have a highscore !", JOptionPane.PLAIN_MESSAGE);
+	}
+	
+	
 	private void buttonStyle(JButton b) {
 		b.setBackground(Color.BLACK);
 		b.setForeground(Color.BLUE);
