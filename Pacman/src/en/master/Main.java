@@ -27,7 +27,7 @@ public class Main {
 			 * f.game.addMouseListener(new ControlsMouse(game) ); } });
 			 */
 			// va jouer tant que le joueur n'a pas gagné ou n'est pas mort
-			game.play(f);
+			game.play(null);
 			// une fois fini afficher un choix : rejouer ou retour menu
 			// revenir au menu et dans ce cas attendre les dirrectives du joueur
 			// si le joueur choisi de rejouer laisse f.gameStarted a true sinon

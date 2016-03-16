@@ -12,11 +12,15 @@ import en.master.characters.Inky;
 import en.master.characters.Pacman;
 import en.master.characters.Pinky;
 import en.master.graph.Graph;
-import en.window.Frame;
+import en.window.GameScreen;
 
+/**
+ * 
+ * @author BOURGEOIS Adrien
+ *
+ */
 public class Game {
 
-	// TODO gérer l'apparition de fruit
 	private char[][] lab;
 	private short[][] gums;
 	private int score;
@@ -31,7 +35,6 @@ public class Game {
 	public short difficulty = 0;
 	public boolean ateFruit = true;
 	short secFruit = Timer.FRUIT;
-
 	public Game() {
 		lab = new char[32][28];
 		gums = new short[32][28];
@@ -59,6 +62,14 @@ public class Game {
 		this.lab = lab;
 	}
 
+	/**
+	 * 
+	 * @param file File to be read <br>
+	 * 
+	 * This method call the initiation of Stream with file. All characters are generated with their 
+	 * own places. The walls of the prison, where a ghost shall return to when eaten, are based on 
+	 * the locations of the Ghost n°2 and n°3.
+	 */
 	public void init(String file) {
 		Stream stm = new Stream(); // Initiate the stream to read file
 		String grid = stm.initiateLab(file);
@@ -176,7 +187,7 @@ public class Game {
 		return numGum <= 0;
 	}
 
-	public void play(Frame f) {
+	public void play(GameScreen g) {
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
 		int mvgpf = (Timer.FPS / Timer.GMVPS) + (level * difficulty);
 		int mvvps = (Timer.FPS / Timer.VMVPS) + (level * difficulty);
@@ -195,18 +206,28 @@ public class Game {
 						long begin = System.nanoTime();
 						for (int i = 1; i < characters.length; ++i) {
 							Ghost current = (Ghost) characters[i];
+							// Point p = current.getPosition();
 							if (current.isVulnerable() && ((cpt / mv[i]) >= mvvps)) {
 								mv[i]++;
 								current.ia(this);
+								// g.move(p.y, p.x, current.getDir(),
+								// lab[p.x][p.y]);
 							} else if (!current.isVulnerable() && (cpt / mv[i]) >= mvgpf) {
 								mv[i]++;
 								current.ia(this);
+								// g.move(p.y, p.x, current.getDir(),
+								// lab[p.x][p.y]);
+							} else {
+								break;
 							}
 						}
 
 						if ((cpt / (mv[0])) >= (Timer.FPS / Timer.PMVPS)) {
+							// Point p = characters[0].getPosition();
 							mv[0]++;
 							characters[0].move(this);
+							// g.move(p.y, p.x, characters[0].getDir(),
+							// lab[p.x][p.y]);
 						}
 						if (restartNeed) {
 							restart();

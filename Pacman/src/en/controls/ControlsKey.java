@@ -11,6 +11,11 @@ import javax.swing.JTextField;
 
 import en.master.Game;
 
+/**
+ * 
+ * @author BOURGEOIS Adrien
+ *
+ */
 public class ControlsKey implements KeyListener {
 
 	// static final String newline = System.getProperty("line.separator");

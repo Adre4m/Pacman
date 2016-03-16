@@ -9,8 +9,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 import en.window.NodeScore;
 
@@ -58,8 +60,7 @@ public class Stream {
 
 		if (firstLaunch) {
 			try {
-				BufferedWriter writer = new BufferedWriter(new FileWriter(
-						new File("options/config.opt")));
+				BufferedWriter writer = new BufferedWriter(new FileWriter(new File("options/config.opt")));
 				// if the file doesn't exist, it is created in the root of the
 				// project
 				writer.write(s); // copy default in config
@@ -119,8 +120,7 @@ public class Stream {
 			Iterator<NodeScore> it = ls.iterator();
 			while (it.hasNext()) {
 				NodeScore courant = it.next();
-				bw.write(courant.getPseudo() + " " + courant.getScore()
-						+ System.getProperty("line.separator"));
+				bw.write(courant.getPseudo() + " " + courant.getScore() + System.getProperty("line.separator"));
 			}
 			bw.close();
 		} catch (FileNotFoundException e) {
@@ -168,5 +168,124 @@ public class Stream {
 				}
 		}
 		return s;
+	}
+
+	public int[] readOptions() {
+		File f = new File("config.ini");
+		if (!f.exists())
+			f = new File("default.ini");
+		int[] options = new int[4];
+		try {
+			Scanner in = new Scanner(f);
+			while (in.hasNextLine()) {
+				String s = in.nextLine();
+				switch (s) {
+				case "Classic":
+					options[0] = 0;
+					break;
+				case "Star Wars":
+					options[0] = 1;
+					break;
+				case "Big Hero 6":
+					options[0] = 2;
+					break;
+				case "Zelda":
+					options[0] = 3;
+					break;
+				case "Keyboard":
+					options[1] = 0;
+					break;
+				case "Mouse":
+					options[1] = 1;
+					break;
+				case "Easy":
+					options[2] = 0;
+					break;
+				case "Normal":
+					options[2] = 1;
+					break;
+				case "On":
+					options[3] = 0;
+					break;
+				case "Off":
+					options[3] = 1;
+					break;
+				}
+			}
+			in.close();
+		} catch (FileNotFoundException fnfe) {
+			fnfe.printStackTrace();
+		}
+		return options;
+	}
+
+	public void writeOptions(int[] options) {
+		File f = new File("config.ini");
+		if (!f.exists())
+			try {
+				f.createNewFile();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+		try {
+			PrintStream ps = new PrintStream(f);
+			if (options.length == 4) {
+				switch (options[0]) {
+				case 0:
+				default:
+					ps.println("Classic");
+					break;
+				case 1:
+					ps.println("Star Wars");
+					break;
+				case 2:
+					ps.println("Big Hero 6");
+					break;
+				case 3:
+					ps.println("Zelda");
+					break;
+				}
+
+				switch (options[1]) {
+				case 0:
+				default:
+					ps.println("Keyboard");
+					break;
+				case 1:
+					ps.println("Mouse");
+					break;
+				}
+
+				switch (options[2]) {
+				case 0:
+					ps.println("Easy");
+					break;
+				case 1:
+				default:
+					ps.println("Normal");
+					break;
+				case 2:
+					ps.println("Hard");
+					break;
+				}
+
+				switch (options[3]) {
+				case 0:
+				default:
+					ps.println("On");
+					break;
+				case 1:
+					ps.println("Off");
+				}
+			} else {
+				ps.println("Classic");
+				ps.println("Keyboard");
+				ps.println("Normal");
+				ps.println("On");
+			}
+			ps.close();
+		} catch (FileNotFoundException fnfe) {
+			fnfe.printStackTrace();
+		}
 	}
 }
