@@ -96,7 +96,7 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 	public void moveRight(int x, int y){
 		int numCase = y*28+x; //number of its case
 		int numNextCase;
-		if(y==27)numNextCase = numCase-27;
+		if(x==27)numNextCase = numCase-27;
 		else numNextCase = numCase+1;
 		
 		if(getCase(numNextCase).getContent()!='X' && getCase(numNextCase).getContent()!='G'){
@@ -117,7 +117,7 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 			getCase(numCase).repaint();
 			getCase(numNextCase).revalidate();
 			getCase(numNextCase).repaint();
-			if(y!=27)pacmanX++;
+			if(x!=27)pacmanX++;
 			else pacmanX=0;
 		}
 	}
@@ -125,7 +125,7 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 	public void moveLeft(int x, int y){
 		int numCase = y*28+x; //number of its case
 		int numNextCase;
-		if(y==0)numNextCase = numCase+27;
+		if(x==0)numNextCase = numCase+27;
 		else numNextCase = numCase-1;
 		
 		if(getCase(numNextCase).getContent()!='X' && getCase(numNextCase).getContent()!='G'){
@@ -146,7 +146,7 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 			getCase(numCase).repaint();
 			getCase(numNextCase).revalidate();
 			getCase(numNextCase).repaint();
-			if(y!=0)pacmanX--;
+			if(x!=0)pacmanX--;
 			else pacmanX=27;
 		}
 	}
@@ -154,7 +154,7 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 	public void moveUp(int x, int y){
 		int numCase = y*28+x; //number of its case
 		int numNextCase;
-		if(x==0)numNextCase = numCase+28*31;
+		if(y==0)numNextCase = numCase+28*31;
 		else numNextCase = numCase-28;
 		
 		if(getCase(numNextCase).getContent()!='X' && getCase(numNextCase).getContent()!='G'){
@@ -175,7 +175,7 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 			getCase(numCase).repaint();
 			getCase(numNextCase).revalidate();
 			getCase(numNextCase).repaint();
-			if(x!=0)pacmanY--;
+			if(y!=0)pacmanY--;
 			else pacmanY=31;
 		}
 	}
@@ -183,7 +183,7 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 	public void moveDown(int x, int y){
 		int numCase = y*28+x; //number of its case
 		int numNextCase;
-		if(x==31)numNextCase = numCase-28*31;
+		if(y==31)numNextCase = numCase-28*31;
 		else numNextCase = numCase+28;
 		
 		if(getCase(numNextCase).getContent()!='X' && getCase(numNextCase).getContent()!='G'){
@@ -204,7 +204,7 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 			getCase(numCase).repaint();
 			getCase(numNextCase).revalidate();
 			getCase(numNextCase).repaint();
-			if(x!=31)pacmanY++;
+			if(y!=31)pacmanY++;
 			else pacmanY=0;
 		}
 	}
