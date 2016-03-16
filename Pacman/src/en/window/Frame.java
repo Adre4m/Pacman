@@ -30,15 +30,22 @@ import javax.swing.UIManager;
 
 import en.master.Stream;
 
+/**
+ * 
+ * @author GRIGNON Lindsay
+ *
+ */
 public class Frame extends JFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
 	Stream s = new Stream();
 
+	/**
+	 * @author GRIGON Lindsay
+	 * 
+	 *         This is the Frame constructor
+	 */
 	public Frame() {
 
 		// create frame
@@ -77,6 +84,12 @@ public class Frame extends JFrame {
 			;
 	}
 
+	/**
+	 * @author GRIGNON Lindsay
+	 * 
+	 *         This method create the Game's menu with a gif logo and 3 buttons
+	 *         : Start, HighSCore, Options
+	 */
 	private void menu() {
 
 		final JPanel l = logo();
@@ -112,8 +125,7 @@ public class Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				button.setVisible(false);
 				l.setVisible(false);
-				//highscore();
-				addScore();
+				highscore();
 			}
 		});
 
@@ -177,6 +189,12 @@ public class Frame extends JFrame {
 		this.setContentPane(openScreen);
 	}
 
+	/**
+	 * @author GRIGNON Lindsay
+	 * @return JPanel The JPanel contains the imageIcon <br>
+	 * 
+	 *         Create the logo for the menu, redimention it and return it
+	 */
 	private JPanel logo() {
 		JPanel logo = new JPanel();
 		logo.setBackground(Color.BLACK);
@@ -190,6 +208,12 @@ public class Frame extends JFrame {
 		return logo;
 	}
 
+	/**
+	 * @author GRIGNON Lindsay
+	 * @return JPanel The Panel contains the label with the copyright <br>
+	 * 
+	 *         Create a panel which contains the copyright
+	 */
 	private JPanel copyright() {
 		JLabel name = new JLabel(
 				"Done by BOURGEOIS Adrien, GRIGNON Lindsay, RIETZ Vincent");
@@ -201,6 +225,11 @@ public class Frame extends JFrame {
 		return j;
 	}
 
+	/**
+	 * @author GRIGNON Lindsay
+	 * 
+	 *         Create the panel which contains the options
+	 */
 	private void options() {
 
 		// Jpanel final
@@ -218,6 +247,9 @@ public class Frame extends JFrame {
 
 		theme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				// recuperer le int qui est renvoyer par la frame
+				// pop up nouvelle frame
 
 				// pop-up
 				final JRadioButton r1 = new JRadioButton("Classic", true);
@@ -437,14 +469,14 @@ public class Frame extends JFrame {
 		this.setContentPane(o);
 	}
 
+	/**
+	 * @author GRIGNON Lindsay
+	 * 
+	 *         Create the panel which display the highscores
+	 */
 	private void highscore() {
 
-
-		//System.out.println(height);
-
 		int space = (height - 520) / 9;
-
-		//System.out.println(space);
 
 		final JPanel h = new JPanel();
 		h.setBackground(Color.BLACK);
@@ -460,10 +492,10 @@ public class Frame extends JFrame {
 		Box sc = Box.createVerticalBox();
 		LinkedList<NodeScore> ns = s.readScore("score.txt");
 		if (ns.isEmpty()) {
-			JLabel no_s = new JLabel ("No highscore yet");
+			JLabel no_s = new JLabel("No highscore yet");
 			labelStyleW(no_s);
 			score.add(no_s);
-			
+
 		} else {
 			Iterator<NodeScore> it = ns.iterator();
 			while (it.hasNext()) {
@@ -525,41 +557,67 @@ public class Frame extends JFrame {
 
 	}
 
-	public void addScore(/*int score, int place, LinkedList<NodeScore> ls*/) {
-		//cree pop up
-		//add(index, elem)
-		//verifier que la liste fait bien 10 elem  si size > 10
-		// removeLast()
-		//appel au stream
+	/**
+	 * @author GRIGNON Lindsay
+	 * @param score
+	 *            The score the player made
+	 * @param place
+	 *            The place which the score must be placed in the list
+	 * @param ls
+	 *            The ensemble of score
+	 * 
+	 *            Will ask the player a name and then adds it to the list, only
+	 *            10 scores allowed, and then call the score writer
+	 */
+	public void addScore(int score, int place, LinkedList<NodeScore> ls) {
+
+		// modifier le pop up de maniere a recuperer le int renvooyer
+		// pop up nouvelle frame
+
 		Box sco = Box.createVerticalBox();
-		
-		JLabel n = new JLabel ("Enter your name : ");
+
+		JLabel n = new JLabel("Enter your name : ");
 		n.setBackground(Color.BLACK);
 		n.setForeground(Color.WHITE);
 		n.setFont(new java.awt.Font("Consolas", 0, 20));
-		
-		JLabel ns = new JLabel ("(No space)");
-		ns.setBackground(Color.BLACK);
-		ns.setForeground(Color.WHITE);
-		ns.setFont(new java.awt.Font("Consolas", 0, 20));
-		
+
+		JLabel nos = new JLabel("(No space)");
+		nos.setBackground(Color.BLACK);
+		nos.setForeground(Color.WHITE);
+		nos.setFont(new java.awt.Font("Consolas", 0, 20));
+
 		JTextField name = new JTextField();
-		
+
 		n.setAlignmentX(CENTER_ALIGNMENT);
 		sco.add(n);
-		ns.setAlignmentX(CENTER_ALIGNMENT);
-		sco.add(ns);
-		sco.add(Box.createRigidArea(new Dimension (00, 10)));
+		nos.setAlignmentX(CENTER_ALIGNMENT);
+		sco.add(nos);
+		sco.add(Box.createRigidArea(new Dimension(00, 10)));
 		sco.add(name);
-		
+
 		UIManager.put("OptionPane.background", Color.BLACK);
 		UIManager.put("Panel.background", Color.BLACK);
 
-		JOptionPane
-		.showMessageDialog(null, sco, "You have a highscore !", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, sco, "You have a highscore !",
+				JOptionPane.PLAIN_MESSAGE);
+
+		String pseudo = name.getText();
+		NodeScore nns = new NodeScore(place + "°", pseudo, "" + score);
+		ls.add(place - 1, nns);
+		if (ls.size() > 10)
+			ls.removeLast();
+
+		s.writeScores("score.txt", ls);
+
 	}
-	
-	
+
+	/**
+	 * @author GRIGNON Lindsay
+	 * @param b
+	 *            The button you want to style <br>
+	 * 
+	 *            Stylized the basic button
+	 */
 	private void buttonStyle(JButton b) {
 		b.setBackground(Color.BLACK);
 		b.setForeground(Color.BLUE);
@@ -567,6 +625,13 @@ public class Frame extends JFrame {
 		b.setFont(new java.awt.Font("Consolas", 1, 36));
 	}
 
+	/**
+	 * @author GRIGNON Lindsay
+	 * @param b
+	 *            The button you want to style <br>
+	 * 
+	 *            Stylized the menu button
+	 */
 	private void buttonStyleMenu(JButton b) {
 		b.setBackground(Color.BLACK);
 		b.setForeground(Color.BLUE);
@@ -574,24 +639,53 @@ public class Frame extends JFrame {
 		b.setFont(new java.awt.Font("Consolas", 1, 45));
 	}
 
+	/**
+	 * @author GRIGNON Lindsay
+	 * @param r
+	 *            The radio button you want to style <br>
+	 * 
+	 *            Stylized the radio button
+	 */
 	private void radioStyle(JRadioButton r) {
 		r.setBackground(Color.BLACK);
 		r.setForeground(Color.WHITE);
 		r.setFont(new java.awt.Font("Consolas", 1, 20));
 	}
 
+	/**
+	 * @author GRIGNON Lindsay
+	 * @param l
+	 *            The label you want to style <br>
+	 * 
+	 *            Stylized the label with white writing
+	 */
 	private void labelStyleW(JLabel l) {
 		l.setBackground(Color.BLACK);
 		l.setForeground(Color.WHITE);
 		l.setFont(new java.awt.Font("Consolas", 1, 30));
 	}
 
+	/**
+	 * @author GRIGNON Lindsay
+	 * @param l
+	 *            The label you want to style <br>
+	 * 
+	 *            Stylized the label with yellow writing
+	 */
 	private void labelStyleY(JLabel l) {
 		l.setBackground(Color.BLACK);
 		l.setForeground(Color.YELLOW);
 		l.setFont(new java.awt.Font("Consolas", 1, 30));
 	}
 
+	/**
+	 * @author GRIGNON Lindsay
+	 * @param l
+	 *            The label you want to style
+	 * @return JPanel The panel contain the title <br>
+	 * 
+	 *         Will create a Panel with a Label title and return it
+	 */
 	private JPanel titleStyle(JLabel l) {
 		JPanel t = new JPanel();
 		t.setBackground(Color.BLACK);

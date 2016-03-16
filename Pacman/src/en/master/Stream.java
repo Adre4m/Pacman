@@ -9,8 +9,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.StringTokenizer;
 
 import en.window.NodeScore;
 
@@ -71,18 +71,26 @@ public class Stream {
 		return s;
 	}
 
+	/**
+	 * @author GRIGNON Lindsay
+	 * @param path
+	 *            The path to find the file to read
+	 * @return LinkedList<NodeScore> The list which contain all scores
+	 * 
+	 *         Will read the file and add every line in a LinkedList <NodeScore>
+	 */
 	public LinkedList<NodeScore> readScore(String path) {
 		BufferedReader br;
-		LinkedList<NodeScore> score = new LinkedList<NodeScore>(); 
+		LinkedList<NodeScore> score = new LinkedList<NodeScore>();
 		int i = 1;
 		String alt;
 		try {
 			// open input stream test.txt for reading purpose.
 			br = new BufferedReader(new FileReader(new File(path)));
 			while ((alt = br.readLine()) != null) {
-				String s = i +"° "+ alt + " ";
-				String[] split =s.split(" ");
-				NodeScore ns = new NodeScore (split[0], split[1], split[2]);
+				String s = i + "° " + alt + " ";
+				String[] split = s.split(" ");
+				NodeScore ns = new NodeScore(split[0], split[1], split[2]);
 				i++;
 				score.add(ns);
 			}
@@ -93,6 +101,33 @@ public class Stream {
 			e.printStackTrace();
 		}
 		return score;
+	}
+
+	/**
+	 * @author GRIGNON Lindsay
+	 * @param path
+	 *            The path to find the file to read
+	 * @param ls
+	 *            The list which contain all scores
+	 * 
+	 *            Get the score list and write every element in the file
+	 */
+	public void writeScores(String path, LinkedList<NodeScore> ls) {
+		BufferedWriter bw;
+		try {
+			bw = new BufferedWriter(new FileWriter(new File(path)));
+			Iterator<NodeScore> it = ls.iterator();
+			while (it.hasNext()) {
+				NodeScore courant = it.next();
+				bw.write(courant.getPseudo() + " " + courant.getScore()
+						+ System.getProperty("line.separator"));
+			}
+			bw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String initiateLab(String path) {
