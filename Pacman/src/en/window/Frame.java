@@ -598,8 +598,10 @@ public class Frame extends JFrame {
 		UIManager.put("OptionPane.background", Color.BLACK);
 		UIManager.put("Panel.background", Color.BLACK);
 
+		do {
 		JOptionPane.showMessageDialog(null, sco, "You have a highscore !",
 				JOptionPane.PLAIN_MESSAGE);
+		} while (name.getText().contains(" "));
 
 		String pseudo = name.getText();
 		NodeScore nns = new NodeScore(place + "°", pseudo, "" + score);
