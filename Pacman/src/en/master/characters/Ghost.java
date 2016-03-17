@@ -247,7 +247,7 @@ public abstract class Ghost extends Characters {
 
 	@Override
 	public String sprite() {
-		String s = "";
+		String s = folder;
 		if (isReturningToJail)
 			s += "Ghost_eye";
 		else if (isVulnerable && 3 < vulnerable)

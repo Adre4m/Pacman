@@ -11,6 +11,7 @@ public abstract class Characters {
 	protected Point position;
 	protected char dir;
 	private Point initialPosition;
+	protected String folder;
 
 	public Characters(String sprite) {
 		position = new Point(0, 0);
@@ -230,7 +231,7 @@ public abstract class Characters {
 	}
 
 	public String sprite() {
-		String s = sprite;
+		String s = folder + sprite;
 		switch (dir) {
 		case 'u':
 			s += "_up";
@@ -246,6 +247,14 @@ public abstract class Characters {
 			break;
 		}
 		return s + ".gif";
+	}
+
+	public String getFolder() {
+		return folder;
+	}
+
+	public void setFolder(String folder) {
+		this.folder = folder;
 	}
 
 }

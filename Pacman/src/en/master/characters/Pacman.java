@@ -91,7 +91,7 @@ public class Pacman extends Characters {
 	public String sprite() {
 		if (!isInvunerable)
 			return super.sprite();
-		String s = sprite;
+		String s = folder + sprite;
 		switch (dir) {
 		case 'u':
 			s += "_up";

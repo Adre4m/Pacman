@@ -35,6 +35,7 @@ public class Game {
 	public short difficulty = 0;
 	public boolean ateFruit = true;
 	short secFruit = Timer.FRUIT;
+
 	public Game() {
 		lab = new char[32][28];
 		gums = new short[32][28];
@@ -64,11 +65,13 @@ public class Game {
 
 	/**
 	 * 
-	 * @param file File to be read <br>
+	 * @param file
+	 *            File to be read <br>
 	 * 
-	 * This method call the initiation of Stream with file. All characters are generated with their 
-	 * own places. The walls of the prison, where a ghost shall return to when eaten, are based on 
-	 * the locations of the Ghost n°2 and n°3.
+	 *            This method call the initiation of Stream with file. All
+	 *            characters are generated with their own places. The walls of
+	 *            the prison, where a ghost shall return to when eaten, are
+	 *            based on the locations of the Ghost n°2 and n°3.
 	 */
 	public void init(String file) {
 		Stream stm = new Stream(); // Initiate the stream to read file
@@ -127,6 +130,30 @@ public class Game {
 				}
 			}
 		graph = new Graph(lab);
+		int[] opt = stm.readOptions();
+		difficulty = (short) opt[2];
+		switch (opt[0]) {
+		case 0:
+			for (int i = 0; i < characters.length; ++i)
+				characters[i].setFolder("sprites/classic/");
+			break;
+		case 1:
+			for (int i = 0; i < characters.length; ++i)
+				characters[i].setFolder("sprites/sw/");
+			break;
+		case 2:
+			for (int i = 0; i < characters.length; ++i)
+				characters[i].setFolder("sprites/bh6/");
+			break;
+		case 3:
+			for (int i = 0; i < characters.length; ++i)
+				characters[i].setFolder("sprites/zelda/");
+			break;
+		default:
+			for (int i = 0; i < characters.length; ++i)
+				characters[i].setFolder("sprites/classic/");
+			break;
+		}
 	}
 
 	public void newLevel() {
