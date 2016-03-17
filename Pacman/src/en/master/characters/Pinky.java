@@ -1,5 +1,10 @@
 package en.master.characters;
 
+/**
+ * 
+ * @author BOURGEOIS Adrien
+ *
+ */
 public class Pinky extends Ghost {
 
 	public Pinky() {

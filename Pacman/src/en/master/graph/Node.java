@@ -3,6 +3,11 @@ package en.master.graph;
 import java.awt.Point;
 import java.util.Comparator;
 
+/**
+ * 
+ * @author BOURGEOIS Adrien
+ *
+ */
 public class Node implements Comparator<Node>, Comparable<Node> {
 
 	private Point position;
@@ -40,7 +45,7 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return position;
 	}
 
-	public int manhattan(Point goal) {
+	private int manhattan(Point goal) {
 		return Math.abs(position.x - goal.x) + Math.abs(position.y - goal.y);
 	}
 
@@ -48,6 +53,16 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return position.toString();
 	}
 
+	/**
+	 * The heuristic is calculate with the Manhattan distance, and the cost to
+	 * reach the current node.
+	 * 
+	 * @param cost
+	 *            the cost to reach the current node.
+	 * @param goal
+	 *            where to go.
+	 * @return the heuristic from the current node to the goal.
+	 */
 	public int heuristic(int cost, Node goal) {
 		heuristic = cost + manhattan(goal.position);
 		return heuristic;

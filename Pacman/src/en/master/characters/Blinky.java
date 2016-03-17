@@ -2,6 +2,11 @@ package en.master.characters;
 
 import en.master.Game;
 
+/**
+ * 
+ * @author BOURGEOIS Adrien
+ *
+ */
 public class Blinky extends Ghost {
 
 	public Blinky() {

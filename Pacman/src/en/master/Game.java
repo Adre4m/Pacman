@@ -17,7 +17,7 @@ import en.window.GameScreen;
 /**
  * 
  * @author BOURGEOIS Adrien
- *
+ * @version 1
  */
 public class Game {
 
@@ -65,13 +65,17 @@ public class Game {
 
 	/**
 	 * 
-	 * @param file
-	 *            File to be read <br>
+	 * This method call the initiation of Stream with file. All characters are
+	 * generated with their own places. The walls of the prison, where a ghost
+	 * shall return to when eaten, are based on the locations of the Ghost n°2
+	 * and n°3.<br>
+	 * <br>
 	 * 
-	 *            This method call the initiation of Stream with file. All
-	 *            characters are generated with their own places. The walls of
-	 *            the prison, where a ghost shall return to when eaten, are
-	 *            based on the locations of the Ghost n°2 and n°3.
+	 * The method also call {@link en.master.Stream#readOptions()} to know which
+	 * theme is chosen and the difficulty.
+	 * 
+	 * @param file
+	 *            File to be read
 	 */
 	public void init(String file) {
 		Stream stm = new Stream(); // Initiate the stream to read file
@@ -156,7 +160,7 @@ public class Game {
 		}
 	}
 
-	public void newLevel() {
+	private void newLevel() {
 		level++;
 		for (int i = 0; i < characters.length; ++i)
 			characters[i].reinit(this);
@@ -172,6 +176,12 @@ public class Game {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 * 
+	 * 			This method was usefull untill the game was playable with the
+	 *             {@link en.window.Frame}
+	 */
 	public String toString() {
 		String s = "";
 		for (int i = 0; i < lab.length; ++i) {
@@ -183,6 +193,14 @@ public class Game {
 		return s;
 	}
 
+	/**
+	 * 
+	 * @param x
+	 *            ordinate point
+	 * @param y
+	 *            abscissa point
+	 * @return The Ghost at position (x, y)
+	 */
 	public Ghost getGhost(int x, int y) {
 		for (int i = 1; i < characters.length; ++i)
 			if (characters[i].getPosition().x == x && characters[i].getPosition().y == y)
@@ -210,10 +228,34 @@ public class Game {
 		this.restartNeed = restartNeed;
 	}
 
+	/**
+	 * 
+	 * @return true if the player has eaten all the gums, else false.
+	 */
 	public boolean win() {
 		return numGum <= 0;
 	}
 
+	/**
+	 * 
+	 * First of all, this method retrieve essential data for
+	 * {@link en.master.Timer} like : <br>
+	 * <ul>
+	 * <li>{@link en.master.Timer#FPS} the time to wait between each frame</li>
+	 * <li>{@link en.master.Timer#GMVPS} how many times a ghost moves per
+	 * second</li>
+	 * <li>{@link en.master.Timer#VMVPS} how many times a vulnerable ghost
+	 * moves per second</li>
+	 * </ul>
+	 * <br>
+	 * Then it loops until the player dies. Inside this loop there is two other
+	 * loops : one handle the levels and the other the movements and the frame.
+	 * <br>
+	 * 
+	 * @param g
+	 *            is the Panel on which is displayed the game.
+	 * 
+	 */
 	public void play(GameScreen g) {
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
 		int mvgpf = (Timer.FPS / Timer.GMVPS) + (level * difficulty);
@@ -328,7 +370,7 @@ public class Game {
 		this.jailWalls = jailWalls;
 	}
 
-	public void appearFruit() {
+	private void appearFruit() {
 		int prob = (int) (Math.random() * 101);
 		if (50 <= prob && prob <= 100) {
 			ateFruit = false;

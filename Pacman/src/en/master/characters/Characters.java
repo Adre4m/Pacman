@@ -5,6 +5,11 @@ import java.awt.Point;
 import en.master.Game;
 import en.master.Timer;
 
+/**
+ * 
+ * @author BOURGEOIS Adrien
+ *
+ */
 public abstract class Characters {
 
 	protected String sprite;
@@ -35,6 +40,12 @@ public abstract class Characters {
 		return initialPosition;
 	}
 
+	/**
+	 * This method move the character to its first position.
+	 * 
+	 * @param game
+	 *            where to set the changes
+	 */
 	public void reinit(Game game) {
 		dir = 'u';
 		game.getLab()[position.x][position.y] = ' ';
@@ -230,6 +241,10 @@ public abstract class Characters {
 		return position.toString();
 	}
 
+	/**
+	 * 
+	 * @return a string to provide which gif the Gamescreen should use.
+	 */
 	public String sprite() {
 		String s = folder + sprite;
 		switch (dir) {
@@ -247,10 +262,6 @@ public abstract class Characters {
 			break;
 		}
 		return s + ".gif";
-	}
-
-	public String getFolder() {
-		return folder;
 	}
 
 	public void setFolder(String folder) {

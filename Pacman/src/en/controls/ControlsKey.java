@@ -18,8 +18,6 @@ import en.master.Game;
  */
 public class ControlsKey implements KeyListener {
 
-	// static final String newline = System.getProperty("line.separator");
-
 	// TODO ne doit pas rester ! juste la pour tester
 	class QuickFrame extends JFrame {
 

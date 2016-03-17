@@ -16,69 +16,21 @@ import java.util.Scanner;
 
 import en.window.NodeScore;
 
+/**
+ * 
+ * @author BOURGEOIS Adrien, GRIGON Lindsay, RIETZ Vincent
+ *
+ */
 public class Stream {
 
-	public String readConfig() {
-		InputStream is = null;
-		int a;
-		char c;
-		String s = "";
-		boolean firstLaunch = false;
-
-		try { // To find which file we need to open
-			is = new FileInputStream("options/config.opt");
-		} catch (FileNotFoundException fnfe) {
-			try {
-				is = new FileInputStream("options/default.opt");
-				firstLaunch = true;
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-
-		try { // To read the file
-				// reads till the end of the stream
-			while ((a = is.read()) != -1) {
-				// converts integer to character
-				c = (char) a;
-				s += c;
-			}
-		} catch (Exception e) {
-			// if any I/O error occurs
-			e.printStackTrace();
-		} finally {
-
-			// releases system resources associated with this stream
-			if (is != null)
-				try {
-					is.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
-
-		if (firstLaunch) {
-			try {
-				BufferedWriter writer = new BufferedWriter(new FileWriter(new File("options/config.opt")));
-				// if the file doesn't exist, it is created in the root of the
-				// project
-				writer.write(s); // copy default in config
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return s;
-	}
-
 	/**
+	 * 
+	 * Will read the file and add every line in a {@code LinkedList<NodeScore>}
+	 * 
 	 * @author GRIGNON Lindsay
 	 * @param path
 	 *            The path to find the file to read
-	 * @return LinkedList<NodeScore> The list which contain all scores
-	 * 
-	 *         Will read the file and add every line in a LinkedList <NodeScore>
+	 * @return {@code LinkedList<NodeScore>} The list which contain all scores
 	 */
 	public LinkedList<NodeScore> readScore(String path) {
 		BufferedReader br;
@@ -105,13 +57,14 @@ public class Stream {
 	}
 
 	/**
+	 * 
+	 * Get the score list and write every element in the file
+	 * 
 	 * @author GRIGNON Lindsay
 	 * @param path
 	 *            The path to find the file to read
 	 * @param ls
 	 *            The list which contain all scores
-	 * 
-	 *            Get the score list and write every element in the file
 	 */
 	public void writeScores(String path, LinkedList<NodeScore> ls) {
 		BufferedWriter bw;
@@ -130,6 +83,14 @@ public class Stream {
 		}
 	}
 
+	/**
+	 * inserez commentaire de fonction, ou enlever cette ligne
+	 * 
+	 * @author RIETZ Vincent
+	 * @param path
+	 *            The path to find the file to read
+	 * @return The lab in a String
+	 */
 	public String initiateLab(String path) {
 		InputStream is = null;
 		int a;
@@ -170,6 +131,44 @@ public class Stream {
 		return s;
 	}
 
+	/**
+	 * 
+	 * Read the file config.ini or if it doesn't exist yet the file default.ini.
+	 * 
+	 * @author BOURGEOIS Adrien
+	 * @return a array of size 4. The array is fill with various values, each
+	 *         values is specific to each cells. The configuration of the array
+	 *         is :
+	 *         <ol>
+	 *         <li>According to the theme this cell can take four values:
+	 *         <ul>
+	 *         <li>Classic theme : 0</li>
+	 *         <li>Star Wars theme : 1</li>
+	 *         <li>Big Hero 6 theme : 2</li>
+	 *         <li>The Legend Of Zelda : 3</li>
+	 *         </ul>
+	 *         </li>
+	 *         <li>According to the controls this cell can take two values:
+	 *         <ul>
+	 *         <li>Keyboard : 0</li>
+	 *         <li>Mouse : 1</li>
+	 *         </ul>
+	 *         </li>
+	 *         <li>According to the difficulty this cell can take three values:
+	 *         <ul>
+	 *         <li>Easy : 0</li>
+	 *         <li>Normal : 1</li>
+	 *         <li>Hard : 2</li>
+	 *         </ul>
+	 *         </li>
+	 *         <li>According to the sound this cell can take two values :
+	 *         <ul>
+	 *         <li>On : 0</li>
+	 *         <li>Off : 1</li>
+	 *         </ul>
+	 *         </li>
+	 *         </ol>
+	 */
 	public int[] readOptions() {
 		File f = new File("config.ini");
 		if (!f.exists())
@@ -219,6 +218,11 @@ public class Stream {
 		return options;
 	}
 
+	/**
+	 * 
+	 * @param options
+	 *            the array with specific values to write on the file.
+	 */
 	public void writeOptions(int[] options) {
 		File f = new File("config.ini");
 		if (!f.exists())

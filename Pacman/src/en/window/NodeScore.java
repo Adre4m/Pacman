@@ -1,12 +1,17 @@
 package en.window;
 
+/**
+ * 
+ * @author GRIGNON Lindsay
+ *
+ */
 public class NodeScore {
 
 	private String num;
 	private String pseudo;
 	private String score;
 
-	public NodeScore(){
+	public NodeScore() {
 		num = null;
 		pseudo = null;
 		score = null;
@@ -41,10 +46,9 @@ public class NodeScore {
 	public void setScore(String score) {
 		this.score = score;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "NodeScore [num=" + num + ", pseudo=" + pseudo + ", score="
-				+ score + "]";
+		return "NodeScore [num=" + num + ", pseudo=" + pseudo + ", score=" + score + "]";
 	}
 }

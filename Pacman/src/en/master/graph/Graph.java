@@ -9,6 +9,11 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
+/**
+ * 
+ * @author BOURGEOIS Adrien
+ *
+ */
 public class Graph {
 
 	private int adj[][];
@@ -54,12 +59,23 @@ public class Graph {
 		}
 	}
 
+	/**
+	 * @see <a href=
+	 *      "https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode"
+	 *      target="_blank">A* search algorithm</a>
+	 * @param start
+	 *            from where calculate the path.
+	 * @param goal
+	 *            where to go
+	 * @param dir
+	 *            in which direction the ghost is heading.
+	 * @return the path in a {@literal Stack<Character>} to provides the ghost
+	 *         what directions he should take.
+	 */
 	public Stack<Character> reach(Point start, Point goal, char dir) {
 		return reach(vertex.get(vertex.indexOf(new Node(start))), vertex.get(vertex.indexOf(new Node(goal))), dir);
 	}
 
-	// Algorithme A*, tel que lu sur le wikipédia anglais.
-	// https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
 	private Stack<Character> reach(Node start, Node goal, char dir) {
 		Map<Node, Integer> cost = new HashMap<Node, Integer>();
 		cost.put(start, 0);
@@ -99,7 +115,7 @@ public class Graph {
 		return null;
 	}
 
-	public boolean noReturn(Point start, Point goal, char dir) {
+	private boolean noReturn(Point start, Point goal, char dir) {
 		switch (dir) {
 		case 'd':
 			return goal.x != Math.floorMod(start.x - 1, heigh);
@@ -149,7 +165,7 @@ public class Graph {
 		return moves;
 	}
 
-	public char findDir(Node current, Node neighbour) {
+	private char findDir(Node current, Node neighbour) {
 		if (current.getPosition().x == neighbour.getPosition().x)
 			return (current.getPosition().y == neighbour.getPosition().y - 1) ? 'r' : 'l';
 		else

@@ -22,6 +22,11 @@ import javax.swing.JPanel;
 
 import en.master.Game;
 
+/**
+ * 
+ * @author RIETZ Vincent
+ *
+ */
 public class GameScreen extends JLayeredPane implements KeyListener, MouseListener{
 	Game g;
 	String theme="zelda";

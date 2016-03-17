@@ -6,6 +6,11 @@ import java.util.Stack;
 import en.master.Game;
 import en.master.Timer;
 
+/**
+ * 
+ * @author BOURGEOIS Adrien
+ *
+ */
 public abstract class Ghost extends Characters {
 
 	private static final int MAXRADIUS = 7;
@@ -55,6 +60,20 @@ public abstract class Ghost extends Characters {
 		this.isReturningToJail = isReturningToJail;
 	}
 
+	/**
+	 * According on the state of the current ghost the ia will chose between
+	 * three different behaviors:
+	 * <ul>
+	 * <li>If the ghost is eatean then it will return to the jail.</li>
+	 * <li>If the ghost is seeing Pacman then it will or chase him or flee him.
+	 * </li>
+	 * <li>In all other cases, the ghost will return to its patrol point and
+	 * start its patrol</li>
+	 * </ul>
+	 * 
+	 * @param game
+	 *            where to set the changes
+	 */
 	public void ia(Game game) {
 		if (isFree) {
 			Point pacman;
@@ -152,11 +171,18 @@ public abstract class Ghost extends Characters {
 		return vulnerable;
 	}
 
+	/**
+	 * When Pacman eat a super pacgum the ghosts are ill, this method add a time
+	 * of vulnerability.
+	 */
 	public void ill() {
 		vulnerable = Timer.SUPERGUM;
 		this.isVulnerable = true;
 	}
 
+	/**
+	 * When the ghost is no longer vulnerable.
+	 */
 	public void heal() {
 		vulnerable--;
 		if (0 < vulnerable)
@@ -181,8 +207,17 @@ public abstract class Ghost extends Characters {
 		jailed = Timer.PRISON;
 	}
 
-	// D'apres l'algorithme de tracé de cercle d'Andres
-	// https://fr.wikipedia.org/wiki/Algorithme_de_trac%C3%A9_de_cercle_d%27Andres
+	/**
+	 * This algorithm is made after the algorithm of circle drawing of Andres
+	 * 
+	 * @see <a href=
+	 *      "https://fr.wikipedia.org/wiki/Algorithme_de_trac%C3%A9_de_cercle_d%27Andres"
+	 *      target="_blank"> Drawing circle algorithm by Andres</a>
+	 * @param game
+	 *            where to draw the circle
+	 * @return null if Pacman is not in the ghost field of view, its position if
+	 *         it is seen.
+	 */
 	public Point radius(Game game) {
 		for (int r = 1; r <= (MAXRADIUS + (game.level * game.difficulty)); ++r) {
 			int x = 0;
@@ -230,7 +265,7 @@ public abstract class Ghost extends Characters {
 
 	}
 
-	public void opposite(Game game, Point p) {
+	private void opposite(Game game, Point p) {
 		p.x = Math.floorMod(-p.x, game.getLab().length);
 		p.y = Math.floorMod(-p.y, game.getLab()[0].length);
 		if (game.getLab()[p.x][p.y] == 'X') {
