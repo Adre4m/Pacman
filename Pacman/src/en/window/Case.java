@@ -3,7 +3,6 @@ package en.window;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Image;
-import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -15,16 +14,17 @@ import javax.swing.JPanel;
  *
  */
 public class Case extends JPanel {
-	char content; // type of image
-	JLabel label; // contains the image
-	String theme;
-	int number;
+	private static final long serialVersionUID = 1L;
+	private char content; // type of image
+	private JLabel label; // contains the image
+	private String theme;
+	private int number;
 
 	public Case(char content, int number) {
 		this.content = content;
 		this.number = number;
 
-		URL url; // url of the image
+		// URL url; // url of the image
 		Image img; // image without a resize
 		Image newimg; // image resized
 		theme = "zelda";
@@ -103,8 +103,8 @@ public class Case extends JPanel {
 		return this.label;
 	}
 
-	public void setLabel(JLabel l) {
-		this.label = l;
+	public void setLabel(JLabel label) {
+		this.label = label;
 	}
 
 	public void setCase(Case c) {

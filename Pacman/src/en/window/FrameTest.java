@@ -1,13 +1,5 @@
 package en.window;
 
-import static org.junit.Assert.assertTrue;
-
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
-import org.junit.Before;
-import org.junit.Test;
-
 public class FrameTest {
 	/*Frame f;
 	@Before
@@ -28,6 +20,7 @@ public class FrameTest {
 	}*/
 	
 	public static void main (String[] args) {
+		@SuppressWarnings("unused")
 		Frame f = new Frame();
 		while (true);
 }

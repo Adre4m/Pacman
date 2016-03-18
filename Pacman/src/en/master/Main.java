@@ -4,6 +4,7 @@ import en.window.Frame;
 
 public class Main {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Frame f = new Frame();
 		do {

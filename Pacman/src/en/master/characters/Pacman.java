@@ -9,6 +9,7 @@ public class Pacman extends Characters {
 
 	private int lives;
 	private int eatenGhosts;
+	@SuppressWarnings("unused")
 	private long invulnerable;
 	private String invulnerableSprite;
 	private boolean isInvunerable;
