@@ -39,7 +39,6 @@ public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
-	Stream s = new Stream();
 
 	/**
 	 * @author GRIGON Lindsay
@@ -490,7 +489,7 @@ public class Frame extends JFrame {
 		Box n = Box.createVerticalBox();
 		Box p = Box.createVerticalBox();
 		Box sc = Box.createVerticalBox();
-		LinkedList<NodeScore> ns = s.readScore("score.txt");
+		LinkedList<NodeScore> ns = Stream.readScore("score.txt");
 		if (ns.isEmpty()) {
 			JLabel no_s = new JLabel("No highscore yet");
 			labelStyleW(no_s);
@@ -609,7 +608,7 @@ public class Frame extends JFrame {
 		if (ls.size() > 10)
 			ls.removeLast();
 
-		s.writeScores("score.txt", ls);
+		Stream.writeScores("score.txt", ls);
 
 	}
 

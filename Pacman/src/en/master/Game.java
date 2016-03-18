@@ -67,8 +67,8 @@ public class Game {
 	 *            File to be read
 	 */
 	public void init(String file) {
-		Stream stm = new Stream(); // Initiate the stream to read file
-		String grid = stm.initiateLab(file);
+		//Stream stm = new Stream(); // Initiate the stream to read file
+		String grid = Stream.initiateLab(file);
 		grid = grid.replaceAll("[\n\r]", "");
 		int index = 0;
 		for (int i = 0; i < lab.length; ++i)
@@ -123,7 +123,7 @@ public class Game {
 				}
 			}
 		graph = new Graph(lab);
-		int[] opt = stm.readOptions();
+		int[] opt = Stream.readOptions();
 		difficulty = (short) opt[2];
 		switch (opt[0]) {
 		case 0:

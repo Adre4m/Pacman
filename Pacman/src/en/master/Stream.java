@@ -32,7 +32,7 @@ public class Stream {
 	 *            The path to find the file to read
 	 * @return {@code LinkedList<NodeScore>} The list which contain all scores
 	 */
-	public LinkedList<NodeScore> readScore(String path) {
+	public static LinkedList<NodeScore> readScore(String path) {
 		BufferedReader br;
 		LinkedList<NodeScore> score = new LinkedList<NodeScore>();
 		int i = 1;
@@ -66,7 +66,7 @@ public class Stream {
 	 * @param ls
 	 *            The list which contain all scores
 	 */
-	public void writeScores(String path, LinkedList<NodeScore> ls) {
+	public static void writeScores(String path, LinkedList<NodeScore> ls) {
 		BufferedWriter bw;
 		try {
 			bw = new BufferedWriter(new FileWriter(new File(path)));
@@ -91,7 +91,7 @@ public class Stream {
 	 *            The path to find the file to read
 	 * @return The lab in a String
 	 */
-	public String initiateLab(String path) {
+	public static String initiateLab(String path) {
 		InputStream is = null;
 		int a;
 		char c;
@@ -169,7 +169,7 @@ public class Stream {
 	 *         </li>
 	 *         </ol>
 	 */
-	public int[] readOptions() {
+	public static int[] readOptions() {
 		File f = new File("config.ini");
 		if (!f.exists())
 			f = new File("default.ini");
@@ -223,7 +223,7 @@ public class Stream {
 	 * @param options
 	 *            the array with specific values to write on the file.
 	 */
-	public void writeOptions(int[] options) {
+	public static void writeOptions(int[] options) {
 		File f = new File("config.ini");
 		if (!f.exists())
 			try {

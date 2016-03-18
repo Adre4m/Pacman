@@ -104,7 +104,7 @@ public class Case extends JPanel {
 	}
 
 	public void setLabel(JLabel l) {
-		this.label = label;
+		this.label = l;
 	}
 
 	public void setCase(Case c) {
