@@ -133,16 +133,8 @@ public class Graph {
 		return adj;
 	}
 
-	public void setAdj(int[][] adj) {
-		this.adj = adj;
-	}
-
 	public ArrayList<Node> getVertex() {
 		return vertex;
-	}
-
-	public void setVertex(ArrayList<Node> vertex) {
-		this.vertex = vertex;
 	}
 
 	private Node getQueue(PriorityQueue<Node> list, Node n) {

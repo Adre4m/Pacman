@@ -74,11 +74,7 @@ public class ControlsKey implements KeyListener {
 				game.characters[0].setDir('d');
 			break;
 		case KeyEvent.VK_ESCAPE:
-			if (game.isPaused()) {
-				game.setPaused(false);
-			} else {
-				game.setPaused(true);
-			}
+				game.pause();
 			break;
 		default:
 			return;

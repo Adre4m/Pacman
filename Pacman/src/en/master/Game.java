@@ -21,31 +21,20 @@ import en.window.GameScreen;
  */
 public class Game {
 
-	private char[][] lab;
-	private short[][] gums;
-	private int score;
+	private char[][] lab = new char[32][28];
+	private short[][] gums = new short[32][28];
+	private int score = 0;
 	public final Characters[] characters = new Characters[5];
-	private boolean restartNeed;
-	private boolean paused;
-	private ArrayList<Point> doors;
-	private ArrayList<Point> jailWalls;
-	private int numGum;
+	private boolean restartNeed = false;
+	private boolean paused = false;
+	private ArrayList<Point> doors = new ArrayList<Point>();
+	private ArrayList<Point> jailWalls = new ArrayList<Point>();
+	private int numGum = 0;
 	public Graph graph;
 	public int level = 1;
 	public short difficulty = 0;
 	public boolean ateFruit = true;
 	short secFruit = Timer.FRUIT;
-
-	public Game() {
-		lab = new char[32][28];
-		gums = new short[32][28];
-		score = 0;
-		restartNeed = false;
-		paused = false;
-		numGum = 0;
-		doors = new ArrayList<Point>();
-		jailWalls = new ArrayList<Point>();
-	}
 
 	public int getScore() {
 		return score;
@@ -242,10 +231,10 @@ public class Game {
 	 * {@link en.master.Timer} like : <br>
 	 * <ul>
 	 * <li>{@link en.master.Timer#FPS} the time to wait between each frame</li>
-	 * <li>{@link en.master.Timer#GMVPS} how many times a ghost moves per
-	 * second</li>
-	 * <li>{@link en.master.Timer#VMVPS} how many times a vulnerable ghost
-	 * moves per second</li>
+	 * <li>{@link en.master.Timer#GMVPS} how many times a ghost moves per second
+	 * </li>
+	 * <li>{@link en.master.Timer#VMVPS} how many times a vulnerable ghost moves
+	 * per second</li>
 	 * </ul>
 	 * <br>
 	 * Then it loops until the player dies. Inside this loop there is two other
@@ -346,12 +335,8 @@ public class Game {
 		}
 	}
 
-	public boolean isPaused() {
-		return paused;
-	}
-
-	public void setPaused(boolean paused) {
-		this.paused = paused;
+	public void pause() {
+		paused = !paused;
 	}
 
 	public void eatGum() {
@@ -362,12 +347,8 @@ public class Game {
 		return graph;
 	}
 
-	public ArrayList<Point> getJailWall() {
+	public ArrayList<Point> getJailWalls() {
 		return jailWalls;
-	}
-
-	public void setJailWalls(ArrayList<Point> jailWalls) {
-		this.jailWalls = jailWalls;
 	}
 
 	private void appearFruit() {

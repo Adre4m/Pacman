@@ -94,8 +94,8 @@ public abstract class Ghost extends Characters {
 
 	private void isEaten(Game game) {
 		if (directions == null || directions.isEmpty()) {
-			Stack<Character> directions1 = game.graph.reach(position, game.getJailWall().get(0), dir);
-			Stack<Character> directions2 = game.graph.reach(position, game.getJailWall().get(1), dir);
+			Stack<Character> directions1 = game.graph.reach(position, game.getJailWalls().get(0), dir);
+			Stack<Character> directions2 = game.graph.reach(position, game.getJailWalls().get(1), dir);
 			directions = (directions1.size() <= directions2.size()) ? directions1 : directions2;
 		}
 		dir = directions.pop();
