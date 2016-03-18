@@ -73,6 +73,10 @@ public abstract class Ghost extends Characters {
 	 * 
 	 * @param game
 	 *            where to set the changes
+	 * 
+	 * @see <a href=
+	 *      "https://fr.wikipedia.org/wiki/Algorithme_de_trac%C3%A9_de_cercle_d%27Andres"
+	 *      target="_blank"> Drawing circle algorithm by Andres</a>
 	 */
 	public void ia(Game game) {
 		if (isFree) {
@@ -207,18 +211,7 @@ public abstract class Ghost extends Characters {
 		jailed = Timer.PRISON;
 	}
 
-	/**
-	 * This algorithm is made after the algorithm of circle drawing of Andres
-	 * 
-	 * @see <a href=
-	 *      "https://fr.wikipedia.org/wiki/Algorithme_de_trac%C3%A9_de_cercle_d%27Andres"
-	 *      target="_blank"> Drawing circle algorithm by Andres</a>
-	 * @param game
-	 *            where to draw the circle
-	 * @return null if Pacman is not in the ghost field of view, its position if
-	 *         it is seen.
-	 */
-	public Point radius(Game game) {
+	private Point radius(Game game) {
 		for (int r = 1; r <= (MAXRADIUS + (game.level * game.difficulty)); ++r) {
 			int x = 0;
 			int y = r;

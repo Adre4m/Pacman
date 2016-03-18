@@ -52,44 +52,12 @@ public class Pacman extends Characters {
 		return 'P';
 	}
 
-	public int getEatenGhosts() {
-		return eatenGhosts;
-	}
-
-	public void setEatenGhosts(int eatenGhosts) {
-		this.eatenGhosts = eatenGhosts;
-	}
-
-	public boolean isInvunerable() {
-		return isInvunerable;
-	}
-
-	public void setInvunerable(boolean isInvunerable) {
-		this.isInvunerable = isInvunerable;
-	}
-
-	public long getInvulnerable() {
-		return invulnerable;
-	}
-
 	public void setInvulnerable(long invulnerable) {
 		this.invulnerable = invulnerable;
 		if (0 < invulnerable)
 			this.isInvunerable = true;
 		else
 			this.isInvunerable = false;
-	}
-
-	public String getInvulnerableSprite() {
-		return invulnerableSprite;
-	}
-
-	public void setInvulnerableSprite(String invulnerableSprite) {
-		this.invulnerableSprite = invulnerableSprite;
-	}
-
-	public void setLives(int lives) {
-		this.lives = lives;
 	}
 
 	@Override
