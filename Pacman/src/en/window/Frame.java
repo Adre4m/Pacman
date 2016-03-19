@@ -30,6 +30,7 @@ import javax.swing.UIManager;
 
 import en.master.NodeScore;
 import en.master.Stream;
+import en.master.Game;
 
 /**
  * 
@@ -38,8 +39,13 @@ import en.master.Stream;
  */
 public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
+	final Game g;
+	
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
+	
+	GameScreen set;
+	
 
 	/**
 	 * 
@@ -114,7 +120,8 @@ public class Frame extends JFrame {
 
 		start.addActionListener(new ActionListener() { // Open game
 			public void actionPerformed(ActionEvent e) {
-				GameScreen set = new GameScreen();
+				g.init("labyrinth0.txt"); /*("labyrinth" + (int) (Math.random() * 5) + ".txt")*/
+				set = new GameScreen();
 				button.setVisible(false);
 				l.setVisible(false);
 				c.setVisible(false);
@@ -239,6 +246,8 @@ public class Frame extends JFrame {
 	 */
 	private void options() {
 
+		int[] config = Stream.readOptions();
+
 		// Jpanel final
 		final JPanel o = new JPanel();
 		o.setBackground(Color.BLACK);
@@ -255,13 +264,22 @@ public class Frame extends JFrame {
 		theme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				// recuperer le int qui est renvoyer par la frame
-				// pop up nouvelle frame
+				// determined which button will be selected
+				boolean sw = false;
+				boolean classic = false;
+				boolean zelda = false;
+				if (config[0] == 0) {
+					classic = true;
+				} else if (config[0] == 1) {
+					sw = true;
+				} else if (config[0] == 2) {
+					zelda = true;
+				}
 
 				// pop-up
-				final JRadioButton r1 = new JRadioButton("Classic", true);
-				final JRadioButton r2 = new JRadioButton("Star Wars", false);
-				final JRadioButton r3 = new JRadioButton("Big Hero 6", false);
+				final JRadioButton r1 = new JRadioButton("Classic", classic);
+				final JRadioButton r2 = new JRadioButton("Star Wars", sw);
+				final JRadioButton r3 = new JRadioButton("Zelda", zelda);
 				radioStyle(r1);
 				radioStyle(r2);
 				radioStyle(r3);
@@ -285,24 +303,29 @@ public class Frame extends JFrame {
 				l.setFont(new java.awt.Font("Consolas", 1, 25));
 				title.add(l);
 
-				final ImageIcon classic = new ImageIcon("sprites/classic.png");
-				final ImageIcon sw = new ImageIcon("sprites/sw.png");
-				final ImageIcon bh6 = new ImageIcon("sprites/bh6.png");
+				final ImageIcon classic_img = new ImageIcon("sprites/classic.png");
+				final ImageIcon sw_img = new ImageIcon("sprites/sw.png");
+				final ImageIcon zelda_img = new ImageIcon("sprites/zelda.png");
 
+				//determined which image is set at the beginning
 				final JLabel image = new JLabel();
-				image.setIcon(classic);
+				if (classic) 
+					image.setIcon(classic_img);
+				 else if (sw) 
+					image.setIcon(sw_img);
+				 else if (zelda)
+					image.setIcon(zelda_img);
 
 				class RadioButtonActionListener implements ActionListener {
 					@Override
 					public void actionPerformed(ActionEvent event) {
 						JRadioButton button = (JRadioButton) event.getSource();
-						if (button == r1) {
-							image.setIcon(classic);
-						} else if (button == r2) {
-							image.setIcon(sw);
-						} else if (button == r3) {
-							image.setIcon(bh6);
-						}
+						if (button == r1) 
+							image.setIcon(classic_img);
+						 else if (button == r2) 
+							image.setIcon(sw_img);
+						 else if (button == r3) 
+							image.setIcon(zelda_img);
 					}
 				}
 
@@ -322,7 +345,19 @@ public class Frame extends JFrame {
 				UIManager.put("OptionPane.background", Color.BLACK);
 				UIManager.put("Panel.background", Color.BLACK);
 
-				JOptionPane.showConfirmDialog(null, t, "", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				Object[] but = { "Ok", "Cancel" };
+				int ch = JOptionPane.showOptionDialog(null, t, "", JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.PLAIN_MESSAGE, null, but, null);
+				
+				if (ch == 0) { //OK
+					if (r1.isSelected())
+						config[0] = 0;
+					else if (r2.isSelected())
+						config[0] = 1;
+					else if (r3.isSelected())
+						config[0] = 2;		
+					Stream.writeOptions(config);;
+				} 
 			}
 		});
 
@@ -337,12 +372,21 @@ public class Frame extends JFrame {
 				;
 			}
 		});
-
+	
 		// control
+		
+		boolean k = false;
+		boolean m = false;
+		if (config[1] == 0) {
+			k = true;
+		} else if (config[1] == 1) {
+			m = true;
+		} 
+	
 		JLabel controls = new JLabel("Controls");
 		labelStyleW(controls);
-		final JRadioButton keyboard = new JRadioButton("Keyboard", true);
-		final JRadioButton mouse = new JRadioButton("Mouse", false);
+		final JRadioButton keyboard = new JRadioButton("Keyboard", k);
+		final JRadioButton mouse = new JRadioButton("Mouse", m);
 		radioStyle(keyboard);
 		radioStyle(mouse);
 		Box c = Box.createVerticalBox();
@@ -353,11 +397,24 @@ public class Frame extends JFrame {
 		ctrl.add(mouse);
 
 		// difficulte
+			
+		boolean e = false;
+		boolean n = false;
+		boolean h = false; 
+			
+		if (config[2] == 0) {
+			e = true;
+		} else if (config[2] == 1) {
+				n = true;
+		} else if (config[2] == 2) {
+			h = true;
+		}
+		
 		JLabel difficulty = new JLabel("Difficulty");
 		labelStyleW(difficulty);
-		final JRadioButton easy = new JRadioButton("Easy", false);
-		final JRadioButton normal = new JRadioButton("Normal", true);
-		final JRadioButton hard = new JRadioButton("Hard", false);
+		final JRadioButton easy = new JRadioButton("Easy", e);
+		final JRadioButton normal = new JRadioButton("Normal", n);
+		final JRadioButton hard = new JRadioButton("Hard", h);
 		radioStyle(easy);
 		radioStyle(normal);
 		radioStyle(hard);
@@ -369,21 +426,32 @@ public class Frame extends JFrame {
 		dif.add(easy);
 		dif.add(normal);
 		dif.add(hard);
-
+		
 		// musique
+		
+		boolean mus  = false;
+		if (config[3] == 0)
+			mus = true;
+		
 		JLabel music = new JLabel("Music : ");
 		labelStyleW(music);
 
 		final JButton sound = new JButton("ON");
 		sound.setBackground(Color.BLACK);
-		sound.setForeground(Color.GREEN);
 		sound.setFont(new java.awt.Font("Consolas", 1, 25));
 
 		final JButton no_sound = new JButton("OFF");
 		no_sound.setBackground(Color.BLACK);
-		no_sound.setForeground(Color.WHITE);
 		no_sound.setFont(new java.awt.Font("Consolas", 1, 25));
-
+		
+		if (mus) {
+			sound.setForeground(Color.GREEN);
+			no_sound.setForeground(Color.WHITE);
+		} else {
+			sound.setForeground(Color.WHITE);
+			no_sound.setForeground(Color.RED);
+		}
+			
 		JLabel l = new JLabel(" / ");
 		labelStyleW(l);
 
@@ -394,10 +462,12 @@ public class Frame extends JFrame {
 				if (button == sound) {
 					sound.setForeground(Color.GREEN);
 					no_sound.setForeground(Color.WHITE);
+					config[3] = 0;
 				} else {
 					if (button == no_sound) {
 						sound.setForeground(Color.WHITE);
 						no_sound.setForeground(Color.RED);
+						config[3] = 1;
 					}
 				}
 			}
@@ -455,7 +525,20 @@ public class Frame extends JFrame {
 
 		apply.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// ajouter le flux
+				
+				if (keyboard.isSelected()) 
+					config[1] = 0;
+				else if (mouse.isSelected()) 
+					config[1] = 1;
+				
+				if (easy.isSelected())
+					config[2] = 0;
+				else if (normal.isSelected())
+					config[2] = 1;
+				else if (hard.isSelected())
+					config[2] = 2;
+				
+				Stream.writeOptions(config);
 				title.setVisible(false);
 				option.setVisible(false);
 				button.setVisible(false);
@@ -571,7 +654,7 @@ public class Frame extends JFrame {
 	 * 
 	 * @return String The pseudo
 	 */
-	public String askPseudo () {
+	public String askPseudo() {
 
 		Box sco = Box.createVerticalBox();
 
