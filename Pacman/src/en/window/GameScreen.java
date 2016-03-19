@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
+import en.controls.ControlsMouse;
 import en.master.Game;
 
 /**
@@ -25,7 +26,7 @@ import en.master.Game;
  * @author RIETZ Vincent
  *
  */
-public class GameScreen extends JLayeredPane implements KeyListener, MouseListener {
+public class GameScreen extends JLayeredPane implements KeyListener{
 	/**
 	 * 
 	 */
@@ -37,6 +38,8 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 	JLabel grid;
 	JLabel piclabel;
 	int pacmanX = 14;
+	
+
 	int pacmanY = 19;
 
 	public GameScreen() {
@@ -75,11 +78,12 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 		// Label l;
 		String s = "";
 		int number = 0; // case's numbers
+		ControlsMouse ctrlMouse = new ControlsMouse(this);
 		for (int i = 0; i < g.getLab().length; ++i) {
 			for (int j = 0; j < g.getLab()[0].length; ++j) {
 				s += g.getLab()[i][j];
 				Case c = new Case(s.charAt(0), number);
-				c.addMouseListener(this);
+				c.addMouseListener(ctrlMouse);
 				grid.add(c);
 				number++;
 				s = "";
@@ -88,9 +92,17 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 
 		grid.setVisible(true);
 		this.add(grid, new Integer(1), 0);
-
+		
 		addKeyListener(this);
 
+	}
+	
+	public int getPacmanX() {
+		return pacmanX;
+	}
+
+	public int getPacmanY() {
+		return pacmanY;
 	}
 
 	public Case getCase(int x) {
@@ -99,19 +111,47 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 	}
 
 	// movements
-	public void moveRight(int x, int y) {
+	public boolean move(int x, int y, char direction) {
+		boolean didItWork = false; // Indicates if the move is successful
 		int numCase = y * 28 + x; // number of its case
-		int numNextCase;
-		if (x == 27)
-			numNextCase = numCase - 27;
-		else
-			numNextCase = numCase + 1;
-
+		int numNextCase=0;
+		Image sprite=null;
+		switch(direction){
+		case 'r':
+			if (x == 27)
+				numNextCase = numCase - 27;
+			else
+				numNextCase = numCase + 1;
+			sprite = new ImageIcon("sprites/" + theme + "/PacMan_right.gif").getImage();
+			break;
+		case 'l':
+			if (x == 0)
+				numNextCase = numCase + 27;
+			else
+				numNextCase = numCase - 1;
+			sprite = new ImageIcon("sprites/" + theme + "/PacMan_left.gif").getImage();
+			break;
+		case 'u':
+			if (y == 0)
+				numNextCase = numCase + 28 * 31;
+			else
+				numNextCase = numCase - 28;
+			sprite = new ImageIcon("sprites/" + theme + "/PacMan_up.gif").getImage();
+			break;
+		case 'd':
+			if (y == 31)
+				numNextCase = numCase - 28 * 31;
+			else
+				numNextCase = numCase + 28;
+			sprite = new ImageIcon("sprites/" + theme + "/PacMan_down.gif").getImage();
+			break;
+		}
+		
 		if (getCase(numNextCase).getContent() != 'X' && getCase(numNextCase).getContent() != 'G') {
 			JLabel label = new JLabel();
 			Image img = new ImageIcon("sprites/" + theme + "/PacMan_right.gif").getImage();
-			Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
-			label = new JLabel(new ImageIcon(newimg));
+			Image resizedSprite = sprite.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
+			label = new JLabel(new ImageIcon(resizedSprite));
 
 			getCase(numCase).removeAll();
 			getCase(numCase).add(new JLabel(" "));
@@ -127,132 +167,62 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 			getCase(numCase).repaint();
 			getCase(numNextCase).revalidate();
 			getCase(numNextCase).repaint();
-			if (x != 27)
-				pacmanX++;
-			else
-				pacmanX = 0;
+			switch(direction){
+			case 'r':
+				if (x != 27)
+					pacmanX++;
+				else
+					pacmanX = 0;
+				break;
+			case 'l':
+				if (x != 0)
+					pacmanX--;
+				else
+					pacmanX = 27;
+				break;
+			case 'u':
+				if (y != 0)
+					pacmanY--;
+				else
+					pacmanY = 31;
+				break;
+			case 'd':
+				if (y != 31)
+					pacmanY++;
+				else
+					pacmanY = 0;
+				break;
+			}
+			
+			didItWork = true;
 		}
+
+		return didItWork;
 	}
 
-	public void moveLeft(int x, int y) {
-		int numCase = y * 28 + x; // number of its case
-		int numNextCase;
-		if (x == 0)
-			numNextCase = numCase + 27;
-		else
-			numNextCase = numCase - 1;
-
-		if (getCase(numNextCase).getContent() != 'X' && getCase(numNextCase).getContent() != 'G') {
-			JLabel label = new JLabel();
-			Image img = new ImageIcon("sprites/" + theme + "/PacMan_left.gif").getImage();
-			Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
-			label = new JLabel(new ImageIcon(newimg));
-
-			getCase(numCase).removeAll();
-			getCase(numCase).add(new JLabel(" "));
-			getCase(numCase).setContent(' ');
-
-			getCase(numNextCase).removeAll();
-			getCase(numNextCase).add(label);
-			getCase(numNextCase).setContent('P');
-
-			getCase(numCase).revalidate();
-			getCase(numCase).repaint();
-			getCase(numNextCase).revalidate();
-			getCase(numNextCase).repaint();
-			if (x != 0)
-				pacmanX--;
-			else
-				pacmanX = 27;
-		}
-	}
-
-	public void moveUp(int x, int y) {
-		int numCase = y * 28 + x; // number of its case
-		int numNextCase;
-		if (y == 0)
-			numNextCase = numCase + 28 * 31;
-		else
-			numNextCase = numCase - 28;
-
-		if (getCase(numNextCase).getContent() != 'X' && getCase(numNextCase).getContent() != 'G') {
-			JLabel label = new JLabel();
-			Image img = new ImageIcon("sprites/" + theme + "/PacMan_up.gif").getImage();
-			Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
-			label = new JLabel(new ImageIcon(newimg));
-
-			getCase(numCase).removeAll();
-			getCase(numCase).add(new JLabel(" "));
-			getCase(numCase).setContent(' ');
-
-			getCase(numNextCase).removeAll();
-			getCase(numNextCase).add(label);
-			getCase(numNextCase).setContent('P');
-
-			getCase(numCase).revalidate();
-			getCase(numCase).repaint();
-			getCase(numNextCase).revalidate();
-			getCase(numNextCase).repaint();
-			if (y != 0)
-				pacmanY--;
-			else
-				pacmanY = 31;
-		}
-	}
-
-	public void moveDown(int x, int y) {
-		int numCase = y * 28 + x; // number of its case
-		int numNextCase;
-		if (y == 31)
-			numNextCase = numCase - 28 * 31;
-		else
-			numNextCase = numCase + 28;
-
-		if (getCase(numNextCase).getContent() != 'X' && getCase(numNextCase).getContent() != 'G') {
-			JLabel label = new JLabel();
-			Image img = new ImageIcon("sprites/" + theme + "/PacMan_down.gif").getImage();
-			Image newimg = img.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
-			label = new JLabel(new ImageIcon(newimg));
-
-			getCase(numCase).removeAll();
-			getCase(numCase).add(new JLabel(" "));
-			getCase(numCase).setContent(' ');
-
-			getCase(numNextCase).removeAll();
-			getCase(numNextCase).add(label);
-			getCase(numNextCase).setContent('P');
-
-			getCase(numCase).revalidate();
-			getCase(numCase).repaint();
-			getCase(numNextCase).revalidate();
-			getCase(numNextCase).repaint();
-			if (y != 31)
-				pacmanY++;
-			else
-				pacmanY = 0;
-		}
-	}
+	
+	
 
 	// ############# Keylisteners ###############
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			moveRight(pacmanX, pacmanY);
-
+//			moveRight(pacmanX, pacmanY);
+			move(pacmanX,pacmanY,'r');
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			moveLeft(pacmanX, pacmanY);
-
+//			moveLeft(pacmanX, pacmanY);
+			move(pacmanX,pacmanY,'l');
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			moveUp(pacmanX, pacmanY);
-			System.out.println("(" + pacmanX + "," + pacmanY + ")");
-
+//			moveUp(pacmanX, pacmanY);
+			move(pacmanX,pacmanY,'u');
 		}
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			moveDown(pacmanX, pacmanY);
+//			moveDown(pacmanX, pacmanY);
+			move(pacmanX,pacmanY,'d');
 
 		}
 	}
@@ -269,56 +239,5 @@ public class GameScreen extends JLayeredPane implements KeyListener, MouseListen
 
 	}
 
-	// ################# MouseListener ##################
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		Case c = (Case) e.getSource();
-		int position = c.getNumber(); // to see where we have clicked
-		// int pacmanPos = pacmanY * 28 + pacmanX;
-		int posX = position % 28;
-		int posY = (position - posX) / 28;
-		System.out.println(posX + " " + posY);
-		if (Math.abs(posX - pacmanX) >= Math.abs(posY - pacmanY)) {
-			System.out.println("horizontal " + Math.abs(posX - pacmanX));
-			if (posX > pacmanX)
-				moveRight(pacmanX, pacmanY);
-
-			else if (pacmanX > posX)
-				moveLeft(pacmanX, pacmanY);
-
-		} else if (Math.abs(posY - pacmanY) > Math.abs(posX - pacmanX)) {
-			System.out.println("vertical " + Math.abs(posY - pacmanY));
-			if (posY > pacmanY)
-				moveDown(pacmanX, pacmanY);
-
-			else if (pacmanY > posY)
-				moveUp(pacmanX, pacmanY);
-		}
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
 
 }
