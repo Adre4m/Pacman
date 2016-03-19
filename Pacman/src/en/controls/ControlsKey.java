@@ -1,13 +1,8 @@
 package en.controls;
 
-import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import en.master.Game;
 
@@ -19,34 +14,6 @@ import en.master.Game;
 public class ControlsKey implements KeyListener {
 
 	// TODO ne doit pas rester ! juste la pour tester
-	class QuickFrame extends JFrame {
-
-		private static final long serialVersionUID = 1L;
-
-		JTextArea displayArea;
-		JTextField typingArea;
-		private ControlsKey test;
-
-		public QuickFrame(ControlsKey test) {
-			this.setTitle("Test KeyListner");
-			this.setSize(200, 200);
-			this.setResizable(false);
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			this.setLocationRelativeTo(null);
-			this.test = test;
-			this.addComponentsToPane();
-			this.pack();
-			this.setVisible(true);
-		}
-
-		private void addComponentsToPane() {
-			typingArea = new JTextField(20);
-			typingArea.addKeyListener(test);
-			getContentPane().add(typingArea, BorderLayout.PAGE_START);
-		}
-	}
-
-	QuickFrame qf = new QuickFrame(this);
 	private Game game;
 
 	public ControlsKey(Game game) {
@@ -74,7 +41,7 @@ public class ControlsKey implements KeyListener {
 				game.characters[0].setDir('d');
 			break;
 		case KeyEvent.VK_ESCAPE:
-				game.pause();
+			game.pause();
 			break;
 		default:
 			return;
@@ -87,17 +54,6 @@ public class ControlsKey implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-	}
-
-	public static void main(String[] args) {
-		final Game test = new Game();
-		test.init("labyrinths/test2.txt");
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new ControlsKey(test);
-			}
-		});
-		test.play(null);
 	}
 
 }
