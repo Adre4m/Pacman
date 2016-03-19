@@ -142,8 +142,7 @@ public class Stream {
 	 *         <ul>
 	 *         <li>Classic theme : 0</li>
 	 *         <li>Star Wars theme : 1</li>
-	 *         <li>Big Hero 6 theme : 2</li>
-	 *         <li>The Legend Of Zelda : 3</li>
+	 *         <li>The Legend Of Zelda : 2</li>
 	 *         </ul>
 	 *         </li>
 	 *         <li>According to the controls this cell can take two values:
@@ -183,11 +182,8 @@ public class Stream {
 				case "Star Wars":
 					options[0] = 1;
 					break;
-				case "Big Hero 6":
-					options[0] = 2;
-					break;
 				case "Zelda":
-					options[0] = 3;
+					options[0] = 2;
 					break;
 				case "Keyboard":
 					options[1] = 0;
@@ -241,9 +237,6 @@ public class Stream {
 					ps.println("Star Wars");
 					break;
 				case 2:
-					ps.println("Big Hero 6");
-					break;
-				case 3:
 					ps.println("Zelda");
 					break;
 				}
