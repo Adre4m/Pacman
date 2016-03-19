@@ -4,22 +4,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
 import en.controls.ControlsMouse;
 import en.master.Game;
+import en.master.characters.Characters;
 
 /**
  * 
@@ -32,7 +27,7 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	Game g;
-	String theme = "zelda";
+	String theme = "classic";
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
 	JLabel grid;
@@ -51,7 +46,7 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 		g.init("labyrinths/labyrinth2.txt");
 		this.pacmanX = g.getPacmanX();
 		this.pacmanY = g.getPacmanY();
-		grid = new JLabel(/* after */);
+		grid = new JLabel();
 		grid.setBackground(Color.BLACK);
 		grid.setBounds(2 * height / 10, -height / 32, 4 * height / 3 - 4 * height / 10, height);
 		grid.setOpaque(true);
@@ -59,15 +54,16 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 		// Label l;
 		String s = "";
 		int number = 0; // case's numbers
-		ControlsMouse ctrlMouse = new ControlsMouse(this);
+		ControlsMouse ctrlMouse = new ControlsMouse(this); //MouseListener
 		for (int i = 0; i < g.getLab().length; ++i) {
 			for (int j = 0; j < g.getLab()[0].length; ++j) {
 				s += g.getLab()[i][j];
-				Case c = new Case(s.charAt(0), number);
-				c.addMouseListener(ctrlMouse);
+				Case c = new Case(this, s.charAt(0), number);
 				grid.add(c);
 				number++;
 				s = "";
+				
+				c.addMouseListener(ctrlMouse);
 			}
 		}
 
@@ -86,7 +82,7 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 		return pacmanY;
 	}
 
-	public Case getCase(int x) {
+	private Case getCase(int x) {
 		return (Case) this.grid.getComponent(x);
 
 	}
@@ -94,86 +90,126 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 	// movements
 	public boolean move(int x, int y, char direction) {
 		boolean didItWork = false; // Indicates if the move is successful
-		int numCase = y * 28 + x; // number of its case
+		int numCase = x + 28 * y; // number of its case
 		int numNextCase=0;
 		Image sprite=null;
+		String contentCase="";
+		char c = getCase(x+28*y).getContent();
+		contentCase=getSprite(x+28*y);
+		
 		switch(direction){
 		case 'r':
-			if (x == 27)
-				numNextCase = numCase - 27;
-			else
-				numNextCase = numCase + 1;
-			sprite = new ImageIcon("sprites/" + theme + "/PacMan_right.gif").getImage();
+			if (x == 27) numNextCase = numCase - 27;
+			else numNextCase = numCase + 1;
+			sprite = new ImageIcon(contentCase).getImage();
 			break;
 		case 'l':
-			if (x == 0)
-				numNextCase = numCase + 27;
-			else
-				numNextCase = numCase - 1;
-			sprite = new ImageIcon("sprites/" + theme + "/PacMan_left.gif").getImage();
+			if (x == 0)numNextCase = numCase + 27;
+			else numNextCase = numCase - 1;
+			sprite = new  ImageIcon(contentCase).getImage();
 			break;
 		case 'u':
-			if (y == 0)
-				numNextCase = numCase + 28 * 31;
-			else
-				numNextCase = numCase - 28;
-			sprite = new ImageIcon("sprites/" + theme + "/PacMan_up.gif").getImage();
+			if (y == 0) numNextCase = numCase + 28 * 31;
+			else numNextCase = numCase - 28;
+			sprite = new ImageIcon(contentCase).getImage();
 			break;
 		case 'd':
-			if (y == 31)
-				numNextCase = numCase - 28 * 31;
-			else
-				numNextCase = numCase + 28;
-			sprite = new ImageIcon("sprites/" + theme + "/PacMan_down.gif").getImage();
+			if (y == 31) numNextCase = numCase - 28 * 31;
+			else numNextCase = numCase + 28;
+			sprite = new ImageIcon(contentCase).getImage();
 			break;
 		}
-		
+		System.out.println(contentCase);
 		if (getCase(numNextCase).getContent() != 'X' && getCase(numNextCase).getContent() != 'G') {
 			JLabel label = new JLabel();
-			Image img = new ImageIcon("sprites/" + theme + "/PacMan_right.gif").getImage();
 			Image resizedSprite = sprite.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
 			label = new JLabel(new ImageIcon(resizedSprite));
+			
+			switch(c){
+			case 'P':
+				getCase(numCase).removeAll();
+				getCase(numCase).add(new JLabel(" "));
+				getCase(numCase).setContent(' ');
 
-			getCase(numCase).removeAll();
-			getCase(numCase).add(new JLabel(" "));
-			getCase(numCase).setContent(' ');
+				getCase(numNextCase).removeAll(); // Enlever le JLabel de la case
+													// suivante
+				getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
+				getCase(numNextCase).setContent('P'); // Et on met à jour les
+														// attributs de la case
 
-			getCase(numNextCase).removeAll(); // Enlever le JLabel de la case
-												// suivante
-			getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
-			getCase(numNextCase).setContent('P'); // Et on met à jour les
-													// attributs de la case
+				getCase(numCase).revalidate();
+				getCase(numCase).repaint();
+				getCase(numNextCase).revalidate();
+				getCase(numNextCase).repaint();
+				switch(direction){
+				case 'r':
+					if (x != 27)
+						pacmanX++;
+					else
+						pacmanX = 0;
+					break;
+				case 'l':
+					if (x != 0)
+						pacmanX--;
+					else
+						pacmanX = 27;
+					break;
+				case 'u':
+					if (y != 0)
+						pacmanY--;
+					else
+						pacmanY = 31;
+					break;
+				case 'd':
+					if (y != 31)
+						pacmanY++;
+					else
+						pacmanY = 0;
+					break;
+				}
+				break;
+			case 'G':
+				System.out.println("G");
+				if(getCase(numNextCase).getContent()=='g'){
+					getCase(numCase).removeAll();
+					JLabel label2 = new JLabel();
+					sprite = new ImageIcon("sprites/" + theme + "/PacGum.gif").getImage();
+					resizedSprite = sprite.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+					label2.setIcon(new ImageIcon(resizedSprite));
+					getCase(numCase).add(label2);
+					getCase(numCase).setContent('g');
 
-			getCase(numCase).revalidate();
-			getCase(numCase).repaint();
-			getCase(numNextCase).revalidate();
-			getCase(numNextCase).repaint();
-			switch(direction){
-			case 'r':
-				if (x != 27)
-					pacmanX++;
-				else
-					pacmanX = 0;
-				break;
-			case 'l':
-				if (x != 0)
-					pacmanX--;
-				else
-					pacmanX = 27;
-				break;
-			case 'u':
-				if (y != 0)
-					pacmanY--;
-				else
-					pacmanY = 31;
-				break;
-			case 'd':
-				if (y != 31)
-					pacmanY++;
-				else
-					pacmanY = 0;
+					getCase(numNextCase).removeAll(); // Enlever le JLabel de la case
+														// suivante
+					getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
+					getCase(numNextCase).setContent('G'); // Et on met à jour les
+															// attributs de la case
+
+					getCase(numCase).revalidate();
+					getCase(numCase).repaint();
+					getCase(numNextCase).revalidate();
+					getCase(numNextCase).repaint();
+				}
+				else{
+					getCase(numCase).removeAll();
+					getCase(numCase).add(new JLabel(" "));
+					getCase(numCase).setContent(' ');
+
+					getCase(numNextCase).removeAll(); // Enlever le JLabel de la case
+														// suivante
+					getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
+					getCase(numNextCase).setContent('G'); // Et on met à jour les
+															// attributs de la case
+
+					getCase(numCase).revalidate();
+					getCase(numCase).repaint();
+					getCase(numNextCase).revalidate();
+					getCase(numNextCase).repaint();
+				}
+				
 				break;
 			}
+			
 			
 			didItWork = true;
 		}
@@ -181,7 +217,20 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 		return didItWork;
 	}
 
-	
+	public String getSprite(int number){
+		String res="";
+		int x=number%28;
+		int y=(number-x)/28;
+		Point p = new Point(y,x);
+		Characters[] cara = g.characters;
+		for(int i=0; i<5; i++){
+			if(cara[i].getPosition().equals(p)){
+				
+				res=cara[i].sprite();
+			}
+		}
+		return res;		
+	}
 	
 
 	// ############# Keylisteners ###############
