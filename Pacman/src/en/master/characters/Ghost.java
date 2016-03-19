@@ -299,7 +299,7 @@ public abstract class Ghost extends Characters {
 			s += "_left";
 			break;
 		}
-		return s + altSprite + "_.gif";
+		return s + altSprite + ".gif";
 	}
 
 }
