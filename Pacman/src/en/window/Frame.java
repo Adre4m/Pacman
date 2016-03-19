@@ -568,17 +568,10 @@ public class Frame extends JFrame {
 	 * allowed, and then call the score writer
 	 * 
 	 * @author GRIGNON Lindsay
-	 * @param score
-	 *            The score the player made
-	 * @param place
-	 *            The place which the score must be placed in the list
-	 * @param ls
-	 *            The ensemble of score
+	 * 
+	 * @return String The pseudo
 	 */
-	public void addScore(int score, int place, LinkedList<NodeScore> ls) {
-
-		// modifier le pop up de maniere a recuperer le int renvooyer
-		// pop up nouvelle frame
+	public String askPseudo () {
 
 		Box sco = Box.createVerticalBox();
 
@@ -606,16 +599,9 @@ public class Frame extends JFrame {
 
 		do {
 			JOptionPane.showMessageDialog(null, sco, "You have a highscore !", JOptionPane.PLAIN_MESSAGE);
-		} while (name.getText().contains(" "));
+		} while (name.getText().contains(" ") || name.getText().equals(""));
 
-		String pseudo = name.getText();
-		NodeScore nns = new NodeScore(place + "°", pseudo, "" + score);
-		ls.add(place - 1, nns);
-		if (ls.size() > 10)
-			ls.removeLast();
-
-		Stream.writeScores("score.txt", ls);
-
+		return name.getText();
 	}
 
 	/**

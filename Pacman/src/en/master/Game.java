@@ -2,7 +2,9 @@ package en.master;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
+
 
 import en.master.characters.Blinky;
 import en.master.characters.Characters;
@@ -12,6 +14,7 @@ import en.master.characters.Inky;
 import en.master.characters.Pacman;
 import en.master.characters.Pinky;
 import en.master.graph.Graph;
+import en.window.Frame;
 import en.window.GameScreen;
 
 /**
@@ -345,8 +348,30 @@ public class Game {
 				}
 			}
 		}
+		//
 	}
-
+	
+	public void checkScore(Frame f, int score) {
+		LinkedList<NodeScore> l = Stream.readScore("score.txt");
+		if (l.isEmpty()) {
+			l.add(new NodeScore("1°",f.askPseudo() , "" + score));
+		} else {
+			int start = 0, end = l.size();
+			while(start < end) {
+				NodeScore ns =  l.get((end + start) / 2);
+				if(score < Integer.parseInt(ns.getScore()))
+					start = ((end + start) / 2) + 1;
+				else
+					end = ((end + start) / 2);
+			}
+			if(start < l.size() || l.size() != 10)
+				l.add(start, new NodeScore(start + "°",f.askPseudo() , "" + score));
+					if (l.size() > 10)
+						l.removeLast();
+					Stream.writeScores("score.txt", l);
+		}		 
+	}
+	
 	public void pause() {
 		paused = !paused;
 	}
