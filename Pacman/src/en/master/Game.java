@@ -34,6 +34,8 @@ public class Game {
 	public int level = 1;
 	public short difficulty = 0;
 	public boolean ateFruit = true;
+	public int pacmanX = 0;
+	public int pacmanY = 0;
 	short secFruit = Timer.FRUIT;
 
 	public int getScore() {
@@ -116,6 +118,8 @@ public class Game {
 					characters[0] = new Pacman(i, j);
 					lab[i][j] = 'P';
 					gums[i][j] = 0;
+					this.pacmanX=j;
+					this.pacmanY=i;
 					break;
 				default:
 					lab[i][j] = grid.charAt(index);
@@ -148,7 +152,15 @@ public class Game {
 			break;
 		}
 	}
+	
+	public int getPacmanX() {
+		return pacmanX;
+	}
 
+	public int getPacmanY() {
+		return pacmanY;
+	}
+	
 	private void newLevel() {
 		level++;
 		for (int i = 0; i < characters.length; ++i)

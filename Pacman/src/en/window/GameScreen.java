@@ -37,39 +37,20 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 	int height = (int) (screenSize.getHeight() * 0.95);
 	JLabel grid;
 	JLabel piclabel;
-	int pacmanX = 14;
-	
-
-	int pacmanY = 19;
+	int pacmanX = 0;
+	int pacmanY = 0;
 
 	public GameScreen() {
 
 		this.setPreferredSize(new Dimension(4 * height / 3, height));
 		this.setBounds(0, 0, 4 * height / 3, height);
 
-		// Image de fond
-		BufferedImage before = null;
-		int w = 0;
-		int h = 0;
-		ImageIcon after = null; // resized image
-		try {
-			before = ImageIO.read(new File("sprites/bh6.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		after = new ImageIcon(before.getScaledInstance(4 * height / 3 - 4 * height / 10, height, Image.SCALE_DEFAULT));
-		w = 4 * height / 3 - 4 * height / 10;
-		h = height;
-
-		piclabel = new JLabel(after);
-		piclabel.setBounds(2 * height / 10, 0, w, h);
-		piclabel.setOpaque(true);
-
 		// ##########Grid###########
 		// enlever l'initialisation du jeu dès que possible
 		g = new Game(); // load labyrinth
 		g.init("labyrinths/labyrinth2.txt");
+		this.pacmanX = g.getPacmanX();
+		this.pacmanY = g.getPacmanY();
 		grid = new JLabel(/* after */);
 		grid.setBackground(Color.BLACK);
 		grid.setBounds(2 * height / 10, -height / 32, 4 * height / 3 - 4 * height / 10, height);
