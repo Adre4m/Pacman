@@ -356,7 +356,6 @@ public class Frame extends JFrame {
 						config[0] = 1;
 					else if (r3.isSelected())
 						config[0] = 2;		
-					Stream.writeOptions(config);;
 				} 
 			}
 		});
