@@ -21,7 +21,7 @@ import en.master.characters.Characters;
  * @author RIETZ Vincent
  *
  */
-public class GameScreen extends JLayeredPane implements KeyListener{
+public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 	/**
 	 * 
 	 */
@@ -32,8 +32,6 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 	int height = (int) (screenSize.getHeight() * 0.95);
 	JLabel grid;
 	JLabel piclabel;
-	int pacmanX = 0;
-	int pacmanY = 0;
 
 	public GameScreen() {
 
@@ -44,8 +42,6 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 		// enlever l'initialisation du jeu dès que possible
 		g = new Game(); // load labyrinth
 		g.init("labyrinths/labyrinth2.txt");
-		this.pacmanX = g.getPacmanX();
-		this.pacmanY = g.getPacmanY();
 		grid = new JLabel();
 		grid.setBackground(Color.BLACK);
 		grid.setBounds(2 * height / 10, -height / 32, 4 * height / 3 - 4 * height / 10, height);
@@ -70,17 +66,10 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 		grid.setVisible(true);
 		this.add(grid, new Integer(1), 0);
 		
-		addKeyListener(this);
+		//addKeyListener(this);
 
 	}
-	
-	public int getPacmanX() {
-		return pacmanX;
-	}
 
-	public int getPacmanY() {
-		return pacmanY;
-	}
 
 	private Case getCase(int x) {
 		return (Case) this.grid.getComponent(x);
@@ -141,32 +130,24 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 				getCase(numCase).repaint();
 				getCase(numNextCase).revalidate();
 				getCase(numNextCase).repaint();
-				switch(direction){
-				case 'r':
-					if (x != 27)
-						pacmanX++;
-					else
-						pacmanX = 0;
-					break;
-				case 'l':
-					if (x != 0)
-						pacmanX--;
-					else
-						pacmanX = 27;
-					break;
-				case 'u':
-					if (y != 0)
-						pacmanY--;
-					else
-						pacmanY = 31;
-					break;
-				case 'd':
-					if (y != 31)
-						pacmanY++;
-					else
-						pacmanY = 0;
-					break;
-				}
+//				switch(direction){
+//				case 'r':
+//					if (x != 27) pacmanX++;
+//					else pacmanX = 0;
+//					break;
+//				case 'l':
+//					if (x != 0) pacmanX--;
+//					else pacmanX = 27;
+//					break;
+//				case 'u':
+//					if (y != 0) pacmanY--;
+//					else pacmanY = 31;
+//					break;
+//				case 'd':
+//					if (y != 31) pacmanY++;
+//					else pacmanY = 0;
+//					break;
+//				}
 				break;
 			case 'G':
 				System.out.println("G");
@@ -216,7 +197,48 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 
 		return didItWork;
 	}
-
+	
+	public void putFruit(Point position, char fruit){
+		int numCase = (int) (position.getX() * 28 + position.getY());
+		Image sprite = null;
+		switch(fruit){
+		case 'C': sprite = new ImageIcon("sprites/" + theme + "/Cherry.gif").getImage();
+			break;
+		case 's': sprite = new ImageIcon("sprites/" + theme + "/Strawberry.gif").getImage();
+			break;
+		case 'O': sprite = new ImageIcon("sprites/" + theme + "/Orange.gif").getImage();
+			break;
+		case 'A': sprite = new ImageIcon("sprites/" + theme + "/Apple.gif").getImage();
+			break;
+		case 'M': sprite = new ImageIcon("sprites/" + theme + "/Melon.gif").getImage();
+			break;
+		case 'b': sprite = new ImageIcon("sprites/" + theme + "/Galboss.gif").getImage();
+			break;
+		case 'B': sprite = new ImageIcon("sprites/" + theme + "/Bell.gif").getImage();
+			break;
+		case 'K': sprite = new ImageIcon("sprites/" + theme + "/Key.gif").getImage();
+			break;
+		}
+		Image resizedSprite = sprite.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+		getCase(numCase).removeAll();
+		JLabel label = new JLabel();
+		label.setIcon(new ImageIcon(resizedSprite));
+		getCase(numCase).add(label);
+		getCase(numCase).setContent(fruit);
+		
+		getCase(numCase).revalidate();
+		getCase(numCase).repaint();
+	}
+	
+	public void removeSprite(Point position){
+		int numCase = (int) (position.getX() * 28 + position.getY());
+		getCase(numCase).removeAll();
+		getCase(numCase).add(new JLabel(" "));
+		getCase(numCase).setContent(' ');
+		getCase(numCase).revalidate();
+		getCase(numCase).repaint();
+	}
+	
 	public String getSprite(int number){
 		String res="";
 		int x=number%28;
@@ -232,42 +254,38 @@ public class GameScreen extends JLayeredPane implements KeyListener{
 		return res;		
 	}
 	
+	
 
-	// ############# Keylisteners ###############
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-//			moveRight(pacmanX, pacmanY);
-			move(pacmanX,pacmanY,'r');
-		}
-		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-//			moveLeft(pacmanX, pacmanY);
-			move(pacmanX,pacmanY,'l');
-		}
-
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
-//			moveUp(pacmanX, pacmanY);
-			move(pacmanX,pacmanY,'u');
-		}
-		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-//			moveDown(pacmanX, pacmanY);
-			move(pacmanX,pacmanY,'d');
-
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+//	// ############# Keylisteners ###############
+//	@Override
+//	public void keyPressed(KeyEvent e) {
+//		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+//			move(pacmanX,pacmanY,'r');
+//		}
+//		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+//			move(pacmanX,pacmanY,'l');
+//		}
+//
+//		if (e.getKeyCode() == KeyEvent.VK_UP) {
+//			move(pacmanX,pacmanY,'u');
+//		}
+//		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+//			move(pacmanX,pacmanY,'d');
+//
+//		}
+//	}
+//
+//	@Override
+//	public void keyReleased(KeyEvent e) {
+//		// TODO Auto-generated method stub
+//
+//	}
+//
+//	@Override
+//	public void keyTyped(KeyEvent e) {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 
 }
