@@ -133,7 +133,7 @@ public abstract class Characters {
 			for (int i = 1; i < game.characters.length; ++i) {
 				((Ghost) (game.characters[i])).ill();
 			}
-			((Pacman) (game.characters[0])).setInvulnerable(Timer.SUPERGUM);
+			((Pacman) (game.characters[0])).setInvulnerable();
 			game.eatGum();
 			break;
 		case 'C':

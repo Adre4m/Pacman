@@ -1,5 +1,7 @@
 package en.master.characters;
 
+import en.master.Timer;
+
 /**
  * 
  * @author BOURGEOIS Adrien
@@ -53,8 +55,13 @@ public class Pacman extends Characters {
 		return 'P';
 	}
 
-	public void setInvulnerable(long invulnerable) {
-		this.invulnerable = invulnerable;
+	public void setInvulnerable() {
+		invulnerable = Timer.SUPERGUM;
+		this.isInvunerable = true;
+	}
+	
+	public void ill() {
+		invulnerable--;
 		if (0 < invulnerable)
 			this.isInvunerable = true;
 		else
