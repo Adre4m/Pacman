@@ -82,7 +82,8 @@ public class Stream {
 	}
 
 	/**
-	 * inserez commentaire de fonction, ou enlever cette ligne
+	 * Reads the file and put the content in a String without the line breaks 
+	 * and the spaces.
 	 * 
 	 * @author RIETZ Vincent
 	 * @param path

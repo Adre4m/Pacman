@@ -23,6 +23,23 @@ public class Case extends JPanel {
 	private String theme;
 	private int number;
 
+	
+	/**
+	 * 
+	 * This is the Case constructor.
+	 * It adds to the cell a picture or a label depending on the type of cell 
+	 * and set the background color.
+	 * 
+	 * @author RIETZ Vincent
+	 * 
+	 * @param g
+	 * 				The game screen
+	 * @param content
+	 * 				The type of cell
+	 * @param number
+	 * 				The cell's number
+	 * 
+	 */
 	public Case(GameScreen g, char content, int number) {
 		this.content = content;
 		this.number = number;

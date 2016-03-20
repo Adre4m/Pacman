@@ -6,13 +6,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
-//import java.awt.event.KeyEvent;
-//import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-
-//import en.controls.ControlsMouse;
 import en.master.Game;
 import en.master.Stream;
 import en.master.characters.Characters;
@@ -33,7 +29,14 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 	int height = (int) (screenSize.getHeight() * 0.95);
 	JLabel grid;
 	JLabel piclabel;
-
+	
+	/**
+	 * 
+	 * This is the GameScreen constructor
+	 * 
+	 * @author RIETZ Vincent
+	 * 
+	 */
 	public GameScreen() {
 
 		this.setPreferredSize(new Dimension(4 * height / 3, height));
@@ -90,6 +93,24 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 	}
 
 	// movements
+	/**
+	 * 
+	 * This method move a sprite on the grid from a point to another.
+	 * To get the component Case we must calculate his number. Then we retrieve the case and we 
+	 * swap it with the next case.
+	 * If the sprite moving is the pacman, we remove the gums when he walk through them.
+	 * 
+	 * @author RIETZ Vincent
+	 * 
+	 * @param g
+	 *            The game initialised
+	 * @param oldP
+	 * 			  The origin point of the sprite
+	 * @param newP
+	 * 			  The next point of the sprite
+	 * 			
+	 * 
+	 */
 	public void move(Game g, Point oldP, Point newP) {
 		int numCase = (int) (oldP.getY() + 28 * oldP.getX()); // number of its case
 		int numNextCase= (int) (newP.getY() + 28 * newP.getX());
@@ -109,11 +130,9 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 			getCase(numCase).add(new JLabel(" "));
 			getCase(numCase).setContent(' ');
 
-			getCase(numNextCase).removeAll(); // Enlever le JLabel de la case
-												// suivante
-			getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
-			getCase(numNextCase).setContent('P'); // Et on met à jour les
-													// attributs de la case
+			getCase(numNextCase).removeAll(); // Remove JLabel on the next case
+			getCase(numNextCase).add(label); // We add the new JLabel
+			getCase(numNextCase).setContent('P'); // We update the informations on the case
 
 			getCase(numCase).revalidate();
 			getCase(numCase).repaint();
@@ -130,11 +149,9 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 				getCase(numCase).add(label2);
 				getCase(numCase).setContent('g');
 
-				getCase(numNextCase).removeAll(); // Enlever le JLabel de la case
-													// suivante
-				getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
-				getCase(numNextCase).setContent('G'); // Et on met à jour les
-														// attributs de la case
+				getCase(numNextCase).removeAll(); // Remove JLabel on the next case
+				getCase(numNextCase).add(label); // We add the new JLabel
+				getCase(numNextCase).setContent('G'); // We update the informations on the case
 
 				getCase(numCase).revalidate();
 				getCase(numCase).repaint();
@@ -146,11 +163,10 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 				getCase(numCase).add(new JLabel(" "));
 				getCase(numCase).setContent(' ');
 
-				getCase(numNextCase).removeAll(); // Enlever le JLabel de la case
-													// suivante
-				getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
-				getCase(numNextCase).setContent('G'); // Et on met à jour les
-														// attributs de la case
+				getCase(numNextCase).removeAll(); // Remove JLabel on the next case
+				getCase(numNextCase).add(label); // We add the new JLabel
+				getCase(numNextCase).setContent('G'); // We update the informations on the case
+														
 
 				getCase(numCase).revalidate();
 				getCase(numCase).repaint();
@@ -163,6 +179,18 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 			
 	}
 	
+	/**
+	 * This method puts a fruit on a cell, we erase the cell and we put the fruit sprite in it.
+	 * To determine which fruit we need to put, a switch is used in order to retrieve the good sprite.
+	 * 
+	 * @author RIETZ Vincent
+	 * 
+	 * @param position
+	 * 				The position of the fruit
+	 * @param fruit
+	 * 				The type of the fruit
+	 * 			
+	 */
 	public void putFruit(Point position, char fruit){
 		int numCase = (int) (position.getX() * 28 + position.getY());
 		Image sprite = null;
@@ -184,7 +212,7 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 		case 'K': sprite = new ImageIcon("sprites/" + theme + "/Key.gif").getImage();
 			break;
 		}
-		Image resizedSprite = sprite.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+		Image resizedSprite = sprite.getScaledInstance(25, 25, Image.SCALE_DEFAULT);
 		getCase(numCase).removeAll();
 		JLabel label = new JLabel();
 		label.setIcon(new ImageIcon(resizedSprite));
@@ -195,6 +223,15 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 		getCase(numCase).repaint();
 	}
 	
+	/**
+	 * This method removes a sprite from  its cell;
+	 * 
+	 * @author RIETZ Vincent
+	 * 
+	 * @param position
+	 * 				The position of the sprite.
+	 * 
+	 */
 	public void removeSprite(Point position){
 		int numCase = (int) (position.getX() * 28 + position.getY());
 		getCase(numCase).removeAll();
@@ -204,6 +241,17 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 		getCase(numCase).repaint();
 	}
 	
+	/**
+	 * This method retrieves the sprite that matches with the cell number.
+	 * The point of the cell is calculated in order to compare it with the characters coordinates.
+	 * When it finds a match, it retrieves the sprite.
+	 * 
+	 * @author RIETZ Vincent
+	 * 
+	 * @param number
+	 * 				The number of the cell.
+	 * 
+	 */
 	public String getSprite(int number){
 		String res="";
 		int x=number%28;
@@ -219,6 +267,16 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 		return res;		
 	}
 	
+	/**
+	 * This method reset the labyrinth to its original state.
+	 * It scans the informations of the labyrinth and add the correct informations to the cases
+	 * based on the informations.
+	 * 
+	 * @author RIETZ Vincent
+	 * 
+	 * @param g
+	 * 				The game initialised.
+	 */
 	public void resetLab(Game g){
 		int numCase = 0; // case's numbers
 		String s="";
@@ -260,7 +318,6 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 					img = new ImageIcon(getSprite(numCase)).getImage().getScaledInstance(15, 15, Image.SCALE_DEFAULT);
 					break;
 				default:
-					System.out.println("merde");
 					break;
 				}
 				
