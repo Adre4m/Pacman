@@ -8,6 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import en.master.Stream;
+
 
 /**
  * 
@@ -24,11 +26,19 @@ public class Case extends JPanel {
 	public Case(GameScreen g, char content, int number) {
 		this.content = content;
 		this.number = number;
-
-		// URL url; // url of the image
+		
 		Image img; // image without a resize
 		Image newimg; // image resized
-		theme = "classic";
+		//theme
+		switch(Stream.readOptions()[0]){
+		case 0: theme = "classic"; 		
+			break;
+		case 1: theme = "sw"; 		
+			break;
+		case 2: theme = "zelda"; 		
+			break;
+		}
+		
 		switch (content) {
 
 		case ' ':
@@ -88,8 +98,10 @@ public class Case extends JPanel {
 			break;
 
 		}
-		this.setBackground(new Color(0, 0, 0));
-//		this.setBackground(new Color(150, 160, 50));
+		 if (theme.equals("zelda"))
+			 this.setBackground(new Color(150, 160, 50));
+		 else
+			 this.setBackground(new Color(0, 0, 0));
 	}
 
 	public char getContent() {

@@ -6,14 +6,15 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+//import java.awt.event.KeyEvent;
+//import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
 import en.controls.ControlsMouse;
 import en.master.Game;
+import en.master.Stream;
 import en.master.characters.Characters;
 
 /**
@@ -27,7 +28,7 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 	 */
 	private static final long serialVersionUID = 1L;
 	Game g;
-	String theme = "classic";
+	String theme;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
 	JLabel grid;
@@ -37,7 +38,17 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 
 		this.setPreferredSize(new Dimension(4 * height / 3, height));
 		this.setBounds(0, 0, 4 * height / 3, height);
-
+		
+		//theme
+		switch(Stream.readOptions()[0]){
+		case 0: theme = "classic"; 		
+			break;
+		case 1: theme = "sw"; 		
+			break;
+		case 2: theme = "zelda"; 		
+			break;
+		}
+		
 		// ##########Grid###########
 		// enlever l'initialisation du jeu dès que possible
 		g = new Game(); // load labyrinth
