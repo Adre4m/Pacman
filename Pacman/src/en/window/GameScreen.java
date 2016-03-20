@@ -52,13 +52,16 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 		// ##########Grid###########
 		// enlever l'initialisation du jeu dès que possible
 		g = new Game(); // load labyrinth
-		g.init("labyrinths/labyrinth2.txt");
+		g.init("labyrinths/labyrinth.txt");
 		grid = new JLabel();
 		grid.setBackground(Color.BLACK);
+		
+		//set size
 		grid.setBounds(2 * height / 10, -height / 32, 4 * height / 3 - 4 * height / 10, height);
 		grid.setOpaque(true);
 		grid.setLayout(new GridLayout(32, 28));
-		// Label l;
+		
+		//load cases
 		String s = "";
 		int number = 0; // case's numbers
 		ControlsMouse ctrlMouse = new ControlsMouse(this); //MouseListener
@@ -81,52 +84,64 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 
 	}
 
-
 	private Case getCase(int x) {
 		return (Case) this.grid.getComponent(x);
 
 	}
 
 	// movements
-	public boolean move(int x, int y, char direction) {
-		boolean didItWork = false; // Indicates if the move is successful
-		int numCase = x + 28 * y; // number of its case
-		int numNextCase=0;
+	public void move(Game g, Point oldP, Point newP) {
+		int numCase = (int) (oldP.getY() + 28 * oldP.getX()); // number of its case
+		int numNextCase= (int) (newP.getY() + 28 * newP.getX());
 		Image sprite=null;
-		String contentCase="";
-		char c = getCase(x+28*y).getContent();
-		contentCase=getSprite(x+28*y);
+		String contentCase=""; 
+		char c = getCase(numCase).getContent(); 
+		contentCase = getSprite(numCase); //to know which sprite we have to load
+		sprite = new ImageIcon(contentCase).getImage(); //load the sprite
+
+		JLabel label = new JLabel();
+		Image resizedSprite = sprite.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
+		label = new JLabel(new ImageIcon(resizedSprite));
 		
-		switch(direction){
-		case 'r':
-			if (x == 27) numNextCase = numCase - 27;
-			else numNextCase = numCase + 1;
-			sprite = new ImageIcon(contentCase).getImage();
+		switch(c){
+		case 'P':
+			getCase(numCase).removeAll();
+			getCase(numCase).add(new JLabel(" "));
+			getCase(numCase).setContent(' ');
+
+			getCase(numNextCase).removeAll(); // Enlever le JLabel de la case
+												// suivante
+			getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
+			getCase(numNextCase).setContent('P'); // Et on met à jour les
+													// attributs de la case
+
+			getCase(numCase).revalidate();
+			getCase(numCase).repaint();
+			getCase(numNextCase).revalidate();
+			getCase(numNextCase).repaint();
 			break;
-		case 'l':
-			if (x == 0)numNextCase = numCase + 27;
-			else numNextCase = numCase - 1;
-			sprite = new  ImageIcon(contentCase).getImage();
-			break;
-		case 'u':
-			if (y == 0) numNextCase = numCase + 28 * 31;
-			else numNextCase = numCase - 28;
-			sprite = new ImageIcon(contentCase).getImage();
-			break;
-		case 'd':
-			if (y == 31) numNextCase = numCase - 28 * 31;
-			else numNextCase = numCase + 28;
-			sprite = new ImageIcon(contentCase).getImage();
-			break;
-		}
-		System.out.println(contentCase);
-		if (getCase(numNextCase).getContent() != 'X' && getCase(numNextCase).getContent() != 'G') {
-			JLabel label = new JLabel();
-			Image resizedSprite = sprite.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
-			label = new JLabel(new ImageIcon(resizedSprite));
-			
-			switch(c){
-			case 'P':
+		case 'G':
+			if(getCase(numNextCase).getContent()=='g'){
+				getCase(numCase).removeAll();
+				JLabel label2 = new JLabel();
+				sprite = new ImageIcon("sprites/" + theme + "/PacGum.gif").getImage();
+				resizedSprite = sprite.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+				label2.setIcon(new ImageIcon(resizedSprite));
+				getCase(numCase).add(label2);
+				getCase(numCase).setContent('g');
+
+				getCase(numNextCase).removeAll(); // Enlever le JLabel de la case
+													// suivante
+				getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
+				getCase(numNextCase).setContent('G'); // Et on met à jour les
+														// attributs de la case
+
+				getCase(numCase).revalidate();
+				getCase(numCase).repaint();
+				getCase(numNextCase).revalidate();
+				getCase(numNextCase).repaint();
+			}
+			else{
 				getCase(numCase).removeAll();
 				getCase(numCase).add(new JLabel(" "));
 				getCase(numCase).setContent(' ');
@@ -134,79 +149,20 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 				getCase(numNextCase).removeAll(); // Enlever le JLabel de la case
 													// suivante
 				getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
-				getCase(numNextCase).setContent('P'); // Et on met à jour les
+				getCase(numNextCase).setContent('G'); // Et on met à jour les
 														// attributs de la case
 
 				getCase(numCase).revalidate();
 				getCase(numCase).repaint();
 				getCase(numNextCase).revalidate();
 				getCase(numNextCase).repaint();
-//				switch(direction){
-//				case 'r':
-//					if (x != 27) pacmanX++;
-//					else pacmanX = 0;
-//					break;
-//				case 'l':
-//					if (x != 0) pacmanX--;
-//					else pacmanX = 27;
-//					break;
-//				case 'u':
-//					if (y != 0) pacmanY--;
-//					else pacmanY = 31;
-//					break;
-//				case 'd':
-//					if (y != 31) pacmanY++;
-//					else pacmanY = 0;
-//					break;
-//				}
-				break;
-			case 'G':
-				System.out.println("G");
-				if(getCase(numNextCase).getContent()=='g'){
-					getCase(numCase).removeAll();
-					JLabel label2 = new JLabel();
-					sprite = new ImageIcon("sprites/" + theme + "/PacGum.gif").getImage();
-					resizedSprite = sprite.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
-					label2.setIcon(new ImageIcon(resizedSprite));
-					getCase(numCase).add(label2);
-					getCase(numCase).setContent('g');
-
-					getCase(numNextCase).removeAll(); // Enlever le JLabel de la case
-														// suivante
-					getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
-					getCase(numNextCase).setContent('G'); // Et on met à jour les
-															// attributs de la case
-
-					getCase(numCase).revalidate();
-					getCase(numCase).repaint();
-					getCase(numNextCase).revalidate();
-					getCase(numNextCase).repaint();
-				}
-				else{
-					getCase(numCase).removeAll();
-					getCase(numCase).add(new JLabel(" "));
-					getCase(numCase).setContent(' ');
-
-					getCase(numNextCase).removeAll(); // Enlever le JLabel de la case
-														// suivante
-					getCase(numNextCase).add(label); // On y ajoute le nouveau JLabel
-					getCase(numNextCase).setContent('G'); // Et on met à jour les
-															// attributs de la case
-
-					getCase(numCase).revalidate();
-					getCase(numCase).repaint();
-					getCase(numNextCase).revalidate();
-					getCase(numNextCase).repaint();
-				}
-				
-				break;
 			}
 			
-			
-			didItWork = true;
+			break;
 		}
-
-		return didItWork;
+			
+			
+//		}
 	}
 	
 	public void putFruit(Point position, char fruit){
