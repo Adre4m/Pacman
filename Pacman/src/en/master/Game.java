@@ -336,6 +336,7 @@ public class Game {
 					((Ghost) characters[i]).heal();
 					((Ghost) characters[i]).release();
 				}
+				((Pacman) characters[0]).ill();
 				secFruit--;
 			}
 			if (win()) {
