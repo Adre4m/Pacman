@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
-import en.controls.ControlsMouse;
+//import en.controls.ControlsMouse;
 import en.master.Game;
 import en.master.Stream;
 import en.master.characters.Characters;
@@ -45,7 +45,7 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 			break;
 		case 1: theme = "sw"; 		
 			break;
-		case 2: theme = "zelda"; 		
+		case 3: theme = "zelda"; 		
 			break;
 		}
 		
@@ -64,7 +64,7 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 		//load cases
 		String s = "";
 		int number = 0; // case's numbers
-		ControlsMouse ctrlMouse = new ControlsMouse(this); //MouseListener
+//		ControlsMouse ctrlMouse = new ControlsMouse(this); //MouseListener
 		for (int i = 0; i < g.getLab().length; ++i) {
 			for (int j = 0; j < g.getLab()[0].length; ++j) {
 				s += g.getLab()[i][j];
@@ -73,14 +73,14 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 				number++;
 				s = "";
 				
-				c.addMouseListener(ctrlMouse);
+//				c.addMouseListener(ctrlMouse);
 			}
 		}
 
 		grid.setVisible(true);
 		this.add(grid, new Integer(1), 0);
 		
-		//addKeyListener(this);
+//		addKeyListener(this);
 
 	}
 
@@ -161,8 +161,6 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 			break;
 		}
 			
-			
-//		}
 	}
 	
 	public void putFruit(Point position, char fruit){
@@ -221,13 +219,73 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 		return res;		
 	}
 	
+	public void resetLab(Game g){
+		int numCase = 0; // case's numbers
+		String s="";
+		JLabel label = null;
+		Image img = null;
+		for (int i = 0; i < g.getLab().length; ++i) {
+			for (int j = 0; j < g.getLab()[0].length; ++j) {
+				s += g.getLab()[i][j];
+				
+				switch(s.charAt(0)){
+				case ' ':
+					label = new JLabel(" ");
+					img=null;
+					break;
+				case 'D':
+					label = new JLabel();
+					img = new ImageIcon("sprites/" + theme + "/wall.gif").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+					
+					break;
+				case 'X':
+					label = new JLabel();
+					img = new ImageIcon("sprites/" + theme + "/wall.gif").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+
+					break;
+				case 'g':
+					label = new JLabel();
+					img = new ImageIcon("sprites/" + theme + "/PacGum.gif").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+					break;
+				case 'S':
+					label = new JLabel();
+					img = new ImageIcon("sprites/" + theme + "/Super pacgum.gif").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+					break;
+				case 'P':
+					label = new JLabel();
+					img = new ImageIcon("sprites/" + theme + "/PacMan_right.gif").getImage().getScaledInstance(18, 18, Image.SCALE_DEFAULT);
+					break;
+				case 'G':
+					label = new JLabel();
+					img = new ImageIcon(getSprite(numCase)).getImage().getScaledInstance(15, 15, Image.SCALE_DEFAULT);
+					break;
+				default:
+					System.out.println("merde");
+					break;
+				}
+				
+				if(!(img==null))label.setIcon(new ImageIcon(img));
+				getCase(numCase).removeAll();
+				getCase(numCase).setContent(s.charAt(0));
+				getCase(numCase).add(label);
+				getCase(numCase).revalidate();
+				getCase(numCase).repaint();
+				numCase++;
+				s = "";
+				
+			}
+		}
+	}
 	
 
-//	// ############# Keylisteners ###############
+	// ############# Keylisteners ###############
 //	@Override
 //	public void keyPressed(KeyEvent e) {
+//		System.out.println("paf");
 //		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 //			move(pacmanX,pacmanY,'r');
+//
+//			
 //		}
 //		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 //			move(pacmanX,pacmanY,'l');

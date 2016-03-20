@@ -37,6 +37,8 @@ public class Case extends JPanel {
 			break;
 		case 2: theme = "zelda"; 		
 			break;
+		default:theme = "classic";
+			break;
 		}
 		
 		switch (content) {
