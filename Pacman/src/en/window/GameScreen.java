@@ -1,14 +1,18 @@
 package en.window;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+
 import en.master.Game;
 import en.master.Stream;
 import en.master.characters.Characters;
@@ -80,8 +84,10 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 			}
 		}
 
+		
 		grid.setVisible(true);
 		this.add(grid, new Integer(1), 0);
+
 		
 //		addKeyListener(this);
 

@@ -15,7 +15,10 @@ import en.master.characters.Pacman;
 import en.master.characters.Pinky;
 import en.master.graph.Graph;
 import en.window.Frame;
-import en.window.GameScreen;
+
+//TODO state fruit : if eaten notify frame
+
+
 
 /**
  * 
@@ -256,11 +259,11 @@ public class Game {
 	 * loops : one handle the levels and the other the movements and the frame.
 	 * <br>
 	 * 
-	 * @param g
+	 * @param f
 	 *            is the Panel on which is displayed the game.
 	 * 
 	 */
-	public void play(GameScreen g) {
+	public void play(Frame f) {
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
 		int mvgpf = (Timer.FPS / Timer.GMVPS) + (level * difficulty);
 		int mvvps = (Timer.FPS / Timer.VMVPS) + (level * difficulty);
@@ -349,7 +352,7 @@ public class Game {
 				}
 			}
 		}
-		//
+		checkScore(f, getScore());
 	}
 	
 	public void checkScore(Frame f, int score) {

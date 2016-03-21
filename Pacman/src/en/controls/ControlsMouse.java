@@ -11,8 +11,8 @@ public class ControlsMouse implements MouseListener {
 	GameScreen g;
 	public ControlsMouse(GameScreen g){
 		this.g = g;
-		this.coordX = g.getPacmanX();
-		this.coordY = g.getPacmanY();
+		//this.coordX = g.getPacmanX();
+		//this.coordY = g.getPacmanY();
 	}
 	
 	@Override
@@ -26,7 +26,7 @@ public class ControlsMouse implements MouseListener {
 		System.out.println(posX + " " + posY);
 		if (Math.abs(posX - coordX) >= Math.abs(posY - coordY)) {
 			if (posX > coordX){
-				didItWork = g.move(coordX, coordY, 'r');
+				//didItWork = g.move(coordX, coordY, 'r');
 				if (coordX != 27)
 					coordX++;
 				else
@@ -34,7 +34,7 @@ public class ControlsMouse implements MouseListener {
 			}
 
 			else if (coordX > posX){
-				didItWork = g.move(coordX, coordY, 'l');
+				//didItWork = g.move(coordX, coordY, 'l');
 				if(didItWork){
 					if (coordX != 0)
 						coordX--;
@@ -45,7 +45,7 @@ public class ControlsMouse implements MouseListener {
 
 		} else if (Math.abs(posY - coordY) > Math.abs(posX - coordX)) {
 			if (posY > coordY){
-				didItWork = g.move(coordX, coordY, 'd');
+			//	didItWork = g.move(coordX, coordY, 'd');
 				if(didItWork){
 					if (coordY != 31)
 						coordY++;
@@ -55,7 +55,7 @@ public class ControlsMouse implements MouseListener {
 			}
 
 			else if (coordY > posY){
-				didItWork = g.move(coordX, coordY, 'u');
+				//didItWork = g.move(coordX, coordY, 'u');
 				if(didItWork){
 					if (coordY !=0)
 						coordY--;
