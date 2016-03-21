@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
-
 import en.master.characters.Blinky;
 import en.master.characters.Characters;
 import en.master.characters.Clyde;
@@ -15,6 +14,7 @@ import en.master.characters.Pacman;
 import en.master.characters.Pinky;
 import en.master.graph.Graph;
 import en.window.Frame;
+import java.util.Observable;
 
 //TODO state fruit : if eaten notify frame
 
@@ -25,7 +25,7 @@ import en.window.Frame;
  * @author BOURGEOIS Adrien
  * @version 1
  */
-public class Game {
+public class Game extends Observable {
 
 	private char[][] lab = new char[32][28];
 	private short[][] gums = new short[32][28];
@@ -39,6 +39,7 @@ public class Game {
 	public Graph graph;
 	public int level = 1;
 	public short difficulty = 0;
+	public boolean appearedFruit = true;
 	public boolean ateFruit = true;
 	public int pacmanX = 0;
 	public int pacmanY = 0;
@@ -271,11 +272,11 @@ public class Game {
 			while (!win()) {
 				long cpt = 0;
 				long[] mv = { 1, 1, 1, 1, 1 };
-				if (secFruit <= 0 && ateFruit)
+				if (secFruit <= 0 && appearedFruit)
 					appearFruit();
-				else if (secFruit <= 0 && !ateFruit) {
+				else if (secFruit <= 0 && !appearedFruit) {
 					lab[14][14] = ' ';
-					ateFruit = true;
+					appearedFruit = true;
 				}
 				while (cpt <= Timer.FPS && !win()) {
 					if (!paused) {
@@ -395,7 +396,7 @@ public class Game {
 	private void appearFruit() {
 		int prob = (int) (Math.random() * 101);
 		if (50 <= prob && prob <= 100) {
-			ateFruit = false;
+			appearedFruit = false;
 			secFruit = Timer.FRUIT;
 			int fruit = level % 8;
 			switch (fruit) {
