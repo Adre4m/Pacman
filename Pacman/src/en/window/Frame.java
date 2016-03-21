@@ -100,7 +100,7 @@ public class Frame extends JFrame {
 	 */
 	private void menu() {
 
-		final JPanel l = logo();
+		final JPanel l = logo(); 
 
 		final JPanel openScreen = new JPanel();
 		openScreen.setBackground(Color.BLACK);
@@ -121,11 +121,13 @@ public class Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// g.init("labyrinth0.txt"); /*("labyrinth" + (int)
 				// (Math.random() * 5) + ".txt")*/
+				//TODO reflechir a comment update hub
 				set = new GameScreen();
 				button.setVisible(false);
 				l.setVisible(false);
 				c.setVisible(false);
 				openScreen.add(set);
+				openScreen.add(hub(0, 3, false, 'C'));
 				set.setFocusable(true);
 				set.requestFocusInWindow();
 			}
@@ -811,7 +813,7 @@ public class Frame extends JFrame {
 	 * @param l
 	 *            The label you want to style
 	 */
-	private void labelStyleW(JLabel l) {
+	private static void labelStyleW(JLabel l) {
 		l.setBackground(Color.BLACK);
 		l.setForeground(Color.WHITE);
 		l.setFont(new java.awt.Font("Consolas", 1, 30));

@@ -31,7 +31,7 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 	String theme;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
-	JLabel grid;
+	/*JLabel*/JPanel grid;
 	JLabel piclabel;
 	
 	/**
@@ -60,8 +60,9 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 		// enlever l'initialisation du jeu dès que possible
 		g = new Game(); // load labyrinth
 		g.init("labyrinths/labyrinth.txt");
-		grid = new JLabel();
+		grid = new /*JLabel*/JPanel();
 		grid.setBackground(Color.BLACK);
+		
 		
 		//set size
 		grid.setBounds(2 * height / 10, -height / 32, 4 * height / 3 - 4 * height / 10, height);
@@ -86,11 +87,9 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 
 		
 		grid.setVisible(true);
+			
 		this.add(grid, new Integer(1), 0);
-
 		
-//		addKeyListener(this);
-
 	}
 
 	private Case getCase(int x) {
