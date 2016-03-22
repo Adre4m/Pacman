@@ -67,7 +67,7 @@ public class Case extends JPanel {
 		case 'D':
 			setLayout(new FlowLayout(FlowLayout.CENTER));
 			label = new JLabel();
-			img = new ImageIcon("sprites/" + theme + "/wall.gif").getImage();
+			img = new ImageIcon("sprites/" + theme + "/door.gif").getImage();
 			newimg = img.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
 			label.setIcon(new ImageIcon(newimg));
 			add(label);
@@ -76,7 +76,7 @@ public class Case extends JPanel {
 			setLayout(new FlowLayout(FlowLayout.CENTER));
 			label = new JLabel();
 			img = new ImageIcon("sprites/" + theme + "/wall.gif").getImage();
-			newimg = img.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+			newimg = img.getScaledInstance(19, 19, Image.SCALE_DEFAULT);
 			label.setIcon(new ImageIcon(newimg));
 			add(label);
 
