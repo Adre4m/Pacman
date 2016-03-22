@@ -126,8 +126,8 @@ public class Frame extends JFrame {
 				l.setVisible(false);
 				c.setVisible(false);
 				openScreen.add(set);
-				openScreen.add(hubLeft(3),BorderLayout.WEST);
-				openScreen.add(hubRight(1000000000, true, 'C'), BorderLayout.EAST);
+				//openScreen.add(hubLeft(3),BorderLayout.WEST);
+				//openScreen.add(hubRight(1000000000, true, 'C'), BorderLayout.EAST);
 				set.setFocusable(true);
 				set.requestFocusInWindow();
 			}
@@ -688,93 +688,6 @@ public class Frame extends JFrame {
 		return name.getText();
 	}
 
-	private JPanel hubLeft(int lives) {
-
-		JLabel s = new JLabel("Score : ");
-		labelStyleW(s);
-		JLabel l = new JLabel("Lives : " + lives);
-		labelStyleW(l);
-		
-		JPanel hub = new JPanel ();
-		hub.setBackground(Color.BLACK);
-		hub.setLayout(new BorderLayout());
-		
-		hub.add(s, BorderLayout.NORTH);
-		hub.add(l, BorderLayout.SOUTH);
-		
-		return hub;
-	}
-	
-	private JPanel hubRight(int score, boolean fruit, char sprite) {
-		
-		JLabel sco = new JLabel ("" + score);
-		labelStyleW(sco);
-		JLabel f = null;
-
-		if (fruit) {
-		String theme = "";
-		switch (Stream.readOptions()[0]) {
-		case 0:
-			theme = "classic";
-			break;
-		case 1:
-			theme = "sw";
-			break;
-		case 3:
-			theme = "zelda";
-			break;
-		}
-		ImageIcon f_s = null;
-		switch (sprite) {
-		case 'C':
-			f_s = new ImageIcon("sprites/" + theme + "/Cherry.gif");
-			break;
-		case 's':
-			f_s = new ImageIcon("sprites/" + theme + "/Strawberry.gif");
-			break;
-		case 'O':
-			f_s = new ImageIcon("sprites/" + theme + "/Orange.gif");
-			break;
-		case 'A':
-			f_s = new ImageIcon("sprites/" + theme + "/Apple.gif");
-			break;
-		case 'M':
-			f_s = new ImageIcon("sprites/" + theme + "/Melon.gif");
-			break;
-		case 'b':
-			f_s = new ImageIcon("sprites/" + theme + "/Galboss.gif");
-			break;
-		case 'B':
-			f_s = new ImageIcon("sprites/" + theme + "/Bell.gif");
-			break;
-		case 'K':
-			f_s = new ImageIcon("sprites/" + theme + "/Key.gif");
-			break;
-
-		}
-		f = new JLabel(f_s);
-	}
-		
-		JPanel hub = new JPanel ();
-		hub.setBackground(Color.BLACK);
-		hub.setLayout(new BorderLayout());
-		
-		hub.add(sco, BorderLayout.NORTH);
-		
-		if (f != null) {
-			JPanel alt = new JPanel();
-			alt.setBackground(Color.BLACK);
-			alt.setLayout(new BorderLayout());
-			alt.add(f, BorderLayout.SOUTH);
-			hub.add(alt, BorderLayout.EAST);
-		
-		}
-		
-		return hub;
-		
-	
-	}
-
 	/**
 	 * 
 	 * Stylized the basic button
@@ -827,7 +740,7 @@ public class Frame extends JFrame {
 	 * @param l
 	 *            The label you want to style
 	 */
-	private static void labelStyleW(JLabel l) {
+	protected static void labelStyleW(JLabel l) {
 		l.setBackground(Color.BLACK);
 		l.setForeground(Color.WHITE);
 		l.setFont(new java.awt.Font("Consolas", 1, 30));
