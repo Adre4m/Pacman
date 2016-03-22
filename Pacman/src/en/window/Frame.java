@@ -121,13 +121,13 @@ public class Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// g.init("labyrinth0.txt"); /*("labyrinth" + (int)
 				// (Math.random() * 5) + ".txt")*/
-				//TODO reflechir a comment update hub
 				set = new GameScreen();
 				button.setVisible(false);
 				l.setVisible(false);
 				c.setVisible(false);
 				openScreen.add(set);
-				openScreen.add(hub(0, 3, false, 'C'));
+				openScreen.add(hubLeft(3));
+				openScreen.add(hubRight(1000000000, true, 'C'), BorderLayout.EAST);
 				set.setFocusable(true);
 				set.requestFocusInWindow();
 			}
@@ -688,58 +688,12 @@ public class Frame extends JFrame {
 		return name.getText();
 	}
 
-	private JPanel hub(int score, int lives, boolean fruit, char sprite) {
+	private JPanel hubLeft(int lives) {
 
-		JLabel s = new JLabel("Score : " + score);
+		JLabel s = new JLabel("Score : ");
 		labelStyleW(s);
 		JLabel l = new JLabel("Lives : " + lives);
 		labelStyleW(l);
-		JLabel f = null;
-
-		if (fruit) {
-			String theme = "";
-			switch (Stream.readOptions()[0]) {
-			case 0:
-				theme = "classic";
-				break;
-			case 1:
-				theme = "sw";
-				break;
-			case 3:
-				theme = "zelda";
-				break;
-			}
-			ImageIcon f_s = null;
-			switch (sprite) {
-			case 'C':
-				f_s = new ImageIcon("sprites/" + theme + "/Cherry.gif");
-				break;
-			case 's':
-				f_s = new ImageIcon("sprites/" + theme + "/Strawberry.gif");
-				break;
-			case 'O':
-				f_s = new ImageIcon("sprites/" + theme + "/Orange.gif");
-				break;
-			case 'A':
-				f_s = new ImageIcon("sprites/" + theme + "/Apple.gif");
-				break;
-			case 'M':
-				f_s = new ImageIcon("sprites/" + theme + "/Melon.gif");
-				break;
-			case 'b':
-				f_s = new ImageIcon("sprites/" + theme + "/Galboss.gif");
-				break;
-			case 'B':
-				f_s = new ImageIcon("sprites/" + theme + "/Bell.gif");
-				break;
-			case 'K':
-				f_s = new ImageIcon("sprites/" + theme + "/Key.gif");
-				break;
-
-			}
-			f = new JLabel(f_s);
-		}
-		
 		
 		JPanel hub = new JPanel ();
 		hub.setBackground(Color.BLACK);
@@ -748,17 +702,77 @@ public class Frame extends JFrame {
 		hub.add(s, BorderLayout.NORTH);
 		hub.add(l, BorderLayout.SOUTH);
 		
+		return hub;
+	}
+	
+	private JPanel hubRight(int score, boolean fruit, char sprite) {
+		
+		JLabel sco = new JLabel ("" + score);
+		labelStyleW(sco);
+		JLabel f = null;
+
+		if (fruit) {
+		String theme = "";
+		switch (Stream.readOptions()[0]) {
+		case 0:
+			theme = "classic";
+			break;
+		case 1:
+			theme = "sw";
+			break;
+		case 3:
+			theme = "zelda";
+			break;
+		}
+		ImageIcon f_s = null;
+		switch (sprite) {
+		case 'C':
+			f_s = new ImageIcon("sprites/" + theme + "/Cherry.gif");
+			break;
+		case 's':
+			f_s = new ImageIcon("sprites/" + theme + "/Strawberry.gif");
+			break;
+		case 'O':
+			f_s = new ImageIcon("sprites/" + theme + "/Orange.gif");
+			break;
+		case 'A':
+			f_s = new ImageIcon("sprites/" + theme + "/Apple.gif");
+			break;
+		case 'M':
+			f_s = new ImageIcon("sprites/" + theme + "/Melon.gif");
+			break;
+		case 'b':
+			f_s = new ImageIcon("sprites/" + theme + "/Galboss.gif");
+			break;
+		case 'B':
+			f_s = new ImageIcon("sprites/" + theme + "/Bell.gif");
+			break;
+		case 'K':
+			f_s = new ImageIcon("sprites/" + theme + "/Key.gif");
+			break;
+
+		}
+		f = new JLabel(f_s);
+	}
+		
+		JPanel hub = new JPanel ();
+		hub.setBackground(Color.BLACK);
+		hub.setLayout(new BorderLayout());
+		
+		hub.add(sco, BorderLayout.NORTH);
+		
 		if (f != null) {
-			JPanel fAlt = new JPanel();
-			fAlt.setBackground(Color.BLACK);
-			fAlt.setLayout(new BorderLayout());
-			fAlt.add(f, BorderLayout.SOUTH);
-			
-			hub.add(fAlt, BorderLayout.EAST);
+			JPanel alt = new JPanel();
+			alt.setBackground(Color.BLACK);
+			alt.setLayout(new BorderLayout());
+			alt.add(f, BorderLayout.SOUTH);
+			hub.add(alt, BorderLayout.EAST);
+		
 		}
 		
 		return hub;
-
+		
+	
 	}
 
 	/**
