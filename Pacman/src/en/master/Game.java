@@ -168,7 +168,7 @@ public class Game extends Observable {
 		return pacmanY;
 	}
 
-	private void newLevel() {
+	private void newLevel(Frame f) {
 		level++;
 		for (int i = 0; i < characters.length; ++i)
 			characters[i].reinit(this);
@@ -216,9 +216,12 @@ public class Game extends Observable {
 		return null;
 	}
 
-	private void restart() {
-		for (int i = 0; i < characters.length; ++i)
+	private void restart(Frame f) {
+		for (int i = 0; i < characters.length; ++i) {
+			Point p = new Point(characters[i].getPosition());
 			characters[i].reinit(this);
+			f.set.move(characters[i], p, ' ');
+		}
 		restartNeed = false;
 		try {
 			TimeUnit.SECONDS.sleep(2);
@@ -284,31 +287,31 @@ public class Game extends Observable {
 						long begin = System.nanoTime();
 						for (int i = 1; i < characters.length; ++i) {
 							Ghost current = (Ghost) characters[i];
-							Point p = current.getPosition();
+							Point p = new Point(current.getPosition());
 							if (current.isVulnerable() && ((cpt / mv[i]) >= mvvps)) {
 								mv[i]++;
 								current.ia(this);
 								f.set.move(current, p, lab[p.x][p.y]);
-								System.out.println(this);
+								//System.out.println(this);
 							} else if (!current.isVulnerable() && (cpt / mv[i]) >= mvgpf) {
 								mv[i]++;
 								current.ia(this);
 								f.set.move(current, p, lab[p.x][p.y]);
-								System.out.println(this);
+								//System.out.println(this);
 							} else {
 								break;
 							}
 						}
 
 						if ((cpt / (mv[0])) >= (Timer.FPS / Timer.PMVPS)) {
-							Point p = characters[0].getPosition();
+							Point p = new Point(characters[0].getPosition());
 							mv[0]++;
 							characters[0].move(this);
 							f.set.move(characters[0], p, lab[p.x][p.y]);
-							System.out.println(this);
+							//System.out.println(this);
 						}
 						if (restartNeed) {
-							restart();
+							restart(f);
 						}
 						long current = System.nanoTime();
 						long fps = 0;
@@ -341,7 +344,7 @@ public class Game extends Observable {
 				secFruit--;
 			}
 			if (win()) {
-				newLevel();
+				newLevel(f);
 				try {
 					TimeUnit.SECONDS.sleep(2);
 				} catch (InterruptedException e) {

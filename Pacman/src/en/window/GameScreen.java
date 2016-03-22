@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import en.controls.ControlsMouse;
 import en.master.Game;
 import en.master.Stream;
 import en.master.characters.Characters;
@@ -66,15 +67,13 @@ public class GameScreen extends JPanel {
 		grid.setLayout(new GridLayout(32, 28));
 
 		// load cases
-		String s = "";
 		int number = 0; // case's numbers
 		for (int i = 0; i < game.getLab().length; ++i) {
 			for (int j = 0; j < game.getLab()[0].length; ++j) {
-				s += game.getLab()[i][j];
-				Case c = new Case(this, game, s.charAt(0), number);
+				Case c = new Case(this, game, game.getLab()[i][j], number);
 				grid.add(c);
 				number++;
-				s = "";
+				c.addMouseListener(new ControlsMouse(game));
 			}
 		}
 
@@ -221,186 +220,147 @@ public class GameScreen extends JPanel {
 	public void move(Characters character, Point oldP, char oldC) {
 		int numCase = (int) (oldP.y + 28 * oldP.x); // number of its case
 		int numNextCase = (int) (character.getPosition().y + 28 * character.getPosition().x);
-		getCase(numNextCase).update(character.sprite());
-		String sprite ="";
-		switch(oldC) {
+		String sprite = "sprites/" + theme;
+		switch (oldC) {
 		case 'g':
-			sprite = "sprites/" + theme + "/PacGum.gif";
+			sprite += "/PacGum.gif";
 			break;
 		case 'S':
-			sprite = "sprites/" + theme + "/Super pacgum.gif";
+			sprite += "/Super pacgum.gif";
 			break;
 		case 'C':
-			sprite = "sprites/" + theme + "/Cherry.gif";
+			sprite += "/Cherry.gif";
 			break;
 		case 's':
-			sprite = "sprites/" + theme + "/Strawberry.gif";
+			sprite += "/Strawberry.gif";
 			break;
 		case 'O':
-			sprite = "sprites/" + theme + "/Orange.gif";
+			sprite += "/Orange.gif";
 			break;
 		case 'A':
-			sprite = "sprites/" + theme + "/Apple.gif";
+			sprite += "/Apple.gif";
 			break;
 		case 'M':
-			sprite = "sprites/" + theme + "/Melon.gif";
+			sprite += "/Melon.gif";
 			break;
 		case 'b':
-			sprite = "sprites/" + theme + "/Galboss.gif";
+			sprite += "/Galboss.gif";
 			break;
 		case 'B':
-			sprite = "sprites/" + theme + "/Bell.gif";
+			sprite += "/Bell.gif";
 			break;
 		case 'K':
-			sprite = "sprites/" + theme + "/Key.gif";
+			sprite += "/Key.gif";
 			break;
 		}
 		getCase(numCase).update(sprite);
-		/*Image sprite = null;
-		String contentCase = character.sprite(); // to know which sprite we have to
-												// load
-		sprite = new ImageIcon(contentCase).getImage(); // load the sprite
+		getCase(numNextCase).update(character.sprite());
+		/*
+		 * Image sprite = null; String contentCase = character.sprite(); // to
+		 * know which sprite we have to // load sprite = new
+		 * ImageIcon(contentCase).getImage(); // load the sprite
+		 * 
+		 * JLabel label = new JLabel(); Image resizedSprite =
+		 * sprite.getScaledInstance((int) (height * 0.024), (int) (height *
+		 * 0.024), Image.SCALE_DEFAULT); label = new JLabel(new
+		 * ImageIcon(resizedSprite)); getCase(numCase).removeAll();
+		 * getCase(numNextCase).removeAll(); JLabel label2 = new JLabel();
+		 * switch(oldC) { case 'g': sprite = new ImageIcon("sprites/" + theme +
+		 * "/PacGum.gif").getImage(); resizedSprite =
+		 * sprite.getScaledInstance((int) (height * 0.024), (int) (height *
+		 * 0.024), Image.SCALE_DEFAULT); label2.setIcon(new
+		 * ImageIcon(resizedSprite)); getCase(numCase).add(label2);
+		 * getCase(numCase).setContent(oldC); break; case 'S': sprite = new
+		 * ImageIcon("sprites/" + theme + "/Super pacgum.gif").getImage();
+		 * resizedSprite = sprite.getScaledInstance((int) (height * 0.024),
+		 * (int) (height * 0.024), Image.SCALE_DEFAULT); label2.setIcon(new
+		 * ImageIcon(resizedSprite)); getCase(numCase).add(label2);
+		 * getCase(numCase).setContent(oldC); break; case 'C': sprite = new
+		 * ImageIcon("sprites/" + theme + "/Cherry.gif").getImage();
+		 * resizedSprite = sprite.getScaledInstance((int) (height * 0.024),
+		 * (int) (height * 0.024), Image.SCALE_DEFAULT); label2.setIcon(new
+		 * ImageIcon(resizedSprite)); getCase(numCase).add(label2);
+		 * getCase(numCase).setContent(oldC); break; case 's': sprite = new
+		 * ImageIcon("sprites/" + theme + "/Strawberry.gif").getImage();
+		 * resizedSprite = sprite.getScaledInstance((int) (height * 0.024),
+		 * (int) (height * 0.024), Image.SCALE_DEFAULT); label2.setIcon(new
+		 * ImageIcon(resizedSprite)); getCase(numCase).add(label2);
+		 * getCase(numCase).setContent(oldC); break; case 'O': sprite = new
+		 * ImageIcon("sprites/" + theme + "/Orange.gif").getImage();
+		 * resizedSprite = sprite.getScaledInstance((int) (height * 0.024),
+		 * (int) (height * 0.024), Image.SCALE_DEFAULT); label2.setIcon(new
+		 * ImageIcon(resizedSprite)); getCase(numCase).add(label2);
+		 * getCase(numCase).setContent(oldC); break; case 'A': sprite = new
+		 * ImageIcon("sprites/" + theme + "/Apple.gif").getImage();
+		 * resizedSprite = sprite.getScaledInstance((int) (height * 0.024),
+		 * (int) (height * 0.024), Image.SCALE_DEFAULT); label2.setIcon(new
+		 * ImageIcon(resizedSprite)); getCase(numCase).add(label2);
+		 * getCase(numCase).setContent(oldC); break; case 'M': sprite = new
+		 * ImageIcon("sprites/" + theme + "/Melon.gif").getImage();
+		 * resizedSprite = sprite.getScaledInstance((int) (height * 0.024),
+		 * (int) (height * 0.024), Image.SCALE_DEFAULT); label2.setIcon(new
+		 * ImageIcon(resizedSprite)); getCase(numCase).add(label2);
+		 * getCase(numCase).setContent(oldC); break; case 'b': sprite = new
+		 * ImageIcon("sprites/" + theme + "/Galboss.gif").getImage();
+		 * resizedSprite = sprite.getScaledInstance((int) (height * 0.024),
+		 * (int) (height * 0.024), Image.SCALE_DEFAULT); label2.setIcon(new
+		 * ImageIcon(resizedSprite)); getCase(numCase).add(label2);
+		 * getCase(numCase).setContent(oldC); break; case 'B': sprite = new
+		 * ImageIcon("sprites/" + theme + "/Bell.gif").getImage(); resizedSprite
+		 * = sprite.getScaledInstance((int) (height * 0.024), (int) (height *
+		 * 0.024), Image.SCALE_DEFAULT); label2.setIcon(new
+		 * ImageIcon(resizedSprite)); getCase(numCase).add(label2);
+		 * getCase(numCase).setContent(oldC); break; case 'K': sprite = new
+		 * ImageIcon("sprites/" + theme + "/Key.gif").getImage(); resizedSprite
+		 * = sprite.getScaledInstance((int) (height * 0.024), (int) (height *
+		 * 0.024), Image.SCALE_DEFAULT); label2.setIcon(new
+		 * ImageIcon(resizedSprite)); getCase(numCase).add(label2);
+		 * getCase(numCase).setContent(oldC); break; }
+		 * getCase(numNextCase).setContent(character.toChar());
+		 * getCase(numNextCase).add(label); getCase(numCase).revalidate();
+		 * getCase(numCase).repaint(); getCase(numNextCase).revalidate();
+		 * getCase(numNextCase).repaint();
+		 */
+		/*
+		 * if (oldC == 'g') { getCase(numNextCase).removeAll(); JLabel label2 =
+		 * new JLabel(); sprite = new ImageIcon("sprites/" + theme +
+		 * "/PacGum.gif").getImage(); resizedSprite =
+		 * sprite.getScaledInstance((int) (height * 0.024), (int) (height *
+		 * 0.024), Image.SCALE_DEFAULT); label2.setIcon(new
+		 * ImageIcon(resizedSprite)); getCase(numCase).add(label2);
+		 * getCase(numCase).setContent('g'); // Remove JLabel on the next //
+		 * case getCase(numNextCase).add(label); // We add the new JLabel // We
+		 * update the // informations on the // case
+		 * 
+		 * getCase(numCase).revalidate(); getCase(numCase).repaint();
+		 * getCase(numNextCase).revalidate(); getCase(numNextCase).repaint(); }
+		 * else { getCase(numNextCase).removeAll(); getCase(numCase).add(new
+		 * JLabel(" ")); getCase(numCase).setContent(' ');
+		 * 
+		 * getCase(numNextCase).removeAll(); // Remove JLabel on the next //
+		 * case getCase(numNextCase).add(label); // We add the new JLabel // We
+		 * update the // informations on the // case
+		 * 
+		 * getCase(numCase).revalidate(); getCase(numCase).repaint();
+		 * getCase(numNextCase).revalidate(); getCase(numNextCase).repaint(); }
+		 */
 
-		JLabel label = new JLabel();
-		Image resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-		label = new JLabel(new ImageIcon(resizedSprite));
-		getCase(numCase).removeAll();
-		getCase(numNextCase).removeAll();
-		JLabel label2 = new JLabel();
-		switch(oldC) {
-		case 'g':
-			sprite = new ImageIcon("sprites/" + theme + "/PacGum.gif").getImage();
-			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-			label2.setIcon(new ImageIcon(resizedSprite));
-			getCase(numCase).add(label2);
-			getCase(numCase).setContent(oldC);
-			break;
-		case 'S':
-			sprite = new ImageIcon("sprites/" + theme + "/Super pacgum.gif").getImage();
-			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-			label2.setIcon(new ImageIcon(resizedSprite));
-			getCase(numCase).add(label2);
-			getCase(numCase).setContent(oldC);
-			break;
-		case 'C':
-			sprite = new ImageIcon("sprites/" + theme + "/Cherry.gif").getImage();
-			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-			label2.setIcon(new ImageIcon(resizedSprite));
-			getCase(numCase).add(label2);
-			getCase(numCase).setContent(oldC);
-			break;
-		case 's':
-			sprite = new ImageIcon("sprites/" + theme + "/Strawberry.gif").getImage();
-			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-			label2.setIcon(new ImageIcon(resizedSprite));
-			getCase(numCase).add(label2);
-			getCase(numCase).setContent(oldC);
-			break;
-		case 'O':
-			sprite = new ImageIcon("sprites/" + theme + "/Orange.gif").getImage();
-			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-			label2.setIcon(new ImageIcon(resizedSprite));
-			getCase(numCase).add(label2);
-			getCase(numCase).setContent(oldC);
-			break;
-		case 'A':
-			sprite = new ImageIcon("sprites/" + theme + "/Apple.gif").getImage();
-			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-			label2.setIcon(new ImageIcon(resizedSprite));
-			getCase(numCase).add(label2);
-			getCase(numCase).setContent(oldC);
-			break;
-		case 'M':
-			sprite = new ImageIcon("sprites/" + theme + "/Melon.gif").getImage();
-			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-			label2.setIcon(new ImageIcon(resizedSprite));
-			getCase(numCase).add(label2);
-			getCase(numCase).setContent(oldC);
-			break;
-		case 'b':
-			sprite = new ImageIcon("sprites/" + theme + "/Galboss.gif").getImage();
-			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-			label2.setIcon(new ImageIcon(resizedSprite));
-			getCase(numCase).add(label2);
-			getCase(numCase).setContent(oldC);
-			break;
-		case 'B':
-			sprite = new ImageIcon("sprites/" + theme + "/Bell.gif").getImage();
-			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-			label2.setIcon(new ImageIcon(resizedSprite));
-			getCase(numCase).add(label2);
-			getCase(numCase).setContent(oldC);
-			break;
-		case 'K':
-			sprite = new ImageIcon("sprites/" + theme + "/Key.gif").getImage();
-			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-			label2.setIcon(new ImageIcon(resizedSprite));
-			getCase(numCase).add(label2);
-			getCase(numCase).setContent(oldC);
-			break;
-		}
-		getCase(numNextCase).setContent(character.toChar());
-		getCase(numNextCase).add(label);
-		getCase(numCase).revalidate();
-		getCase(numCase).repaint();
-		getCase(numNextCase).revalidate();
-		getCase(numNextCase).repaint();*/
-		/*if (oldC == 'g') {
-			getCase(numNextCase).removeAll();
-			JLabel label2 = new JLabel();
-			sprite = new ImageIcon("sprites/" + theme + "/PacGum.gif").getImage();
-			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-			label2.setIcon(new ImageIcon(resizedSprite));
-			getCase(numCase).add(label2);
-			getCase(numCase).setContent('g'); // Remove JLabel on the next
-												// case
-			getCase(numNextCase).add(label); // We add the new JLabel
-													// We update the
-													// informations on the
-													// case
-
-			getCase(numCase).revalidate();
-			getCase(numCase).repaint();
-			getCase(numNextCase).revalidate();
-			getCase(numNextCase).repaint();
-		} else {
-			getCase(numNextCase).removeAll();
-			getCase(numCase).add(new JLabel(" "));
-			getCase(numCase).setContent(' ');
-
-			getCase(numNextCase).removeAll(); // Remove JLabel on the next
-												// case
-			getCase(numNextCase).add(label); // We add the new JLabel
-			// We update the
-													// informations on the
-													// case
-
-			getCase(numCase).revalidate();
-			getCase(numCase).repaint();
-			getCase(numNextCase).revalidate();
-			getCase(numNextCase).repaint();
-		}*/
-
-		/*switch (c) {
-		case 'P':
-			getCase(numCase).removeAll();
-			getCase(numCase).add(new JLabel(" "));
-			getCase(numCase).setContent(' ');
-
-			getCase(numNextCase).removeAll(); // Remove JLabel on the next case
-			getCase(numNextCase).add(label); // We add the new JLabel
-			getCase(numNextCase).setContent('P'); // We update the informations
-													// on the case
-
-			getCase(numCase).revalidate();
-			getCase(numCase).repaint();
-			getCase(numNextCase).revalidate();
-			getCase(numNextCase).repaint();
-			break;
-		case 'G':
-
-			break;
-		}*/
+		/*
+		 * switch (c) { case 'P': getCase(numCase).removeAll();
+		 * getCase(numCase).add(new JLabel(" ")); getCase(numCase).setContent('
+		 * ');
+		 * 
+		 * getCase(numNextCase).removeAll(); // Remove JLabel on the next case
+		 * getCase(numNextCase).add(label); // We add the new JLabel
+		 * getCase(numNextCase).setContent('P'); // We update the informations
+		 * // on the case
+		 * 
+		 * getCase(numCase).revalidate(); getCase(numCase).repaint();
+		 * getCase(numNextCase).revalidate(); getCase(numNextCase).repaint();
+		 * break; case 'G':
+		 * 
+		 * break; }
+		 */
 	}
 
 	/**
@@ -445,7 +405,8 @@ public class GameScreen extends JPanel {
 			sprite = new ImageIcon("sprites/" + theme + "/Key.gif").getImage();
 			break;
 		}
-		Image resizedSprite = sprite.getScaledInstance(25, 25, Image.SCALE_DEFAULT);
+		Image resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024),
+				Image.SCALE_DEFAULT);
 		getCase(numCase).removeAll();
 		JLabel label = new JLabel();
 		label.setIcon(new ImageIcon(resizedSprite));
@@ -526,35 +487,35 @@ public class GameScreen extends JPanel {
 					break;
 				case 'D':
 					label = new JLabel();
-					img = new ImageIcon("sprites/" + theme + "/wall.gif").getImage().getScaledInstance(20, 20,
-							Image.SCALE_DEFAULT);
+					img = new ImageIcon("sprites/" + theme + "/wall.gif").getImage()
+							.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
 
 					break;
 				case 'X':
 					label = new JLabel();
-					img = new ImageIcon("sprites/" + theme + "/wall.gif").getImage().getScaledInstance(20, 20,
-							Image.SCALE_DEFAULT);
+					img = new ImageIcon("sprites/" + theme + "/wall.gif").getImage()
+							.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
 
 					break;
 				case 'g':
 					label = new JLabel();
-					img = new ImageIcon("sprites/" + theme + "/PacGum.gif").getImage().getScaledInstance(20, 20,
-							Image.SCALE_DEFAULT);
+					img = new ImageIcon("sprites/" + theme + "/PacGum.gif").getImage()
+							.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
 					break;
 				case 'S':
 					label = new JLabel();
-					img = new ImageIcon("sprites/" + theme + "/Super pacgum.gif").getImage().getScaledInstance(20, 20,
-							Image.SCALE_DEFAULT);
+					img = new ImageIcon("sprites/" + theme + "/Super pacgum.gif").getImage()
+							.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
 					break;
 				case 'P':
 					label = new JLabel();
-					img = new ImageIcon("sprites/" + theme + "/PacMan_right.gif").getImage().getScaledInstance(18, 18,
-							Image.SCALE_DEFAULT);
+					img = new ImageIcon("sprites/" + theme + "/PacMan_right.gif").getImage()
+							.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
 					break;
 				case 'G':
 					label = new JLabel();
-					img = new ImageIcon(getSprite(g, numCase)).getImage().getScaledInstance(15, 15,
-							Image.SCALE_DEFAULT);
+					img = new ImageIcon(getSprite(g, numCase)).getImage().getScaledInstance((int) (height * 0.024),
+							(int) (height * 0.024), Image.SCALE_DEFAULT);
 					break;
 				default:
 					break;

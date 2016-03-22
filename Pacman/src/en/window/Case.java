@@ -68,7 +68,7 @@ public class Case extends JPanel {
 		switch (content) {
 
 		case ' ':
-			this.label = new JLabel(" ");
+			this.label = new JLabel(new ImageIcon());
 			add(label);
 			break;
 		case 'D':

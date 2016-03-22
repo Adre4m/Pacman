@@ -22,11 +22,11 @@ public class ControlsMouse implements MouseListener {
 		int posY = (position - posX) / 28;
 		Point p = game.characters[0].getPosition();
 		if (Math.abs(posX - p.x) >= Math.abs(posY - p.y)) {
-			if (game.getLab()[p.x][Math.floorMod(p.y + 1, game.getLab()[0].length)] != 'X')
-				game.characters[0].setDir('r');
-		} else if (p.x > posX) {
 			if (game.getLab()[p.x][Math.floorMod(p.y - 1, game.getLab()[0].length)] != 'X')
 				game.characters[0].setDir('l');
+		} else if (p.x > posX) {
+			if (game.getLab()[p.x][Math.floorMod(p.y + 1, game.getLab()[0].length)] != 'X')
+				game.characters[0].setDir('r');
 		} else if (Math.abs(posY - p.y) > Math.abs(posX - p.x)) {
 			if (game.getLab()[Math.floorMod(p.x + 1, game.getLab().length)][p.y] != 'X')
 				game.characters[0].setDir('d');

@@ -158,10 +158,7 @@ public abstract class Ghost extends Characters {
 		return jailed;
 	}
 
-	public void jail() {
-		jailed = Timer.PRISON;
-		isFree = false;
-	}
+	public abstract void jail();
 
 	public void release() {
 		jailed--;
@@ -206,9 +203,8 @@ public abstract class Ghost extends Characters {
 	public void reinit(Game game) {
 		super.reinit(game);
 		isVulnerable = false;
-		isFree = false;
 		isReturningToJail = false;
-		jailed = Timer.PRISON;
+		jail();
 	}
 
 	private Point radius(Game game) {
