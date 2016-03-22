@@ -18,8 +18,6 @@ import java.util.Observable;
 
 //TODO state fruit : if eaten notify frame
 
-
-
 /**
  * 
  * @author BOURGEOIS Adrien
@@ -39,8 +37,7 @@ public class Game extends Observable {
 	public Graph graph;
 	public int level = 1;
 	public short difficulty = 0;
-	public boolean appearedFruit = true;
-	public boolean ateFruit = true;
+	public boolean appearedFruit = false;
 	public int pacmanX = 0;
 	public int pacmanY = 0;
 	short secFruit = Timer.FRUIT;
@@ -76,7 +73,7 @@ public class Game extends Observable {
 	 *            File to be read
 	 */
 	public void init(String file) {
-		//Stream stm = new Stream(); // Initiate the stream to read file
+		// Stream stm = new Stream(); // Initiate the stream to read file
 		String grid = Stream.initiateLab(file);
 		grid = grid.replaceAll("[\n\r]", "");
 		int index = 0;
@@ -125,8 +122,8 @@ public class Game extends Observable {
 					characters[0] = new Pacman(i, j);
 					lab[i][j] = 'P';
 					gums[i][j] = 0;
-					this.pacmanX=j;
-					this.pacmanY=i;
+					this.pacmanX = j;
+					this.pacmanY = i;
 					break;
 				default:
 					lab[i][j] = grid.charAt(index);
@@ -136,6 +133,9 @@ public class Game extends Observable {
 		graph = new Graph(lab);
 		int[] opt = Stream.readOptions();
 		difficulty = (short) opt[2];
+		if (difficulty == 0) {
+			((Pacman) characters[0]).easyLives();
+		}
 		switch (opt[0]) {
 		case 0:
 			for (int i = 0; i < characters.length; ++i)
@@ -159,7 +159,7 @@ public class Game extends Observable {
 			break;
 		}
 	}
-	
+
 	public int getPacmanX() {
 		return pacmanX;
 	}
@@ -167,7 +167,7 @@ public class Game extends Observable {
 	public int getPacmanY() {
 		return pacmanY;
 	}
-	
+
 	private void newLevel() {
 		level++;
 		for (int i = 0; i < characters.length; ++i)
@@ -219,7 +219,6 @@ public class Game extends Observable {
 	private void restart() {
 		for (int i = 0; i < characters.length; ++i)
 			characters[i].reinit(this);
-		System.out.println(this);
 		restartNeed = false;
 		try {
 			TimeUnit.SECONDS.sleep(2);
@@ -265,6 +264,8 @@ public class Game extends Observable {
 	 * 
 	 */
 	public void play(Frame f) {
+		f.set.initFruit(getFruit());
+		f.set.updateHub(score, ((Pacman) characters[0]).getLives());
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
 		int mvgpf = (Timer.FPS / Timer.GMVPS) + (level * difficulty);
 		int mvvps = (Timer.FPS / Timer.VMVPS) + (level * difficulty);
@@ -272,9 +273,9 @@ public class Game extends Observable {
 			while (!win()) {
 				long cpt = 0;
 				long[] mv = { 1, 1, 1, 1, 1 };
-				if (secFruit <= 0 && appearedFruit)
+				if (secFruit <= 0 && !appearedFruit)
 					appearFruit();
-				else if (secFruit <= 0 && !appearedFruit) {
+				else if (secFruit <= 0 && appearedFruit) {
 					lab[14][14] = ' ';
 					appearedFruit = true;
 				}
@@ -283,28 +284,28 @@ public class Game extends Observable {
 						long begin = System.nanoTime();
 						for (int i = 1; i < characters.length; ++i) {
 							Ghost current = (Ghost) characters[i];
-							// Point p = current.getPosition();
+							Point p = current.getPosition();
 							if (current.isVulnerable() && ((cpt / mv[i]) >= mvvps)) {
 								mv[i]++;
 								current.ia(this);
-								// g.move(p.y, p.x, current.getDir(),
-								// lab[p.x][p.y]);
+								f.set.move(current, p, lab[p.x][p.y]);
+								System.out.println(this);
 							} else if (!current.isVulnerable() && (cpt / mv[i]) >= mvgpf) {
 								mv[i]++;
 								current.ia(this);
-								// g.move(p.y, p.x, current.getDir(),
-								// lab[p.x][p.y]);
+								f.set.move(current, p, lab[p.x][p.y]);
+								System.out.println(this);
 							} else {
 								break;
 							}
 						}
 
 						if ((cpt / (mv[0])) >= (Timer.FPS / Timer.PMVPS)) {
-							// Point p = characters[0].getPosition();
+							Point p = characters[0].getPosition();
 							mv[0]++;
 							characters[0].move(this);
-							// g.move(p.y, p.x, characters[0].getDir(),
-							// lab[p.x][p.y]);
+							f.set.move(characters[0], p, lab[p.x][p.y]);
+							System.out.println(this);
 						}
 						if (restartNeed) {
 							restart();
@@ -329,11 +330,7 @@ public class Game extends Observable {
 						for (int i = 1; i < characters.length; ++i)
 							lab[characters[i].getPosition().x][characters[i].getPosition().y] = characters[i].toChar();
 						lab[characters[0].getPosition().x][characters[0].getPosition().y] = characters[0].toChar();
-						System.out.println(this);
-						// f.update(game);
-					} else {
-						System.out.println(this);
-						// f.update(game);
+						f.set.updateHub(score, ((Pacman) characters[0]).getLives());
 					}
 				}
 				for (int i = 1; i < characters.length; ++i) {
@@ -345,7 +342,6 @@ public class Game extends Observable {
 			}
 			if (win()) {
 				newLevel();
-				System.out.println(this);
 				try {
 					TimeUnit.SECONDS.sleep(2);
 				} catch (InterruptedException e) {
@@ -355,28 +351,28 @@ public class Game extends Observable {
 		}
 		checkScore(f, getScore());
 	}
-	
+
 	public void checkScore(Frame f, int score) {
 		LinkedList<NodeScore> l = Stream.readScore("score.txt");
 		if (l.isEmpty()) {
-			l.add(new NodeScore("1°",f.askPseudo() , "" + score));
+			l.add(new NodeScore("1°", f.askPseudo(), "" + score));
 		} else {
 			int start = 0, end = l.size();
-			while(start < end) {
-				NodeScore ns =  l.get((end + start) / 2);
-				if(score < Integer.parseInt(ns.getScore()))
+			while (start < end) {
+				NodeScore ns = l.get((end + start) / 2);
+				if (score < Integer.parseInt(ns.getScore()))
 					start = ((end + start) / 2) + 1;
 				else
 					end = ((end + start) / 2);
 			}
-			if(start < l.size() || l.size() != 10)
-				l.add(start, new NodeScore(start + "°",f.askPseudo() , "" + score));
-					if (l.size() > 10)
-						l.removeLast();
-					Stream.writeScores("score.txt", l);
-		}		 
+			if (start < l.size() || l.size() != 10)
+				l.add(start, new NodeScore(start + "°", f.askPseudo(), "" + score));
+			if (l.size() > 10)
+				l.removeLast();
+			Stream.writeScores("score.txt", l);
+		}
 	}
-	
+
 	public void pause() {
 		paused = !paused;
 	}
@@ -396,36 +392,35 @@ public class Game extends Observable {
 	private void appearFruit() {
 		int prob = (int) (Math.random() * 101);
 		if (50 <= prob && prob <= 100) {
-			appearedFruit = false;
+			appearedFruit = true;
 			secFruit = Timer.FRUIT;
-			int fruit = level % 8;
-			switch (fruit) {
-			case 1:
-				lab[14][14] = 'C';
-				break;
-			case 2:
-				lab[14][14] = 's';
-				break;
-			case 3:
-				lab[14][14] = 'O';
-				break;
-			case 4:
-				lab[14][14] = 'A';
-				break;
-			case 5:
-				lab[14][14] = 'M';
-				break;
-			case 6:
-				lab[14][14] = 'b';
-				break;
-			case 7:
-				lab[14][14] = 'B';
-				break;
-			case 0:
-				lab[14][14] = 'K';
-				break;
-			}
+			lab[14][14] = getFruit();
 		}
+	}
+
+	private char getFruit() {
+		int fruit = level % 8;
+		switch (fruit) {
+		case 1:
+			return 'C';
+		case 2:
+			return 's';
+		case 3:
+			return 'O';
+		case 4:
+			return 'A';
+		case 5:
+			return 'M';
+		case 6:
+			return 'b';
+		case 7:
+			return 'B';
+		case 0:
+			return 'K';
+		default:
+			return 'C';
+		}
+
 	}
 
 }

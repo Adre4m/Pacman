@@ -3,7 +3,6 @@ package en.master.characters;
 import java.awt.Point;
 
 import en.master.Game;
-import en.master.Timer;
 
 /**
  * 
@@ -138,35 +137,35 @@ public abstract class Characters {
 			break;
 		case 'C':
 			game.setScore(game.getScore() + 100);
-			game.ateFruit = true;
+			game.appearedFruit = false;
 			break;
 		case 's':
 			game.setScore(game.getScore() + 300);
-			game.ateFruit = true;
+			game.appearedFruit = false;
 			break;
 		case 'O':
 			game.setScore(game.getScore() + 500);
-			game.ateFruit = true;
+			game.appearedFruit = false;
 			break;
 		case 'A':
 			game.setScore(game.getScore() + 700);
-			game.ateFruit = true;
+			game.appearedFruit = false;
 			break;
 		case 'M':
 			game.setScore(game.getScore() + 1000);
-			game.ateFruit = true;
+			game.appearedFruit = false;
 			break;
 		case 'b':
 			game.setScore(game.getScore() + 2000);
-			game.ateFruit = true;
+			game.appearedFruit = false;
 			break;
 		case 'B':
 			game.setScore(game.getScore() + 3000);
-			game.ateFruit = true;
+			game.appearedFruit = false;
 			break;
 		case 'K':
 			game.setScore(game.getScore() + 5000);
-			game.ateFruit = true;
+			game.appearedFruit = false;
 			break;
 		}
 	}

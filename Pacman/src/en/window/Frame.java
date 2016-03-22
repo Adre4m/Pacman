@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.EventListener;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -28,6 +29,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import en.controls.ControlsKey;
+import en.controls.ControlsMouse;
+import en.master.Game;
 import en.master.NodeScore;
 import en.master.Stream;
 
@@ -44,6 +48,9 @@ public class Frame extends JFrame {
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
 
+	private Game game;
+	public boolean gameStarted = false;
+
 	public GameScreen set;
 
 	/**
@@ -54,7 +61,6 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	public Frame() {
-
 		// create frame
 		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		// int height = (int) (screenSize.getHeight() * 0.95);
@@ -97,8 +103,7 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	private void menu() {
-
-		final JPanel l = logo(); 
+		final JPanel l = logo();
 
 		final JPanel openScreen = new JPanel();
 		openScreen.setBackground(Color.BLACK);
@@ -117,15 +122,10 @@ public class Frame extends JFrame {
 
 		start.addActionListener(new ActionListener() { // Open game
 			public void actionPerformed(ActionEvent e) {
-				// g.init("labyrinth0.txt"); /*("labyrinth" + (int)
-				// (Math.random() * 5) + ".txt")*/
-				set = new GameScreen();
 				button.setVisible(false);
 				l.setVisible(false);
 				c.setVisible(false);
-				openScreen.add(set);
-				set.setFocusable(true);
-				set.requestFocusInWindow();
+				gameStarted = true;
 			}
 		});
 
@@ -773,6 +773,14 @@ public class Frame extends JFrame {
 		l.setFont(new java.awt.Font("Consolas", 1, 36));
 		t.add(l);
 		return t;
+	}
+
+	public void initGameScreen(Game game) {
+		// JPanel screenGame = new JPanel();
+		set = new GameScreen(game);
+		set.setFocusable(true);
+		set.requestFocusInWindow();
+		this.add(set);
 	}
 
 }

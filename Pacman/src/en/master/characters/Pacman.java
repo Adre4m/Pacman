@@ -11,7 +11,6 @@ public class Pacman extends Characters {
 
 	private int lives;
 	private int eatenGhosts;
-	@SuppressWarnings("unused")
 	private long invulnerable;
 	private String invulnerableSprite;
 	private boolean isInvunerable;
@@ -88,6 +87,10 @@ public class Pacman extends Characters {
 			break;
 		}
 		return s + invulnerableSprite + ".gif";
+	}
+	
+	public void easyLives() {
+		lives = 6;
 	}
 
 }

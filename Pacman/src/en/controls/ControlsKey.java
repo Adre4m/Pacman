@@ -13,7 +13,6 @@ import en.master.Game;
  */
 public class ControlsKey implements KeyListener {
 
-	// TODO ne doit pas rester ! juste la pour tester
 	private Game game;
 
 	public ControlsKey(Game game) {

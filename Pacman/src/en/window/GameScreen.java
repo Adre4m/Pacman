@@ -3,7 +3,6 @@ package en.window;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
@@ -22,16 +21,15 @@ import en.master.characters.Characters;
  * @author RIETZ Vincent
  *
  */
-public class GameScreen extends JPanel /* implements KeyListener */ {
+public class GameScreen extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Game g;
-	String theme;
+	private String theme;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
-	/* JLabel */JPanel grid;
+	JPanel grid;
 	JLabel piclabel;
 	JLabel l;
 	JLabel sco;
@@ -44,10 +42,8 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 	 * @author RIETZ Vincent
 	 * 
 	 */
-	public GameScreen() {
+	public GameScreen(Game game) {
 		this.setBackground(Color.BLACK);
-		// this.setPreferredSize(new Dimension(4 * height / 3, height));
-		// this.setBounds(0, 0, 4 * height / 3, height);
 
 		// theme
 		switch (Stream.readOptions()[0]) {
@@ -63,37 +59,27 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 		}
 
 		// ##########Grid###########
-		// enlever l'initialisation du jeu dès que possible
-		g = new Game(); // load labyrinth
-		g.init("labyrinths/labyrinth.txt");
-		grid = new /* JLabel */JPanel();
+		grid = new JPanel();
 		grid.setBackground(Color.BLACK);
 
-		// set size
-		// grid.setBounds(2 * height / 10, -height / 32, 4 * height / 3 - 4 *
-		// height / 10, 2*height);
 		grid.setOpaque(true);
 		grid.setLayout(new GridLayout(32, 28));
 
 		// load cases
 		String s = "";
 		int number = 0; // case's numbers
-		// ControlsMouse ctrlMouse = new ControlsMouse(this); //MouseListener
-		for (int i = 0; i < g.getLab().length; ++i) {
-			for (int j = 0; j < g.getLab()[0].length; ++j) {
-				s += g.getLab()[i][j];
-				Case c = new Case(this, s.charAt(0), number);
+		for (int i = 0; i < game.getLab().length; ++i) {
+			for (int j = 0; j < game.getLab()[0].length; ++j) {
+				s += game.getLab()[i][j];
+				Case c = new Case(this, game, s.charAt(0), number);
 				grid.add(c);
 				number++;
 				s = "";
-
-				// c.addMouseListener(ctrlMouse);
 			}
 		}
 
 		grid.setVisible(true);
 
-		// this.add(grid, new Integer(1), 0);
 		this.setLayout(new BorderLayout());
 		this.add(grid, BorderLayout.CENTER);
 		this.add(hubLeft(), BorderLayout.WEST);
@@ -101,7 +87,8 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 	}
 
 	/**
-	 * This method will create display the game information on the left of the lab 
+	 * This method will create display the game information on the left of the
+	 * lab
 	 * 
 	 * @author GRIGNON Lindsay
 	 * @return JPanel the left hub
@@ -125,7 +112,8 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 	}
 
 	/**
-	 * This method will create and display the game information on the right of the lab<br>
+	 * This method will create and display the game information on the right of
+	 * the lab<br>
 	 * 
 	 * @author GRIGNON Lindsay
 	 * 
@@ -136,7 +124,6 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 		sco = new JLabel();
 		Frame.labelStyleW(sco);
 		f = new JLabel(new ImageIcon());
-
 
 		JPanel hub = new JPanel();
 		hub.setPreferredSize(new Dimension(200, 0));
@@ -167,7 +154,7 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 		sco.setText("" + score);
 		l.setText("Lives : " + lives);
 	}
-	
+
 	/**
 	 * This method will be called by the game to determine the fruit sprite <br>
 	 * The sprite will be displayed in the hub when Pacman eat the fruit
@@ -177,19 +164,6 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 	 * 
 	 */
 	public void initFruit(char sprite) {
-
-		String theme = "";
-		switch (Stream.readOptions()[0]) {
-		case 0:
-			theme = "classic";
-			break;
-		case 1:
-			theme = "sw";
-			break;
-		case 3:
-			theme = "zelda";
-			break;
-		}
 		ImageIcon f_s = null;
 		switch (sprite) {
 		case 'C':
@@ -226,7 +200,6 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 
 	}
 
-	// movements
 	/**
 	 * 
 	 * This method move a sprite on the grid from a point to another. To get the
@@ -245,22 +218,170 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 	 * 
 	 * 
 	 */
-	public void move(Game g, Point oldP, Point newP) {
-		int numCase = (int) (oldP.getY() + 28 * oldP.getX()); // number of its
-																// case
-		int numNextCase = (int) (newP.getY() + 28 * newP.getX());
-		Image sprite = null;
-		String contentCase = "";
-		char c = getCase(numCase).getContent();
-		contentCase = getSprite(numCase); // to know which sprite we have to
-											// load
+	public void move(Characters character, Point oldP, char oldC) {
+		int numCase = (int) (oldP.y + 28 * oldP.x); // number of its case
+		int numNextCase = (int) (character.getPosition().y + 28 * character.getPosition().x);
+		getCase(numNextCase).update(character.sprite());
+		String sprite ="";
+		switch(oldC) {
+		case 'g':
+			sprite = "sprites/" + theme + "/PacGum.gif";
+			break;
+		case 'S':
+			sprite = "sprites/" + theme + "/Super pacgum.gif";
+			break;
+		case 'C':
+			sprite = "sprites/" + theme + "/Cherry.gif";
+			break;
+		case 's':
+			sprite = "sprites/" + theme + "/Strawberry.gif";
+			break;
+		case 'O':
+			sprite = "sprites/" + theme + "/Orange.gif";
+			break;
+		case 'A':
+			sprite = "sprites/" + theme + "/Apple.gif";
+			break;
+		case 'M':
+			sprite = "sprites/" + theme + "/Melon.gif";
+			break;
+		case 'b':
+			sprite = "sprites/" + theme + "/Galboss.gif";
+			break;
+		case 'B':
+			sprite = "sprites/" + theme + "/Bell.gif";
+			break;
+		case 'K':
+			sprite = "sprites/" + theme + "/Key.gif";
+			break;
+		}
+		getCase(numCase).update(sprite);
+		/*Image sprite = null;
+		String contentCase = character.sprite(); // to know which sprite we have to
+												// load
 		sprite = new ImageIcon(contentCase).getImage(); // load the sprite
 
 		JLabel label = new JLabel();
-		Image resizedSprite = sprite.getScaledInstance(18, 18, Image.SCALE_DEFAULT);
+		Image resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
 		label = new JLabel(new ImageIcon(resizedSprite));
+		getCase(numCase).removeAll();
+		getCase(numNextCase).removeAll();
+		JLabel label2 = new JLabel();
+		switch(oldC) {
+		case 'g':
+			sprite = new ImageIcon("sprites/" + theme + "/PacGum.gif").getImage();
+			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+			label2.setIcon(new ImageIcon(resizedSprite));
+			getCase(numCase).add(label2);
+			getCase(numCase).setContent(oldC);
+			break;
+		case 'S':
+			sprite = new ImageIcon("sprites/" + theme + "/Super pacgum.gif").getImage();
+			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+			label2.setIcon(new ImageIcon(resizedSprite));
+			getCase(numCase).add(label2);
+			getCase(numCase).setContent(oldC);
+			break;
+		case 'C':
+			sprite = new ImageIcon("sprites/" + theme + "/Cherry.gif").getImage();
+			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+			label2.setIcon(new ImageIcon(resizedSprite));
+			getCase(numCase).add(label2);
+			getCase(numCase).setContent(oldC);
+			break;
+		case 's':
+			sprite = new ImageIcon("sprites/" + theme + "/Strawberry.gif").getImage();
+			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+			label2.setIcon(new ImageIcon(resizedSprite));
+			getCase(numCase).add(label2);
+			getCase(numCase).setContent(oldC);
+			break;
+		case 'O':
+			sprite = new ImageIcon("sprites/" + theme + "/Orange.gif").getImage();
+			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+			label2.setIcon(new ImageIcon(resizedSprite));
+			getCase(numCase).add(label2);
+			getCase(numCase).setContent(oldC);
+			break;
+		case 'A':
+			sprite = new ImageIcon("sprites/" + theme + "/Apple.gif").getImage();
+			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+			label2.setIcon(new ImageIcon(resizedSprite));
+			getCase(numCase).add(label2);
+			getCase(numCase).setContent(oldC);
+			break;
+		case 'M':
+			sprite = new ImageIcon("sprites/" + theme + "/Melon.gif").getImage();
+			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+			label2.setIcon(new ImageIcon(resizedSprite));
+			getCase(numCase).add(label2);
+			getCase(numCase).setContent(oldC);
+			break;
+		case 'b':
+			sprite = new ImageIcon("sprites/" + theme + "/Galboss.gif").getImage();
+			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+			label2.setIcon(new ImageIcon(resizedSprite));
+			getCase(numCase).add(label2);
+			getCase(numCase).setContent(oldC);
+			break;
+		case 'B':
+			sprite = new ImageIcon("sprites/" + theme + "/Bell.gif").getImage();
+			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+			label2.setIcon(new ImageIcon(resizedSprite));
+			getCase(numCase).add(label2);
+			getCase(numCase).setContent(oldC);
+			break;
+		case 'K':
+			sprite = new ImageIcon("sprites/" + theme + "/Key.gif").getImage();
+			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+			label2.setIcon(new ImageIcon(resizedSprite));
+			getCase(numCase).add(label2);
+			getCase(numCase).setContent(oldC);
+			break;
+		}
+		getCase(numNextCase).setContent(character.toChar());
+		getCase(numNextCase).add(label);
+		getCase(numCase).revalidate();
+		getCase(numCase).repaint();
+		getCase(numNextCase).revalidate();
+		getCase(numNextCase).repaint();*/
+		/*if (oldC == 'g') {
+			getCase(numNextCase).removeAll();
+			JLabel label2 = new JLabel();
+			sprite = new ImageIcon("sprites/" + theme + "/PacGum.gif").getImage();
+			resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+			label2.setIcon(new ImageIcon(resizedSprite));
+			getCase(numCase).add(label2);
+			getCase(numCase).setContent('g'); // Remove JLabel on the next
+												// case
+			getCase(numNextCase).add(label); // We add the new JLabel
+													// We update the
+													// informations on the
+													// case
 
-		switch (c) {
+			getCase(numCase).revalidate();
+			getCase(numCase).repaint();
+			getCase(numNextCase).revalidate();
+			getCase(numNextCase).repaint();
+		} else {
+			getCase(numNextCase).removeAll();
+			getCase(numCase).add(new JLabel(" "));
+			getCase(numCase).setContent(' ');
+
+			getCase(numNextCase).removeAll(); // Remove JLabel on the next
+												// case
+			getCase(numNextCase).add(label); // We add the new JLabel
+			// We update the
+													// informations on the
+													// case
+
+			getCase(numCase).revalidate();
+			getCase(numCase).repaint();
+			getCase(numNextCase).revalidate();
+			getCase(numNextCase).repaint();
+		}*/
+
+		/*switch (c) {
 		case 'P':
 			getCase(numCase).removeAll();
 			getCase(numCase).add(new JLabel(" "));
@@ -277,47 +398,9 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 			getCase(numNextCase).repaint();
 			break;
 		case 'G':
-			if (getCase(numNextCase).getContent() == 'g') {
-				getCase(numCase).removeAll();
-				JLabel label2 = new JLabel();
-				sprite = new ImageIcon("sprites/" + theme + "/PacGum.gif").getImage();
-				resizedSprite = sprite.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
-				label2.setIcon(new ImageIcon(resizedSprite));
-				getCase(numCase).add(label2);
-				getCase(numCase).setContent('g');
-
-				getCase(numNextCase).removeAll(); // Remove JLabel on the next
-													// case
-				getCase(numNextCase).add(label); // We add the new JLabel
-				getCase(numNextCase).setContent('G'); // We update the
-														// informations on the
-														// case
-
-				getCase(numCase).revalidate();
-				getCase(numCase).repaint();
-				getCase(numNextCase).revalidate();
-				getCase(numNextCase).repaint();
-			} else {
-				getCase(numCase).removeAll();
-				getCase(numCase).add(new JLabel(" "));
-				getCase(numCase).setContent(' ');
-
-				getCase(numNextCase).removeAll(); // Remove JLabel on the next
-													// case
-				getCase(numNextCase).add(label); // We add the new JLabel
-				getCase(numNextCase).setContent('G'); // We update the
-														// informations on the
-														// case
-
-				getCase(numCase).revalidate();
-				getCase(numCase).repaint();
-				getCase(numNextCase).revalidate();
-				getCase(numNextCase).repaint();
-			}
 
 			break;
-		}
-		//
+		}*/
 	}
 
 	/**
@@ -402,12 +485,12 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 	 *            The number of the cell.
 	 * 
 	 */
-	public String getSprite(int number) {
+	public String getSprite(Game game, int number) {
 		String res = "";
 		int x = number % 28;
 		int y = (number - x) / 28;
 		Point p = new Point(y, x);
-		Characters[] cara = g.characters;
+		Characters[] cara = game.characters;
 		for (int i = 0; i < 5; i++) {
 			if (cara[i].getPosition().equals(p)) {
 
@@ -470,7 +553,8 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 					break;
 				case 'G':
 					label = new JLabel();
-					img = new ImageIcon(getSprite(numCase)).getImage().getScaledInstance(15, 15, Image.SCALE_DEFAULT);
+					img = new ImageIcon(getSprite(g, numCase)).getImage().getScaledInstance(15, 15,
+							Image.SCALE_DEFAULT);
 					break;
 				default:
 					break;
@@ -489,39 +573,5 @@ public class GameScreen extends JPanel /* implements KeyListener */ {
 			}
 		}
 	}
-
-	// ############# Keylisteners ###############
-	// @Override
-	// public void keyPressed(KeyEvent e) {
-	// System.out.println("paf");
-	// if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-	// move(pacmanX,pacmanY,'r');
-	//
-	//
-	// }
-	// if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-	// move(pacmanX,pacmanY,'l');
-	// }
-	//
-	// if (e.getKeyCode() == KeyEvent.VK_UP) {
-	// move(pacmanX,pacmanY,'u');
-	// }
-	// if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-	// move(pacmanX,pacmanY,'d');
-	//
-	// }
-	// }
-	//
-	// @Override
-	// public void keyReleased(KeyEvent e) {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void keyTyped(KeyEvent e) {
-	// // TODO Auto-generated method stub
-	//
-	// }
 
 }

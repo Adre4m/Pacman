@@ -22,7 +22,8 @@ public class FrameTest {
 	public static void main (String[] args) {
 		@SuppressWarnings("unused")
 		Frame f = new Frame();
-		while (true);
+		while (true)
+			System.out.println("test");
 }
 
 }
