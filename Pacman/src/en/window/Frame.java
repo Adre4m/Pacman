@@ -126,7 +126,7 @@ public class Frame extends JFrame {
 				l.setVisible(false);
 				c.setVisible(false);
 				openScreen.add(set);
-				openScreen.add(hubLeft(3));
+				openScreen.add(hubLeft(3),BorderLayout.WEST);
 				openScreen.add(hubRight(1000000000, true, 'C'), BorderLayout.EAST);
 				set.setFocusable(true);
 				set.requestFocusInWindow();

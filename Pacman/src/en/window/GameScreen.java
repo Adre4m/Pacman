@@ -3,6 +3,7 @@ package en.window;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
@@ -22,7 +23,7 @@ import en.master.characters.Characters;
  * @author RIETZ Vincent
  *
  */
-public class GameScreen extends JLayeredPane /*implements KeyListener*/{
+public class GameScreen extends JPanel /*implements KeyListener*/{
 	/**
 	 * 
 	 */
@@ -42,9 +43,9 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 	 * 
 	 */
 	public GameScreen() {
-
-		this.setPreferredSize(new Dimension(4 * height / 3, height));
-		this.setBounds(0, 0, 4 * height / 3, height);
+		this.setBackground(Color.BLACK);
+//		this.setPreferredSize(new Dimension(4 * height / 3, height));
+//		this.setBounds(0, 0, 4 * height / 3, height);
 		
 		//theme
 		switch(Stream.readOptions()[0]){
@@ -65,7 +66,7 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 		
 		
 		//set size
-		grid.setBounds(2 * height / 10, -height / 32, 4 * height / 3 - 4 * height / 10, height);
+//		grid.setBounds(2 * height / 10, -height / 32, 4 * height / 3 - 4 * height / 10, 2*height);
 		grid.setOpaque(true);
 		grid.setLayout(new GridLayout(32, 28));
 		
@@ -88,7 +89,9 @@ public class GameScreen extends JLayeredPane /*implements KeyListener*/{
 		
 		grid.setVisible(true);
 			
-		this.add(grid, new Integer(1), 0);
+//		this.add(grid, new Integer(1), 0);
+		this.setLayout(new BorderLayout());
+		this.add(grid, BorderLayout.CENTER);
 		
 	}
 
