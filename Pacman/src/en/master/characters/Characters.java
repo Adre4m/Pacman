@@ -50,6 +50,9 @@ public abstract class Characters {
 		game.getLab()[position.x][position.y] = ' ';
 		position.setLocation(initialPosition);
 		game.getLab()[position.x][position.y] = toChar();
+		if(this instanceof Ghost) {
+			((Ghost)this).setOld(' ');
+		}
 	}
 
 	/**

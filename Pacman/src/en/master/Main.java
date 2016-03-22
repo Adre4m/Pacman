@@ -7,17 +7,20 @@ import en.window.Frame;
 public class Main {
 
 	public static void main(String[] args) {
-		Frame f = new Frame();
+		final Frame f = new Frame();
 		do {
 			System.out.print("");
 			if (f.gameStarted) {
 				Game game = new Game();
-
 				game.init("labyrinths/labyrinth.txt");
 				f.initGameScreen(game);
 				switch (Stream.readOptions()[1]) {
 				case 0:
-					new ControlsKey(game);
+					javax.swing.SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							f.addKeyListener(new ControlsKey(game));
+						}
+					});
 					break;
 				case 1:
 					f.addMouseListener(new ControlsMouse(game));
@@ -25,7 +28,6 @@ public class Main {
 				default:
 					new ControlsKey(game);
 				}
-
 				game.play(f);
 				f.gameStarted = false;
 				// f.menu();

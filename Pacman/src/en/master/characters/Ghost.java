@@ -273,7 +273,7 @@ public abstract class Ghost extends Characters {
 	public String sprite() {
 		String s = folder;
 		if (isReturningToJail)
-			s += "Ghost_eye";
+			s += "Ghost_eyes";
 		else if (isVulnerable && 3 < vulnerable)
 			s += "Blue_ghost";
 		else if (isVulnerable && vulnerable <= 3)

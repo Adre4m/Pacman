@@ -14,7 +14,6 @@ import en.master.characters.Pacman;
 import en.master.characters.Pinky;
 import en.master.graph.Graph;
 import en.window.Frame;
-import java.util.Observable;
 
 //TODO state fruit : if eaten notify frame
 
@@ -23,7 +22,7 @@ import java.util.Observable;
  * @author BOURGEOIS Adrien
  * @version 1
  */
-public class Game extends Observable {
+public class Game {
 
 	private char[][] lab = new char[32][28];
 	private short[][] gums = new short[32][28];
@@ -38,8 +37,6 @@ public class Game extends Observable {
 	public int level = 1;
 	public short difficulty = 0;
 	public boolean appearedFruit = false;
-	public int pacmanX = 0;
-	public int pacmanY = 0;
 	short secFruit = Timer.FRUIT;
 
 	public int getScore() {
@@ -73,7 +70,6 @@ public class Game extends Observable {
 	 *            File to be read
 	 */
 	public void init(String file) {
-		// Stream stm = new Stream(); // Initiate the stream to read file
 		String grid = Stream.initiateLab(file);
 		grid = grid.replaceAll("[\n\r]", "");
 		int index = 0;
@@ -122,8 +118,6 @@ public class Game extends Observable {
 					characters[0] = new Pacman(i, j);
 					lab[i][j] = 'P';
 					gums[i][j] = 0;
-					this.pacmanX = j;
-					this.pacmanY = i;
 					break;
 				default:
 					lab[i][j] = grid.charAt(index);
@@ -160,18 +154,14 @@ public class Game extends Observable {
 		}
 	}
 
-	public int getPacmanX() {
-		return pacmanX;
-	}
-
-	public int getPacmanY() {
-		return pacmanY;
-	}
-
 	private void newLevel(Frame f) {
+		System.out.println("ATTENTION NOUVEAU NIVEAU");
 		level++;
-		for (int i = 0; i < characters.length; ++i)
+		for (int i = 0; i < characters.length; ++i) {
+			Point p = new Point(characters[i].getPosition());
 			characters[i].reinit(this);
+			f.set.move(characters[i], p, ' ');
+		}
 		for (int i = 0; i < lab.length; ++i) {
 			for (int j = 0; j < lab[0].length; ++j)
 				if (gums[i][j] == 1) {
@@ -182,6 +172,7 @@ public class Game extends Observable {
 					numGum++;
 				}
 		}
+		f.set.resetLab(this);
 	}
 
 	/**
@@ -243,7 +234,8 @@ public class Game extends Observable {
 	 * @return true if the player has eaten all the gums, else false.
 	 */
 	public boolean win() {
-		return numGum <= 0;
+		System.out.println(numGum);
+		return numGum < 1;
 	}
 
 	/**
@@ -270,8 +262,9 @@ public class Game extends Observable {
 		f.set.initFruit(getFruit());
 		f.set.updateHub(score, ((Pacman) characters[0]).getLives());
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
-		int mvgpf = (Timer.FPS / Timer.GMVPS) + (level * difficulty);
-		int mvvps = (Timer.FPS / Timer.VMVPS) + (level * difficulty);
+		int mvgpf = (Timer.FPS / Timer.GMVPS) - (level * difficulty);
+		System.out.println(mvgpf);
+		int mvvps = (Timer.FPS / Timer.VMVPS) - (level * difficulty);
 		while (((Pacman) characters[0]).getLives() > 0) {
 			while (!win()) {
 				long cpt = 0;
@@ -292,12 +285,10 @@ public class Game extends Observable {
 								mv[i]++;
 								current.ia(this);
 								f.set.move(current, p, lab[p.x][p.y]);
-								//System.out.println(this);
 							} else if (!current.isVulnerable() && (cpt / mv[i]) >= mvgpf) {
 								mv[i]++;
 								current.ia(this);
 								f.set.move(current, p, lab[p.x][p.y]);
-								//System.out.println(this);
 							} else {
 								break;
 							}
@@ -308,7 +299,6 @@ public class Game extends Observable {
 							mv[0]++;
 							characters[0].move(this);
 							f.set.move(characters[0], p, lab[p.x][p.y]);
-							//System.out.println(this);
 						}
 						if (restartNeed) {
 							restart(f);
@@ -352,6 +342,8 @@ public class Game extends Observable {
 				}
 			}
 		}
+		
+		System.out.println("AJOUTER LE SCORE");
 		checkScore(f, getScore());
 	}
 

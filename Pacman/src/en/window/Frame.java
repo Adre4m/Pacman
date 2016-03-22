@@ -12,7 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.EventListener;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -30,7 +29,6 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import en.controls.ControlsKey;
-import en.controls.ControlsMouse;
 import en.master.Game;
 import en.master.NodeScore;
 import en.master.Stream;
@@ -48,7 +46,6 @@ public class Frame extends JFrame {
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
 
-	private Game game;
 	public boolean gameStarted = false;
 
 	public GameScreen set;
@@ -776,10 +773,9 @@ public class Frame extends JFrame {
 	}
 
 	public void initGameScreen(Game game) {
-		// JPanel screenGame = new JPanel();
 		set = new GameScreen(game);
-		set.setFocusable(true);
-		set.requestFocusInWindow();
+		addKeyListener(new ControlsKey(game));
+		this.requestFocus();
 		this.add(set);
 	}
 

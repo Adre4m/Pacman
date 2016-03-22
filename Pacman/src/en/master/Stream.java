@@ -198,6 +198,9 @@ public class Stream {
 				case "Normal":
 					options[2] = 1;
 					break;
+				case "Hard":
+					options[2] = 2;
+					break;
 				case "On":
 					options[3] = 0;
 					break;
