@@ -240,9 +240,9 @@ public class Game {
 	 * @return true if the player has eaten all the gums, else false.
 	 */
 	public boolean win() {
-		for(int i = 0; i < lab.length; ++i)
-			for(int j = 0; j < lab[0].length; ++j)
-				if(lab[i][j] == 'g' || lab[i][j] == 'S')
+		for (int i = 0; i < lab.length; ++i)
+			for (int j = 0; j < lab[0].length; ++j)
+				if (lab[i][j] == 'g' || lab[i][j] == 'S')
 					return false;
 		return true;
 	}
@@ -271,11 +271,11 @@ public class Game {
 		f.set.initFruit(getFruit());
 		f.set.updateHub(score, ((Pacman) characters[0]).getLives());
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
-		int mvgpf = (Timer.FPS / Timer.GMVPS) - (level * difficulty);
+		int mvgpf = (Timer.FPS / (Timer.GMVPS + (level * difficulty)));
 		System.out.println(mvgpf);
-		int mvvps = (Timer.FPS / Timer.VMVPS) - (level * difficulty);
-		while (((Pacman) characters[0]).getLives() >= 0) {
-			while (!win()) {
+		int mvvps = (Timer.FPS / (Timer.VMVPS + (level * difficulty)));
+		while (((Pacman) characters[0]).getLives() > 0) {
+			while (((Pacman) characters[0]).getLives() > 0 && !win()) {
 				long cpt = 0;
 				long[] mv = { 1, 1, 1, 1, 1 };
 				if (secFruit <= 0 && !appearedFruit)
@@ -352,9 +352,11 @@ public class Game {
 				}
 			}
 		}
-		
+
 		System.out.println("AJOUTER LE SCORE");
+		f.gameStarted = false;
 		checkScore(f, getScore());
+		//f.highscore();
 	}
 
 	public void checkScore(Frame f, int score) {
