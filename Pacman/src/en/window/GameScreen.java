@@ -22,7 +22,7 @@ import en.master.characters.Characters;
  * @author RIETZ Vincent
  *
  */
-public class GameScreen extends JPanel{
+public class GameScreen extends JPanel {
 	/**
 	 * 
 	 */
@@ -371,67 +371,55 @@ public class GameScreen extends JPanel{
 	 *            The game initialised.
 	 */
 	public void resetLab(Game g) {
-		int numCase = 0; // case's numbers
-		String s = "";
-		JLabel label = null;
-		Image img = null;
-		for (int i = 0; i < g.getLab().length; ++i) {
-			for (int j = 0; j < g.getLab()[0].length; ++j) {
-				s += g.getLab()[i][j];
-
-				switch (s.charAt(0)) {
-				case ' ':
-					label = new JLabel(" ");
-					img = null;
-					break;
-				case 'D':
-					label = new JLabel();
-					img = new ImageIcon("sprites/" + theme + "/door.gif").getImage()
-							.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-
-					break;
-				case 'X':
-					label = new JLabel();
-					img = new ImageIcon("sprites/" + theme + "/wall.gif").getImage()
-							.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-
-					break;
-				case 'g':
-					label = new JLabel();
-					img = new ImageIcon("sprites/" + theme + "/PacGum.gif").getImage()
-							.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-					break;
-				case 'S':
-					label = new JLabel();
-					img = new ImageIcon("sprites/" + theme + "/Super pacgum.gif").getImage()
-							.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-					break;
-				case 'P':
-					label = new JLabel();
-					img = new ImageIcon(game.characters[0].sprite()).getImage()
-							.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
-					break;
-				case 'G':
-					label = new JLabel();
-					img = new ImageIcon(game.getGhost(i, j).sprite()).getImage().getScaledInstance((int) (height * 0.024),
-							(int) (height * 0.024), Image.SCALE_DEFAULT);
-					break;
-				default:
-					break;
+		int numCase = 0;
+		for (int i = 0; i < game.getLab().length; ++i) {
+			for (int j = 0; j < game.getLab()[0].length; ++j) {
+				if (game.getLab()[i][j] != 'G' || game.getLab()[i][j] != 'P' || game.getLab()[i][j] != 'X') {
+					String sprite = "sprites/" + theme;
+					switch (game.getLab()[i][j]) {
+					case 'g':
+						sprite += "/PacGum.gif";
+						break;
+					case 'S':
+						sprite += "/Super pacgum.gif";
+						break;
+					case 'C':
+						sprite += "/Cherry.gif";
+						break;
+					case 's':
+						sprite += "/Strawberry.gif";
+						break;
+					case 'O':
+						sprite += "/Orange.gif";
+						break;
+					case 'A':
+						sprite += "/Apple.gif";
+						break;
+					case 'M':
+						sprite += "/Melon.gif";
+						break;
+					case 'b':
+						sprite += "/Galboss.gif";
+						break;
+					case 'B':
+						sprite += "/Bell.gif";
+						break;
+					case 'K':
+						sprite += "/Key.gif";
+						break;
+					case 'D':
+						sprite += "/door.gif";
+						break;
+					}
+					getCase(numCase++).update(sprite);
 				}
-
-				if (!(img == null))
-					label.setIcon(new ImageIcon(img));
-				getCase(numCase).removeAll();
-				getCase(numCase).setContent(s.charAt(0));
-				getCase(numCase).add(label);
-				getCase(numCase).revalidate();
-				getCase(numCase).repaint();
-				numCase++;
-				s = "";
-
 			}
 		}
+	}
+	
+	public void death(Point pacman) {
+		int numCase = (int) (pacman.x * 28 + pacman.y);
+		getCase(numCase).update("sprites/" + theme + "/PacMan_death.gif");
 	}
 
 }

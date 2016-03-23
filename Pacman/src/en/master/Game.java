@@ -208,6 +208,12 @@ public class Game {
 	}
 
 	private void restart(Frame f) {
+		f.set.death(characters[0].getPosition());
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		for (int i = 0; i < characters.length; ++i) {
 			Point p = new Point(characters[i].getPosition());
 			characters[i].reinit(this);
@@ -234,8 +240,11 @@ public class Game {
 	 * @return true if the player has eaten all the gums, else false.
 	 */
 	public boolean win() {
-		System.out.println(numGum);
-		return numGum < 1;
+		for(int i = 0; i < lab.length; ++i)
+			for(int j = 0; j < lab[0].length; ++j)
+				if(lab[i][j] == 'g' || lab[i][j] == 'S')
+					return false;
+		return true;
 	}
 
 	/**
@@ -265,15 +274,16 @@ public class Game {
 		int mvgpf = (Timer.FPS / Timer.GMVPS) - (level * difficulty);
 		System.out.println(mvgpf);
 		int mvvps = (Timer.FPS / Timer.VMVPS) - (level * difficulty);
-		while (((Pacman) characters[0]).getLives() > 0) {
+		while (((Pacman) characters[0]).getLives() >= 0) {
 			while (!win()) {
 				long cpt = 0;
 				long[] mv = { 1, 1, 1, 1, 1 };
 				if (secFruit <= 0 && !appearedFruit)
-					appearFruit();
+					appearFruit(f);
 				else if (secFruit <= 0 && appearedFruit) {
 					lab[14][14] = ' ';
-					appearedFruit = true;
+					appearedFruit = false;
+					f.set.removeSprite(new Point(14, 14));
 				}
 				while (cpt <= Timer.FPS && !win()) {
 					if (!paused) {
@@ -384,12 +394,13 @@ public class Game {
 		return jailWalls;
 	}
 
-	private void appearFruit() {
+	private void appearFruit(Frame f) {
 		int prob = (int) (Math.random() * 101);
 		if (50 <= prob && prob <= 100) {
 			appearedFruit = true;
 			secFruit = Timer.FRUIT;
 			lab[14][14] = getFruit();
+			f.set.putFruit(new Point(14, 14), getFruit());
 		}
 	}
 
