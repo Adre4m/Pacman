@@ -779,4 +779,7 @@ public class Frame extends JFrame {
 		this.add(set);
 	}
 
+	// TODO Lin consigne : fait la fonction de reste au menu ou highscore ou ce
+	// que tu veux, mais reset quoi :p
+
 }
