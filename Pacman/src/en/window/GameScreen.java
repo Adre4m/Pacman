@@ -67,7 +67,53 @@ public class GameScreen extends JPanel {
 		int number = 0; // case's numbers
 		for (int i = 0; i < game.getLab().length; ++i) {
 			for (int j = 0; j < game.getLab()[0].length; ++j) {
-				Case c = new Case(this, game, game.getLab()[i][j], number);
+				Case c = null; // new Case(this, game, game.getLab()[i][j], number);
+				if(game.getLab()[i][j] == 'P')
+					c = new Case(this, number, game.characters[0].sprite(), theme);
+				else if(game.getLab()[i][j] == 'G')
+					c = new Case(this, number, game.getGhost(i, j).sprite(), theme);
+				else {
+					String sprite = "sprites/" + theme;
+					switch(game.getLab()[i][j]) {
+					case 'g':
+						sprite += "/PacGum.gif";
+						break;
+					case 'S':
+						sprite += "/Super pacgum.gif";
+						break;
+					case 'C':
+						sprite += "/Cherry.gif";
+						break;
+					case 's':
+						sprite += "/Strawberry.gif";
+						break;
+					case 'O':
+						sprite += "/Orange.gif";
+						break;
+					case 'A':
+						sprite += "/Apple.gif";
+						break;
+					case 'M':
+						sprite += "/Melon.gif";
+						break;
+					case 'b':
+						sprite += "/Galboss.gif";
+						break;
+					case 'B':
+						sprite += "/Bell.gif";
+						break;
+					case 'K':
+						sprite += "/Key.gif";
+						break;
+					case 'D':
+						sprite += "/door.gif";
+						break;
+					case 'X':
+						sprite += "/wall.gif";
+						break;
+					}
+					c = new Case(this, number, sprite, theme);
+				}
 				grid.add(c);
 				number++;
 				if (ck != null)
@@ -315,32 +361,6 @@ public class GameScreen extends JPanel {
 	public void removeSprite(Point position) {
 		int numCase = (int) (position.getX() * 28 + position.getY());
 		getCase(numCase).update("");
-	}
-
-	/**
-	 * This method retrieves the sprite that matches with the cell number. The
-	 * point of the cell is calculated in order to compare it with the
-	 * characters coordinates. When it finds a match, it retrieves the sprite.
-	 * 
-	 * @author RIETZ Vincent
-	 * 
-	 * @param number
-	 *            The number of the cell.
-	 * 
-	 */
-	public String getSprite(Game game, int number) {
-		String res = "";
-		int x = number % 28;
-		int y = (number - x) / 28;
-		Point p = new Point(y, x);
-		Characters[] cara = game.characters;
-		for (int i = 0; i < 5; i++) {
-			if (cara[i].getPosition().equals(p)) {
-
-				res = cara[i].sprite();
-			}
-		}
-		return res;
 	}
 
 	/**

@@ -51,7 +51,7 @@ public class Frame extends JFrame {
 	public boolean gameStarted = false;
 	private AudioStream BGM;
 	private AudioPlayer MGP = AudioPlayer.player;
-	
+
 	public GameScreen set;
 
 	/**
@@ -76,7 +76,7 @@ public class Frame extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		menu();
 
 		this.setVisible(true);
@@ -92,7 +92,7 @@ public class Frame extends JFrame {
 	 */
 	private void menu() {
 		music();
-		
+
 		final JPanel l = logo();
 
 		final JPanel openScreen = new JPanel();
@@ -805,10 +805,10 @@ public class Frame extends JFrame {
 		JOptionPane.showMessageDialog(null, alt, "", JOptionPane.PLAIN_MESSAGE);
 		menu();
 	}
-	
-	private void music(){
+
+	private void music() {
 		AudioStream NBGM;
-		try{
+		try {
 			switch (Stream.readOptions()[0]) {
 			case 0:
 				NBGM = new AudioStream(new FileInputStream("music/Classic_Intro.wav"));
@@ -819,7 +819,8 @@ public class Frame extends JFrame {
 			case 2:
 				NBGM = new AudioStream(new FileInputStream("music/Zelda_Intro.wav"));
 				break;
-				default : NBGM = new AudioStream(new FileInputStream("music/Classic-Intro.wav"));
+			default:
+				NBGM = new AudioStream(new FileInputStream("music/Classic-Intro.wav"));
 			}
 			switch (Stream.readOptions()[3]) {
 			case 0:
@@ -832,7 +833,7 @@ public class Frame extends JFrame {
 				break;
 			}
 			BGM = NBGM;
-		}catch(IOException error){
+		} catch (IOException error) {
 			error.printStackTrace();
 		}
 	}

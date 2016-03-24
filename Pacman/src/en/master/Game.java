@@ -37,7 +37,7 @@ public class Game {
 	public short difficulty = 0;
 	public boolean appearedFruit = false;
 	public boolean ateFruit = false;
-	short secFruit = Timer.FRUIT;
+	private short secFruit = Timer.FRUIT;
 	private Point fruitSpawn;
 
 	public int getScore() {
@@ -50,10 +50,6 @@ public class Game {
 
 	public char[][] getLab() {
 		return lab;
-	}
-
-	public void setLab(char[][] lab) {
-		this.lab = lab;
 	}
 
 	/**
@@ -231,9 +227,6 @@ public class Game {
 		}
 	}
 
-	public boolean isRestartNeed() {
-		return restartNeed;
-	}
 
 	public void setRestartNeed(boolean restartNeed) {
 		this.restartNeed = restartNeed;

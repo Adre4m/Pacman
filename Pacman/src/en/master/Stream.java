@@ -82,7 +82,7 @@ public class Stream {
 	}
 
 	/**
-	 * Reads the file and put the content in a String without the line breaks 
+	 * Reads the file and put the content in a String without the line breaks
 	 * and the spaces.
 	 * 
 	 * @author RIETZ Vincent

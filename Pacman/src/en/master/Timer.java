@@ -27,7 +27,7 @@ public class Timer {
 	/**
 	 * Provides how many seconds a supergum is effective
 	 */
-	public static final short SUPERGUM = 7;
+	public static final short SUPERGUM = 10;
 	/**
 	 * Provides how many seconds until a fruit can appear
 	 */
