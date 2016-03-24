@@ -1,6 +1,7 @@
 package en.master.characters;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Stack;
 
 import en.master.Game;
@@ -83,6 +84,7 @@ public abstract class Ghost extends Characters {
 			Point pacman;
 			if (isVulnerable) {
 				vulnerable(game);
+				move(game);
 			} else {
 				if (isReturningToJail) {
 					isEaten(game);
@@ -140,28 +142,46 @@ public abstract class Ghost extends Characters {
 	}
 
 	private void vulnerable(Game game) {
-		switch(dir) {
+		ArrayList<Character> possibleDir = new ArrayList<Character>();
+		switch (dir) {
 		case 'u':
-			if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab().length)] == 'X')
-				//changer dir
-				System.out.println();
+			if (game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] == 'X') {
+				if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab().length)] != 'X')
+					possibleDir.add('r');
+				if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab().length)] != 'X')
+					possibleDir.add('l');
+			} else
+				possibleDir.add(dir);
 			break;
 		case 'd':
-			if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab().length)] == 'X')
-				//changer dir
-				System.out.println();
+			if (game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] == 'X') {
+				if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab().length)] != 'X')
+					possibleDir.add('r');
+				if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab().length)] != 'X')
+					possibleDir.add('l');
+			} else
+				possibleDir.add(dir);
 			break;
 		case 'r':
-			if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab().length)] == 'X')
-				//changer dir
-				System.out.println();
+			if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab().length)] == 'X') {
+				if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab().length)] != 'X')
+					possibleDir.add('u');
+				if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab().length)] != 'X')
+					possibleDir.add('d');
+			} else
+				possibleDir.add(dir);
 			break;
 		case 'l':
-			if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab().length)] == 'X')
-				//changer dir
-				System.out.println();
+			if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab().length)] == 'X') {
+				if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab().length)] != 'X')
+					possibleDir.add('u');
+				if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab().length)] != 'X')
+					possibleDir.add('d');
+			} else
+				possibleDir.add(dir);
 			break;
 		}
+		dir = possibleDir.get((int) (Math.random() * possibleDir.size()));
 	}
 
 	public char getOld() {

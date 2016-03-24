@@ -366,7 +366,6 @@ public class Game {
 		f.gameStarted = false;
 		checkScore(f, getScore());
 		f.resetFrame();
-		// f.highscore();
 	}
 
 	private void checkScore(Frame f, int score) {

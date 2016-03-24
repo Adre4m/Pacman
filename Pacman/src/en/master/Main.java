@@ -13,8 +13,6 @@ public class Main {
 				game.init("labyrinths/labyrinth1.txt");
 				f.initGameScreen(game);
 				game.play(f);
-				f.gameStarted = false;
-				// f.menu();
 			} else
 				continue;
 		} while (true);
