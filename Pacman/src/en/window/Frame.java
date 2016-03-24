@@ -193,6 +193,8 @@ public class Frame extends JFrame {
 		openScreen.add(c, BorderLayout.SOUTH);
 
 		this.setContentPane(openScreen);
+		this.repaint();
+		this.revalidate();
 	}
 
 	/**
@@ -549,6 +551,8 @@ public class Frame extends JFrame {
 		o.add(copyright(), BorderLayout.SOUTH);
 
 		this.setContentPane(o);
+		this.repaint();
+		this.revalidate();
 	}
 
 	/**
@@ -637,6 +641,8 @@ public class Frame extends JFrame {
 		h.add(b);
 
 		this.setContentPane(h);
+		this.repaint();
+		this.revalidate();
 
 	}
 
@@ -784,17 +790,21 @@ public class Frame extends JFrame {
 			});
 		this.requestFocus();
 		this.setContentPane(set);
+		this.repaint();
+		this.revalidate();
 	}
 
 	public void resetFrame() {
 		UIManager.put("OptionPane.background", Color.BLACK);
 		UIManager.put("Panel.background", Color.BLACK);
+		JPanel alt = new JPanel ();
+		alt.setBackground(Color.BLACK);
 		JLabel over = new JLabel ("Game Over");
-		over.setBackground(Color.BLACK);
 		over.setForeground(Color.BLUE);
 		over.setFont(new java.awt.Font("Consolas", 1, 25));
-		JOptionPane.showMessageDialog(null, over, "", JOptionPane.PLAIN_MESSAGE);
-		set.setVisible(false);
+		alt.add(over);
+		JOptionPane.showMessageDialog(null, alt, "", JOptionPane.PLAIN_MESSAGE);
+		//set.setVisible(false);
 		menu();
 	}
 
