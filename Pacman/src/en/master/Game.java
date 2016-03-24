@@ -70,8 +70,8 @@ public class Game {
 	 * @param file
 	 *            File to be read
 	 */
-	public void init(String file) {
-		String grid = Stream.initiateLab(file);
+	public void init() {
+		String grid = Stream.initiateLab("labyrinths/labyrinth" + ((int) (Math.random() * 2)) + ".txt");
 		grid = grid.replaceAll("[\n\r]", "");
 		int index = 0;
 		for (int i = 0; i < lab.length; ++i)
@@ -274,6 +274,11 @@ public class Game {
 	 * 
 	 */
 	public void play(Frame f) {
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		f.set.initFruit(getFruit());
 		f.set.updateHub(score, ((Pacman) characters[0]).getLives());
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
