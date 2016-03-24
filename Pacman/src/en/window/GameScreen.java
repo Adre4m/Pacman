@@ -69,13 +69,17 @@ public class GameScreen extends JPanel {
 		grid.setLayout(new GridLayout(32, 28));
 
 		// load cases
+		ControlsMouse ck = null;
+		if (Stream.readOptions()[1] == 1)
+			ck = new ControlsMouse(game);
 		int number = 0; // case's numbers
 		for (int i = 0; i < game.getLab().length; ++i) {
 			for (int j = 0; j < game.getLab()[0].length; ++j) {
 				Case c = new Case(this, game, game.getLab()[i][j], number);
 				grid.add(c);
 				number++;
-				c.addMouseListener(new ControlsMouse(game));
+				if (ck != null)
+					c.addMouseListener(ck);
 			}
 		}
 
@@ -416,7 +420,7 @@ public class GameScreen extends JPanel {
 			}
 		}
 	}
-	
+
 	public void death(Point pacman) {
 		int numCase = (int) (pacman.x * 28 + pacman.y);
 		getCase(numCase).update("sprites/" + theme + "/PacMan_death.gif");

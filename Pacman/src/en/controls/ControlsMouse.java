@@ -16,24 +16,28 @@ public class ControlsMouse implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		Case c = (Case) e.getSource();
-		int position = c.getNumber();
-		int posX = position % 28;
-		int posY = (position - posX) / 28;
-		Point p = game.characters[0].getPosition();
-		if (Math.abs(posX - p.x) >= Math.abs(posY - p.y)) {
-			if (game.getLab()[p.x][Math.floorMod(p.y - 1, game.getLab()[0].length)] != 'X')
-				game.characters[0].setDir('l');
-		} else if (p.x > posX) {
-			if (game.getLab()[p.x][Math.floorMod(p.y + 1, game.getLab()[0].length)] != 'X')
-				game.characters[0].setDir('r');
-		} else if (Math.abs(posY - p.y) > Math.abs(posX - p.x)) {
-			if (game.getLab()[Math.floorMod(p.x + 1, game.getLab().length)][p.y] != 'X')
-				game.characters[0].setDir('d');
-		} else if (p.y > posY)
-			if (game.getLab()[Math.floorMod(p.x - 1, game.getLab().length)][p.y] != 'X')
-				game.characters[0].setDir('u');
-
+		if (e.getButton() == MouseEvent.BUTTON3)
+			game.pause();
+		else {
+			Case c = (Case) e.getSource();
+			int position = c.getNumber();
+			int posY = position % 28;
+			int posX = (position - posY) / 28;
+			Point p = game.characters[0].getPosition();
+			if (Math.abs(posX - p.x) < Math.abs(posY - p.y)) {
+				if (p.y < posY) {
+					game.characters[0].nextDir = 'r';
+				} else {
+					game.characters[0].nextDir = 'l';
+				}
+			} else {
+				if (p.x < posX) {
+					game.characters[0].nextDir = 'd';
+				} else {
+					game.characters[0].nextDir = 'u';
+				}
+			}
+		}
 	}
 
 	@Override
