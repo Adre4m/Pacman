@@ -145,10 +145,6 @@ public class Game {
 			break;
 		case 2:
 			for (int i = 0; i < characters.length; ++i)
-				characters[i].setFolder("sprites/bh6/");
-			break;
-		case 3:
-			for (int i = 0; i < characters.length; ++i)
 				characters[i].setFolder("sprites/zelda/");
 			break;
 		default:
@@ -159,7 +155,10 @@ public class Game {
 	}
 
 	private void newLevel(Frame f) {
-		System.out.println("ATTENTION NOUVEAU NIVEAU");
+		lab[fruitSpawn.x][fruitSpawn.y] = ' ';
+		appearedFruit = false;
+		f.set.removeSprite(fruitSpawn);
+		ateFruit = false;
 		level++;
 		for (int i = 0; i < characters.length; ++i) {
 			Point p = new Point(characters[i].getPosition());
@@ -174,7 +173,9 @@ public class Game {
 					lab[i][j] = 'S';
 				}
 		}
+		System.out.println(this);
 		f.set.resetLab(this);
+		f.set.initFruit(getFruit());
 	}
 
 	/**
@@ -242,6 +243,9 @@ public class Game {
 	 * @return true if the player has eaten all the gums, else false.
 	 */
 	public boolean win() {
+		for (int i = 1; i < characters.length; ++i)
+			if (((Ghost) characters[i]).getOld() == 'g' || ((Ghost) characters[i]).getOld() == 'S')
+				return false;
 		for (int i = 0; i < lab.length; ++i)
 			for (int j = 0; j < lab[0].length; ++j)
 				if (lab[i][j] == 'g' || lab[i][j] == 'S')
@@ -315,6 +319,9 @@ public class Game {
 						}
 						if (restartNeed) {
 							restart(f);
+							cpt = 0;
+							for (int i = 0; i < mv.length; ++i)
+								mv[i] = 1;
 						}
 						long current = System.nanoTime();
 						long fps = 0;
@@ -336,7 +343,8 @@ public class Game {
 						for (int i = 1; i < characters.length; ++i)
 							lab[characters[i].getPosition().x][characters[i].getPosition().y] = characters[i].toChar();
 						lab[characters[0].getPosition().x][characters[0].getPosition().y] = characters[0].toChar();
-						f.set.updateHub(score, ((Pacman) characters[0]).getLives() - 1);
+						if (((Pacman) characters[0]).getLives() > 0)
+							f.set.updateHub(score, ((Pacman) characters[0]).getLives() - 1);
 					}
 				}
 				for (int i = 1; i < characters.length; ++i) {
@@ -361,7 +369,7 @@ public class Game {
 		// f.highscore();
 	}
 
-	public void checkScore(Frame f, int score) {
+	private void checkScore(Frame f, int score) {
 		LinkedList<NodeScore> l = Stream.readScore("score.txt");
 		if (l.isEmpty()) {
 			l.add(new NodeScore("1°", f.askPseudo(), "" + score));
@@ -384,10 +392,6 @@ public class Game {
 
 	public void pause() {
 		paused = !paused;
-	}
-
-	public Graph getGraph() {
-		return graph;
 	}
 
 	public ArrayList<Point> getJailWalls() {

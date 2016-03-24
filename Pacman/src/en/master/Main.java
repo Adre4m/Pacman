@@ -10,7 +10,7 @@ public class Main {
 			System.out.print("");
 			if (f.gameStarted) {
 				Game game = new Game();
-				game.init("labyrinths/labyrinth.txt");
+				game.init("labyrinths/labyrinth1.txt");
 				f.initGameScreen(game);
 				game.play(f);
 				f.gameStarted = false;

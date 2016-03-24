@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -27,14 +26,10 @@ public class GameScreen extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String theme;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int height = (int) (screenSize.getHeight() * 0.95);
-	JPanel grid;
-	JLabel piclabel;
-	JLabel l;
-	JLabel sco;
-	JLabel f;
-	Game game;
+	private JPanel grid;
+	private JLabel l;
+	private JLabel sco;
+	private JLabel f;
 
 	/**
 	 * 
@@ -44,9 +39,7 @@ public class GameScreen extends JPanel {
 	 * 
 	 */
 	public GameScreen(Game game) {
-		this.game = game;
 		this.setBackground(Color.BLACK);
-
 		// theme
 		switch (Stream.readOptions()[0]) {
 		case 0:
@@ -55,7 +48,7 @@ public class GameScreen extends JPanel {
 		case 1:
 			theme = "sw";
 			break;
-		case 3:
+		case 2:
 			theme = "zelda";
 			break;
 		}
@@ -67,10 +60,10 @@ public class GameScreen extends JPanel {
 		grid.setOpaque(true);
 		grid.setLayout(new GridLayout(32, 28));
 
-		// load cases
 		ControlsMouse ck = null;
 		if (Stream.readOptions()[1] == 1)
 			ck = new ControlsMouse(game);
+		// load cases
 		int number = 0; // case's numbers
 		for (int i = 0; i < game.getLab().length; ++i) {
 			for (int j = 0; j < game.getLab()[0].length; ++j) {
@@ -286,13 +279,13 @@ public class GameScreen extends JPanel {
 			sprite += "/Cherry.gif";
 			break;
 		case 's':
-			sprite +="/Strawberry.gif";
+			sprite += "/Strawberry.gif";
 			break;
 		case 'O':
 			sprite += "/Orange.gif";
 			break;
 		case 'A':
-			sprite +="/Apple.gif";
+			sprite += "/Apple.gif";
 			break;
 		case 'M':
 			sprite += "/Melon.gif";
@@ -362,11 +355,12 @@ public class GameScreen extends JPanel {
 	 */
 	public void resetLab(Game g) {
 		int numCase = 0;
-		for (int i = 0; i < game.getLab().length; ++i) {
-			for (int j = 0; j < game.getLab()[0].length; ++j) {
-				if (game.getLab()[i][j] != 'G' || game.getLab()[i][j] != 'P' || game.getLab()[i][j] != 'X') {
+		for (int i = 0; i < g.getLab().length; ++i) {
+			for (int j = 0; j < g.getLab()[0].length; ++j) {
+				if (g.getLab()[i][j] != 'G' && g.getLab()[i][j] != 'P' && g.getLab()[i][j] != 'X'
+						&& g.getLab()[i][j] != 'W') {
 					String sprite = "sprites/" + theme;
-					switch (game.getLab()[i][j]) {
+					switch (g.getLab()[i][j]) {
 					case 'g':
 						sprite += "/PacGum.gif";
 						break;
@@ -401,8 +395,9 @@ public class GameScreen extends JPanel {
 						sprite += "/door.gif";
 						break;
 					}
-					getCase(numCase++).update(sprite);
+					getCase(numCase).update(sprite);
 				}
+				numCase++;
 			}
 		}
 	}

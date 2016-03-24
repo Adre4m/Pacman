@@ -156,6 +156,7 @@ public class Case extends JPanel {
 	}
 
 	public void update(String sprite) {
+		System.out.println(sprite);
 		Image img = new ImageIcon(sprite).getImage();
 		Image newimg = img.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
 		label.setIcon(new ImageIcon(newimg));

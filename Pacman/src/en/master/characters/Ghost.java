@@ -81,14 +81,18 @@ public abstract class Ghost extends Characters {
 	public void ia(Game game) {
 		if (isFree) {
 			Point pacman;
-			if (isReturningToJail) {
-				isEaten(game);
-			} else if ((pacman = radius(game)) != null) {
-				chased(pacman, game);
+			if (isVulnerable) {
+				vulnerable(game);
 			} else {
-				patrol(game);
+				if (isReturningToJail) {
+					isEaten(game);
+				} else if ((pacman = radius(game)) != null) {
+					chased(pacman, game);
+				} else {
+					patrol(game);
+				}
+				move(game);
 			}
-			move(game);
 		}
 	}
 
@@ -130,11 +134,34 @@ public abstract class Ghost extends Characters {
 	}
 
 	private void chased(Point pacman, Game game) {
-		if (isVulnerable)
-			opposite(game, pacman);
 		directions = game.graph.reach(position, pacman, dir);
 		dir = directions.pop();
 		directions.clear();
+	}
+
+	private void vulnerable(Game game) {
+		switch(dir) {
+		case 'u':
+			if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab().length)] == 'X')
+				//changer dir
+				System.out.println();
+			break;
+		case 'd':
+			if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab().length)] == 'X')
+				//changer dir
+				System.out.println();
+			break;
+		case 'r':
+			if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab().length)] == 'X')
+				//changer dir
+				System.out.println();
+			break;
+		case 'l':
+			if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab().length)] == 'X')
+				//changer dir
+				System.out.println();
+			break;
+		}
 	}
 
 	public char getOld() {
@@ -252,17 +279,6 @@ public abstract class Ghost extends Characters {
 		}
 		return null;
 
-	}
-
-	private void opposite(Game game, Point p) {
-		p.x = Math.floorMod(-p.x, game.getLab().length);
-		p.y = Math.floorMod(-p.y, game.getLab()[0].length);
-		if (game.getLab()[p.x][p.y] == 'X') {
-			while (game.getLab()[p.x][p.y] == 'X') {
-				p.x = Math.floorMod(p.x - 1, game.getLab().length);
-				p.y = Math.floorMod(p.y - 1, game.getLab().length);
-			}
-		}
 	}
 
 	public void setPatrolStart(Point patrolStart) {
