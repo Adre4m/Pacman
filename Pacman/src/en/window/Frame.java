@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -33,6 +34,8 @@ import en.controls.ControlsKey;
 import en.master.Game;
 import en.master.NodeScore;
 import en.master.Stream;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 /**
  * 
@@ -42,11 +45,12 @@ import en.master.Stream;
 public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	int height = (int) (screenSize.getHeight() * 0.95);
+	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	private int height = (int) (screenSize.getHeight() * 0.95);
 
 	public boolean gameStarted = false;
-
+	private AudioStream BGM;
+	
 	public GameScreen set;
 
 	/**
@@ -57,7 +61,7 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	public Frame() {
-		
+
 		// create frame
 		this.setTitle("Pacman");
 		this.setSize((4 * height) / 3, height);
@@ -71,19 +75,7 @@ public class Frame extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		// musique de demarage
-		/*
-		 * URL url = Frame.class.getResource("Immortals - FOB.wav"); final
-		 * AudioClip clip = Applet.newAudioClip(url);
-		 * 
-		 * // pour l'exécuter au moment ou la fenêtre s'ouvre
-		 * this.addWindowListener(new WindowAdapter() {
-		 * 
-		 * @Override public void windowOpened(WindowEvent e) { clip.play(); }
-		 * });
-		 */
-
+		
 		menu();
 
 		this.setVisible(true);
@@ -98,6 +90,8 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	private void menu() {
+		music();
+		
 		final JPanel l = logo();
 
 		final JPanel openScreen = new JPanel();
@@ -795,19 +789,50 @@ public class Frame extends JFrame {
 	 * This fonction will get the frame on the menu <br>
 	 * This fonction is called at game over
 	 * 
-	 * @author GRIGNON  Lindsay
+	 * @author GRIGNON Lindsay
 	 */
 	public void resetFrame() {
 		UIManager.put("OptionPane.background", Color.BLACK);
 		UIManager.put("Panel.background", Color.BLACK);
-		JPanel alt = new JPanel ();
+		JPanel alt = new JPanel();
 		alt.setBackground(Color.BLACK);
-		JLabel over = new JLabel ("Game Over");
+		JLabel over = new JLabel("Game Over");
 		over.setForeground(Color.BLUE);
 		over.setFont(new java.awt.Font("Consolas", 1, 25));
 		alt.add(over);
 		JOptionPane.showMessageDialog(null, alt, "", JOptionPane.PLAIN_MESSAGE);
 		menu();
 	}
-
+	
+	private void music(){
+		AudioPlayer MGP = AudioPlayer.player;
+		AudioStream NBGM;
+		try{
+			switch (Stream.readOptions()[0]) {
+			case 0:
+				NBGM = new AudioStream(new FileInputStream("music/Classic_Intro.wav"));
+				break;
+			case 1:
+				NBGM = new AudioStream(new FileInputStream("music/SW_Intro.wav"));
+				break;
+			case 2:
+				NBGM = new AudioStream(new FileInputStream("music/Zelda_Intro.wav"));
+				break;
+				default : NBGM = new AudioStream(new FileInputStream("music/Classic-Intro.wav"));
+			}
+			switch (Stream.readOptions()[3]) {
+			case 0:
+				MGP.stop(BGM);
+				MGP.start(NBGM);
+				break;
+			case 1:
+				MGP.stop(BGM);
+				MGP.stop(NBGM);
+				break;
+			}
+			BGM = NBGM;
+		}catch(IOException error){
+			error.printStackTrace();
+		}
+	}
 }
