@@ -152,6 +152,7 @@ public class Game {
 				characters[i].setFolder("sprites/classic/");
 			break;
 		}
+		System.out.println(this);
 	}
 
 	private void newLevel(Frame f) {
