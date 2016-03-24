@@ -50,6 +50,7 @@ public class Frame extends JFrame {
 
 	public boolean gameStarted = false;
 	private AudioStream BGM;
+	private AudioPlayer MGP = AudioPlayer.player;
 	
 	public GameScreen set;
 
@@ -771,6 +772,7 @@ public class Frame extends JFrame {
 	}
 
 	public void initGameScreen(Game game) {
+		MGP.stop(BGM);
 		set = new GameScreen(game);
 		Frame f = this;
 		if (Stream.readOptions()[1] == 0)
@@ -805,7 +807,6 @@ public class Frame extends JFrame {
 	}
 	
 	private void music(){
-		AudioPlayer MGP = AudioPlayer.player;
 		AudioStream NBGM;
 		try{
 			switch (Stream.readOptions()[0]) {
