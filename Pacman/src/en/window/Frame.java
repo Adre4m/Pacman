@@ -783,10 +783,17 @@ public class Frame extends JFrame {
 				}
 			});
 		this.requestFocus();
-		this.add(set);
+		this.setContentPane(set);
 	}
 
 	public void resetFrame() {
+		UIManager.put("OptionPane.background", Color.BLACK);
+		UIManager.put("Panel.background", Color.BLACK);
+		JLabel over = new JLabel ("Game Over");
+		over.setBackground(Color.BLACK);
+		over.setForeground(Color.BLUE);
+		over.setFont(new java.awt.Font("Consolas", 1, 25));
+		JOptionPane.showMessageDialog(null, over, "", JOptionPane.PLAIN_MESSAGE);
 		set.setVisible(false);
 		menu();
 	}
