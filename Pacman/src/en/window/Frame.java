@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import en.controls.ControlsKey;
@@ -774,7 +775,12 @@ public class Frame extends JFrame {
 
 	public void initGameScreen(Game game) {
 		set = new GameScreen(game);
-		addKeyListener(new ControlsKey(game));
+		Frame f = this;
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				f.addKeyListener(new ControlsKey(game));
+			}
+		});
 		this.requestFocus();
 		this.add(set);
 	}

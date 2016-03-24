@@ -33,7 +33,7 @@ public class Graph {
 		int numv = 0;
 		for (int i = 0; i < game.length; i++)
 			for (int j = 0; j < game[0].length; ++j)
-				if (game[i][j] != 'X') {
+				if (game[i][j] != 'X' && game[i][j] != 'W') {
 					vertex.add(new Node(new Point(i, j)));
 					numv++;
 				}

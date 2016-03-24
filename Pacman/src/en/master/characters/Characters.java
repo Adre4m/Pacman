@@ -14,6 +14,7 @@ public abstract class Characters {
 	protected String sprite;
 	protected Point position;
 	protected char dir;
+	public char nextDir = ' ';
 	private Point initialPosition;
 	protected String folder;
 
@@ -50,8 +51,8 @@ public abstract class Characters {
 		game.getLab()[position.x][position.y] = ' ';
 		position.setLocation(initialPosition);
 		game.getLab()[position.x][position.y] = toChar();
-		if(this instanceof Ghost) {
-			((Ghost)this).setOld(' ');
+		if (this instanceof Ghost) {
+			((Ghost) this).setOld(' ');
 		}
 	}
 
@@ -62,6 +63,34 @@ public abstract class Characters {
 	 * @return a boolean : true if the character moved, false if he didn't.
 	 */
 	public boolean move(Game game) {
+		if (nextDir != ' ') {
+			switch (nextDir) {
+			case 'u':
+				if (game.getLab()[Math.floorMod(position.x - 1, game.getLab().length)][position.y] != 'X') {
+					dir = nextDir;
+					nextDir = ' ';
+				}
+				break;
+			case 'd':
+				if (game.getLab()[Math.floorMod(position.x + 1, game.getLab().length)][position.y] != 'X') {
+					dir = nextDir;
+					nextDir = ' ';
+				}
+				break;
+			case 'r':
+				if (game.getLab()[position.x][Math.floorMod(position.y + 1, game.getLab()[0].length)] != 'X') {
+					dir = nextDir;
+					nextDir = ' ';
+				}
+				break;
+			case 'l':
+				if (game.getLab()[position.x][Math.floorMod(position.y - 1, game.getLab()[0].length)] != 'X') {
+					dir = nextDir;
+					nextDir = ' ';
+				}
+				break;
+			}
+		}
 		if (canMove(game)) {
 			int x = position.x, y = position.y;
 			switch (dir) {
@@ -127,7 +156,6 @@ public abstract class Characters {
 		switch (c) {
 		case 'g':
 			game.setScore(game.getScore() + 10);
-			game.eatGum();
 			break;
 		case 'S':
 			game.setScore(game.getScore() + 50);
@@ -136,39 +164,46 @@ public abstract class Characters {
 				((Ghost) (game.characters[i])).ill();
 			}
 			((Pacman) (game.characters[0])).setInvulnerable();
-			game.eatGum();
 			break;
 		case 'C':
 			game.setScore(game.getScore() + 100);
 			game.appearedFruit = false;
+			game.ateFruit = true;
 			break;
 		case 's':
 			game.setScore(game.getScore() + 300);
 			game.appearedFruit = false;
+			game.ateFruit = true;
 			break;
 		case 'O':
 			game.setScore(game.getScore() + 500);
 			game.appearedFruit = false;
+			game.ateFruit = true;
 			break;
 		case 'A':
 			game.setScore(game.getScore() + 700);
 			game.appearedFruit = false;
+			game.ateFruit = true;
 			break;
 		case 'M':
 			game.setScore(game.getScore() + 1000);
 			game.appearedFruit = false;
+			game.ateFruit = true;
 			break;
 		case 'b':
 			game.setScore(game.getScore() + 2000);
 			game.appearedFruit = false;
+			game.ateFruit = true;
 			break;
 		case 'B':
 			game.setScore(game.getScore() + 3000);
 			game.appearedFruit = false;
+			game.ateFruit = true;
 			break;
 		case 'K':
 			game.setScore(game.getScore() + 5000);
 			game.appearedFruit = false;
+			game.ateFruit = true;
 			break;
 		}
 	}

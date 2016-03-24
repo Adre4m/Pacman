@@ -21,23 +21,18 @@ public class ControlsKey implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		Point p = game.characters[0].getPosition();
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			if (game.getLab()[p.x][Math.floorMod(p.y - 1, game.getLab()[0].length)] != 'X')
-				game.characters[0].setDir('l');
+			game.characters[0].nextDir = 'l';
 			break;
 		case KeyEvent.VK_RIGHT:
-			if (game.getLab()[p.x][Math.floorMod(p.y + 1, game.getLab()[0].length)] != 'X')
-				game.characters[0].setDir('r');
+			game.characters[0].nextDir = 'r';
 			break;
 		case KeyEvent.VK_UP:
-			if (game.getLab()[Math.floorMod(p.x - 1, game.getLab().length)][p.y] != 'X')
-				game.characters[0].setDir('u');
+			game.characters[0].nextDir = 'u';
 			break;
 		case KeyEvent.VK_DOWN:
-			if (game.getLab()[Math.floorMod(p.x + 1, game.getLab().length)][p.y] != 'X')
-				game.characters[0].setDir('d');
+			game.characters[0].nextDir = 'd';
 			break;
 		case KeyEvent.VK_ESCAPE:
 			game.pause();

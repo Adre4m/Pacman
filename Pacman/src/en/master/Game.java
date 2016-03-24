@@ -32,12 +32,13 @@ public class Game {
 	private boolean paused = false;
 	private ArrayList<Point> doors = new ArrayList<Point>();
 	private ArrayList<Point> jailWalls = new ArrayList<Point>();
-	private int numGum = 0;
 	public Graph graph;
 	public int level = 1;
 	public short difficulty = 0;
 	public boolean appearedFruit = false;
+	public boolean ateFruit = false;
 	short secFruit = Timer.FRUIT;
+	private Point fruitSpawn;
 
 	public int getScore() {
 		return score;
@@ -110,9 +111,12 @@ public class Game {
 					break;
 				case 'g':
 				case 'S':
-					numGum++;
 					lab[i][j] = grid.charAt(index);
 					gums[i][j] = (short) ((grid.charAt(index) == 'g') ? 1 : 2);
+					break;
+				case 'F':
+					lab[i][j] = ' ';
+					fruitSpawn = new Point(i, j);
 					break;
 				case 'P':
 					characters[0] = new Pacman(i, j);
@@ -166,10 +170,8 @@ public class Game {
 			for (int j = 0; j < lab[0].length; ++j)
 				if (gums[i][j] == 1) {
 					lab[i][j] = 'g';
-					numGum++;
 				} else if (gums[i][j] == 2) {
 					lab[i][j] = 'S';
-					numGum++;
 				}
 		}
 		f.set.resetLab(this);
@@ -280,10 +282,11 @@ public class Game {
 				long[] mv = { 1, 1, 1, 1, 1 };
 				if (secFruit <= 0 && !appearedFruit)
 					appearFruit(f);
-				else if (secFruit <= 0 && appearedFruit) {
-					lab[14][14] = ' ';
+				else if ((secFruit <= 0 && appearedFruit) || ateFruit) {
+					lab[fruitSpawn.x][fruitSpawn.y] = ' ';
 					appearedFruit = false;
-					f.set.removeSprite(new Point(14, 14));
+					f.set.removeSprite(fruitSpawn);
+					ateFruit = false;
 				}
 				while (cpt <= Timer.FPS && !win()) {
 					if (!paused) {
@@ -356,7 +359,7 @@ public class Game {
 		System.out.println("AJOUTER LE SCORE");
 		f.gameStarted = false;
 		checkScore(f, getScore());
-		//f.highscore();
+		// f.highscore();
 	}
 
 	public void checkScore(Frame f, int score) {
@@ -384,10 +387,6 @@ public class Game {
 		paused = !paused;
 	}
 
-	public void eatGum() {
-		numGum--;
-	}
-
 	public Graph getGraph() {
 		return graph;
 	}
@@ -401,8 +400,8 @@ public class Game {
 		if (50 <= prob && prob <= 100) {
 			appearedFruit = true;
 			secFruit = Timer.FRUIT;
-			lab[14][14] = getFruit();
-			f.set.putFruit(new Point(14, 14), getFruit());
+			lab[fruitSpawn.x][fruitSpawn.y] = getFruit();
+			f.set.putFruit(fruitSpawn, getFruit());
 		}
 	}
 
