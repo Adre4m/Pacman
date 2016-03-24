@@ -776,11 +776,12 @@ public class Frame extends JFrame {
 	public void initGameScreen(Game game) {
 		set = new GameScreen(game);
 		Frame f = this;
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				f.addKeyListener(new ControlsKey(game));
-			}
-		});
+		if (Stream.readOptions()[1] == 0)
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					f.addKeyListener(new ControlsKey(game));
+				}
+			});
 		this.requestFocus();
 		this.add(set);
 	}
