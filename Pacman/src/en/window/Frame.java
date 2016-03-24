@@ -42,8 +42,6 @@ import en.master.Stream;
 public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	// final Game g;
-
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int height = (int) (screenSize.getHeight() * 0.95);
 
@@ -59,9 +57,8 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	public Frame() {
+		
 		// create frame
-		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		// int height = (int) (screenSize.getHeight() * 0.95);
 		this.setTitle("Pacman");
 		this.setSize((4 * height) / 3, height);
 		this.setResizable(false);
@@ -794,6 +791,12 @@ public class Frame extends JFrame {
 		this.revalidate();
 	}
 
+	/**
+	 * This fonction will get the frame on the menu <br>
+	 * This fonction is called at game over
+	 * 
+	 * @author GRIGNON  Lindsay
+	 */
 	public void resetFrame() {
 		UIManager.put("OptionPane.background", Color.BLACK);
 		UIManager.put("Panel.background", Color.BLACK);
@@ -804,7 +807,6 @@ public class Frame extends JFrame {
 		over.setFont(new java.awt.Font("Consolas", 1, 25));
 		alt.add(over);
 		JOptionPane.showMessageDialog(null, alt, "", JOptionPane.PLAIN_MESSAGE);
-		//set.setVisible(false);
 		menu();
 	}
 
