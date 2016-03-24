@@ -336,7 +336,7 @@ public class Game {
 						for (int i = 1; i < characters.length; ++i)
 							lab[characters[i].getPosition().x][characters[i].getPosition().y] = characters[i].toChar();
 						lab[characters[0].getPosition().x][characters[0].getPosition().y] = characters[0].toChar();
-						f.set.updateHub(score, ((Pacman) characters[0]).getLives());
+						f.set.updateHub(score, ((Pacman) characters[0]).getLives() - 1);
 					}
 				}
 				for (int i = 1; i < characters.length; ++i) {
@@ -355,10 +355,9 @@ public class Game {
 				}
 			}
 		}
-
-		System.out.println("AJOUTER LE SCORE");
 		f.gameStarted = false;
 		checkScore(f, getScore());
+		f.resetFrame();
 		// f.highscore();
 	}
 

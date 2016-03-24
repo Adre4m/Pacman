@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 
@@ -281,43 +280,34 @@ public class GameScreen extends JPanel {
 	 */
 	public void putFruit(Point position, char fruit) {
 		int numCase = (int) (position.getX() * 28 + position.getY());
-		Image sprite = null;
+		String sprite = "sprites/" + theme;
 		switch (fruit) {
 		case 'C':
-			sprite = new ImageIcon("sprites/" + theme + "/Cherry.gif").getImage();
+			sprite += "/Cherry.gif";
 			break;
 		case 's':
-			sprite = new ImageIcon("sprites/" + theme + "/Strawberry.gif").getImage();
+			sprite +="/Strawberry.gif";
 			break;
 		case 'O':
-			sprite = new ImageIcon("sprites/" + theme + "/Orange.gif").getImage();
+			sprite += "/Orange.gif";
 			break;
 		case 'A':
-			sprite = new ImageIcon("sprites/" + theme + "/Apple.gif").getImage();
+			sprite +="/Apple.gif";
 			break;
 		case 'M':
-			sprite = new ImageIcon("sprites/" + theme + "/Melon.gif").getImage();
+			sprite += "/Melon.gif";
 			break;
 		case 'b':
-			sprite = new ImageIcon("sprites/" + theme + "/Galboss.gif").getImage();
+			sprite += "/Galboss.gif";
 			break;
 		case 'B':
-			sprite = new ImageIcon("sprites/" + theme + "/Bell.gif").getImage();
+			sprite += "/Bell.gif";
 			break;
 		case 'K':
-			sprite = new ImageIcon("sprites/" + theme + "/Key.gif").getImage();
+			sprite += "/Key.gif";
 			break;
 		}
-		Image resizedSprite = sprite.getScaledInstance((int) (height * 0.024), (int) (height * 0.024),
-				Image.SCALE_DEFAULT);
-		getCase(numCase).removeAll();
-		JLabel label = new JLabel();
-		label.setIcon(new ImageIcon(resizedSprite));
-		getCase(numCase).add(label);
-		getCase(numCase).setContent(fruit);
-
-		getCase(numCase).revalidate();
-		getCase(numCase).repaint();
+		getCase(numCase).update(sprite);
 	}
 
 	/**
@@ -331,11 +321,7 @@ public class GameScreen extends JPanel {
 	 */
 	public void removeSprite(Point position) {
 		int numCase = (int) (position.getX() * 28 + position.getY());
-		getCase(numCase).removeAll();
-		getCase(numCase).add(new JLabel(" "));
-		getCase(numCase).setContent(' ');
-		getCase(numCase).revalidate();
-		getCase(numCase).repaint();
+		getCase(numCase).update("");
 	}
 
 	/**
