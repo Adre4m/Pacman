@@ -148,7 +148,6 @@ public class Game {
 				characters[i].setFolder("sprites/classic/");
 			break;
 		}
-		System.out.println(this);
 	}
 
 	private void newLevel(Frame f) {
@@ -170,7 +169,6 @@ public class Game {
 					lab[i][j] = 'S';
 				}
 		}
-		System.out.println(this);
 		f.set.resetLab(this);
 		f.set.initFruit(getFruit());
 	}
@@ -277,7 +275,6 @@ public class Game {
 		f.set.updateHub(score, ((Pacman) characters[0]).getLives());
 		long frame = (long) ((1f / Timer.FPS) * 1000000000);
 		int mvgpf = (Timer.FPS / (Timer.GMVPS + (level * difficulty)));
-		System.out.println(mvgpf);
 		int mvvps = (Timer.FPS / (Timer.VMVPS + (level * difficulty)));
 		while (((Pacman) characters[0]).getLives() > 0) {
 			while (((Pacman) characters[0]).getLives() > 0 && !win()) {

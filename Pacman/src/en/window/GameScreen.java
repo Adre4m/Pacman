@@ -30,6 +30,7 @@ public class GameScreen extends JPanel {
 	private JLabel l;
 	private JLabel sco;
 	private JLabel f;
+	private int length;
 
 	/**
 	 * 
@@ -56,9 +57,10 @@ public class GameScreen extends JPanel {
 		// ##########Grid###########
 		grid = new JPanel();
 		grid.setBackground(Color.BLACK);
+		length = game.getLab()[0].length;
 
 		grid.setOpaque(true);
-		grid.setLayout(new GridLayout(32, 28));
+		grid.setLayout(new GridLayout(game.getLab().length, length));
 
 		ControlsMouse ck = null;
 		if (Stream.readOptions()[1] == 1)
@@ -262,8 +264,8 @@ public class GameScreen extends JPanel {
 	 * 
 	 */
 	public void move(Characters character, Point oldP, char oldC) {
-		int numCase = (int) (oldP.y + 28 * oldP.x); // number of its case
-		int numNextCase = (int) (character.getPosition().y + 28 * character.getPosition().x);
+		int numCase = (int) (oldP.y + length * oldP.x); // number of its case
+		int numNextCase = (int) (character.getPosition().y + length * character.getPosition().x);
 		String sprite = "sprites/" + theme;
 		switch (oldC) {
 		case 'g':
@@ -318,7 +320,7 @@ public class GameScreen extends JPanel {
 	 * 
 	 */
 	public void putFruit(Point position, char fruit) {
-		int numCase = (int) (position.getX() * 28 + position.getY());
+		int numCase = (int) (position.getX() * length + position.getY());
 		String sprite = "sprites/" + theme;
 		switch (fruit) {
 		case 'C':
@@ -359,7 +361,7 @@ public class GameScreen extends JPanel {
 	 * 
 	 */
 	public void removeSprite(Point position) {
-		int numCase = (int) (position.getX() * 28 + position.getY());
+		int numCase = (int) (position.getX() * length + position.getY());
 		getCase(numCase).update("");
 	}
 
@@ -423,7 +425,7 @@ public class GameScreen extends JPanel {
 	}
 
 	public void death(Point pacman) {
-		int numCase = (int) (pacman.x * 28 + pacman.y);
+		int numCase = (int) (pacman.x * length + pacman.y);
 		getCase(numCase).update("sprites/" + theme + "/PacMan_death.gif");
 	}
 
