@@ -14,7 +14,7 @@ import en.master.Timer;
  */
 public abstract class Ghost extends Characters {
 
-	private static final int MAXRADIUS = 2;
+	private static final int MAXRADIUS = 7;
 	protected boolean isVulnerable;
 	protected boolean isFree;
 	protected boolean isReturningToJail;

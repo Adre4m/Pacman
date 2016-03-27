@@ -18,15 +18,25 @@ public class Graph {
 
 	private int adj[][];
 	private ArrayList<Node> vertex;
-	private int heigh;
+	private int height;
 	private int length;
 
 	public Graph(char[][] game) {
 		vertex = new ArrayList<Node>();
-		heigh = game.length;
+		height = game.length;
 		length = game[0].length;
 		init(game);
 		adjacency();
+		int numLigne = 0;
+		for (int i = 0; i < adj.length; ++i) {
+			System.out.print(numLigne + " - ");
+			for (int j = i + 1; j < adj.length; ++j)
+				if (adj[i][j] != 0)
+					System.out.print(adj[i][j]);
+			System.out.println();
+			numLigne++;
+		}
+		System.out.println(adj.length);
 	}
 
 	private void init(char[][] game) {
@@ -38,23 +48,33 @@ public class Graph {
 					numv++;
 				}
 		adj = new int[numv][numv];
+		for (int i = 0; i < numv; ++i)
+			for (int j = 0; j < numv; ++j)
+				adj[i][j] = 0;
 	}
 
 	private void adjacency() {
 		for (int i = 0; i < adj.length; ++i) {
 			Node n1 = vertex.get(i);
-			adj[i][i] = 0;
-			for (int j = i + 1; j < adj.length; ++j) {
-				Node n2 = vertex.get(j);
-				if (n1.getPosition().x == n2.getPosition().x || n1.getPosition().y == n2.getPosition().y) {
-					adj[i][j] = Math
-							.abs((n1.getPosition().x - n2.getPosition().x) + (n1.getPosition().y - n2.getPosition().y));
-					adj[j][i] = Math
-							.abs((n1.getPosition().x - n2.getPosition().x) + (n1.getPosition().y - n2.getPosition().y));
-				} else {
-					adj[i][j] = 0;
-					adj[j][i] = 0;
-				}
+			Node p1 = new Node(new Point(Math.floorMod(n1.getPosition().x - 1, height), n1.getPosition().y));
+			Node p2 = new Node(new Point(Math.floorMod(n1.getPosition().x + 1, height), n1.getPosition().y));
+			Node p3 = new Node(new Point(n1.getPosition().x, Math.floorMod(n1.getPosition().y - 1, length)));
+			Node p4 = new Node(new Point(n1.getPosition().x, Math.floorMod(n1.getPosition().y + 1, length)));
+			if (vertex.contains(p1)) {
+				adj[i][vertex.indexOf(p1)] = 1;
+				adj[vertex.indexOf(p1)][i] = 1;
+			}
+			if (vertex.contains(p2)) {
+				adj[i][vertex.indexOf(p2)] = 1;
+				adj[vertex.indexOf(p2)][i] = 1;
+			}
+			if (vertex.contains(p3)) {
+				adj[i][vertex.indexOf(p3)] = 1;
+				adj[vertex.indexOf(p3)][i] = 1;
+			}
+			if (vertex.contains(p4)) {
+				adj[i][vertex.indexOf(p4)] = 1;
+				adj[vertex.indexOf(p4)][i] = 1;
 			}
 		}
 	}
@@ -118,9 +138,9 @@ public class Graph {
 	private boolean noReturn(Point start, Point goal, char dir) {
 		switch (dir) {
 		case 'd':
-			return goal.x != Math.floorMod(start.x - 1, heigh);
+			return goal.x != Math.floorMod(start.x - 1, height);
 		case 'u':
-			return goal.x != Math.floorMod(start.x + 1, heigh);
+			return goal.x != Math.floorMod(start.x + 1, height);
 		case 'r':
 			return goal.y != Math.floorMod(start.y - 1, length);
 		case 'l':

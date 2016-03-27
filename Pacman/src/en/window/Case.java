@@ -20,7 +20,8 @@ public class Case extends JPanel {
 	private int number;
 
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	private int height = (int) (screenSize.getHeight() * 0.95);
+	private int height = (int) (screenSize.getHeight() * 0.95 * 0.96);
+	private int length;
 
 	/**
 	 * 
@@ -37,11 +38,13 @@ public class Case extends JPanel {
 	 *            The cell's number
 	 * 
 	 */
-	public Case(GameScreen g, int number, String sprite, String theme) {
+	public Case(GameScreen g, int number, String sprite, String theme, int length) {
 		this.number = number;
-
+		this.length = length;
+		double size = height / length;
+		size -= length / 4;
 		Image img = new ImageIcon(sprite).getImage();
-		Image newimg = img.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+		Image newimg = img.getScaledInstance((int) size, (int) size, Image.SCALE_DEFAULT);
 		this.label = new JLabel(new ImageIcon(newimg));
 		add(label);
 		if (theme.equals("zelda"))
@@ -59,8 +62,10 @@ public class Case extends JPanel {
 	}
 
 	public void update(String sprite) {
+		double size = height / length;
+		size -= length / 4;
 		Image img = new ImageIcon(sprite).getImage();
-		Image newimg = img.getScaledInstance((int) (height * 0.024), (int) (height * 0.024), Image.SCALE_DEFAULT);
+		Image newimg = img.getScaledInstance((int) size, (int) size, Image.SCALE_DEFAULT);
 		label.setIcon(new ImageIcon(newimg));
 	}
 

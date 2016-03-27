@@ -69,14 +69,15 @@ public class GameScreen extends JPanel {
 		int number = 0; // case's numbers
 		for (int i = 0; i < game.getLab().length; ++i) {
 			for (int j = 0; j < game.getLab()[0].length; ++j) {
-				Case c = null; // new Case(this, game, game.getLab()[i][j], number);
-				if(game.getLab()[i][j] == 'P')
-					c = new Case(this, number, game.characters[0].sprite(), theme);
-				else if(game.getLab()[i][j] == 'G')
-					c = new Case(this, number, game.getGhost(i, j).sprite(), theme);
+				Case c = null; // new Case(this, game, game.getLab()[i][j],
+								// number);
+				if (game.getLab()[i][j] == 'P')
+					c = new Case(this, number, game.characters[0].sprite(), theme, game.getLab().length);
+				else if (game.getLab()[i][j] == 'G')
+					c = new Case(this, number, game.getGhost(i, j).sprite(), theme, game.getLab().length);
 				else {
 					String sprite = "sprites/" + theme;
-					switch(game.getLab()[i][j]) {
+					switch (game.getLab()[i][j]) {
 					case 'g':
 						sprite += "/PacGum.gif";
 						break;
@@ -114,7 +115,7 @@ public class GameScreen extends JPanel {
 						sprite += "/wall.gif";
 						break;
 					}
-					c = new Case(this, number, sprite, theme);
+					c = new Case(this, number, sprite, theme, game.getLab().length);
 				}
 				grid.add(c);
 				number++;
@@ -242,7 +243,6 @@ public class GameScreen extends JPanel {
 
 	private Case getCase(int x) {
 		return (Case) this.grid.getComponent(x);
-
 	}
 
 	/**

@@ -24,8 +24,8 @@ import en.window.Frame;
  */
 public class Game {
 
-	private char[][] lab = new char[32][28];
-	private short[][] gums = new short[32][28];
+	private char[][] lab = new char[21][25];
+	private short[][] gums = new short[21][25];
 	private int score = 0;
 	public final Characters[] characters = new Characters[5];
 	private boolean restartNeed = false;
@@ -67,7 +67,8 @@ public class Game {
 	 *            File to be read
 	 */
 	public void init() {
-		String grid = Stream.initiateLab("labyrinths/labyrinth" + ((int) (Math.random() * 2)) + ".txt");
+		//String grid = Stream.initiateLab("labyrinths/labyrinth" + ((int) (Math.random() * 2)) + ".txt");
+		String grid = Stream.initiateLab("labyrinths/labyrinth1(4).txt");
 		grid = grid.replaceAll("[\n\r]", "");
 		int index = 0;
 		for (int i = 0; i < lab.length; ++i)
