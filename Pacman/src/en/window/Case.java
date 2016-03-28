@@ -42,7 +42,7 @@ public class Case extends JPanel {
 		this.number = number;
 		this.length = length;
 		double size = height / length;
-		size -= length / 4;
+		size -= length / 3;
 		Image img = new ImageIcon(sprite).getImage();
 		Image newimg = img.getScaledInstance((int) size, (int) size, Image.SCALE_DEFAULT);
 		this.label = new JLabel(new ImageIcon(newimg));
@@ -63,7 +63,7 @@ public class Case extends JPanel {
 
 	public void update(String sprite) {
 		double size = height / length;
-		size -= length / 4;
+		size -= length / 3;
 		Image img = new ImageIcon(sprite).getImage();
 		Image newimg = img.getScaledInstance((int) size, (int) size, Image.SCALE_DEFAULT);
 		label.setIcon(new ImageIcon(newimg));

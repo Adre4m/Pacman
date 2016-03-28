@@ -67,8 +67,7 @@ public class Game {
 	 *            File to be read
 	 */
 	public void init() {
-		//String grid = Stream.initiateLab("labyrinths/labyrinth" + ((int) (Math.random() * 2)) + ".txt");
-		String grid = Stream.initiateLab("labyrinths/labyrinth2.txt");
+		String grid = Stream.initiateLab("labyrinths/labyrinth" + ((int) (Math.random() * 2)) + ".txt");
 		grid = grid.replaceAll("[\n\r]", "");
 		int index = 0;
 		for (int i = 0; i < lab.length; ++i)

@@ -27,16 +27,6 @@ public class Graph {
 		length = game[0].length;
 		init(game);
 		adjacency();
-		int numLigne = 0;
-		for (int i = 0; i < adj.length; ++i) {
-			System.out.print(numLigne + " - ");
-			for (int j = i + 1; j < adj.length; ++j)
-				if (adj[i][j] != 0)
-					System.out.print(adj[i][j]);
-			System.out.println();
-			numLigne++;
-		}
-		System.out.println(adj.length);
 	}
 
 	private void init(char[][] game) {
