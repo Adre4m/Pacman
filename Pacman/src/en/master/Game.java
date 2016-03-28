@@ -59,12 +59,8 @@ public class Game {
 	 * shall return to when eaten, are based on the locations of the Ghost n°2
 	 * and n°3.<br>
 	 * <br>
-	 * 
 	 * The method also call {@link en.master.Stream#readOptions()} to know which
 	 * theme is chosen and the difficulty.
-	 * 
-	 * @param file
-	 *            File to be read
 	 */
 	public void init() {
 		String grid = Stream.initiateLab("labyrinths/labyrinth" + ((int) (Math.random() * 2)) + ".txt");
@@ -174,23 +170,6 @@ public class Game {
 	}
 
 	/**
-	 * @deprecated
-	 * 
-	 * 			This method was usefull untill the game was playable with the
-	 *             {@link en.window.Frame}
-	 */
-	public String toString() {
-		String s = "";
-		for (int i = 0; i < lab.length; ++i) {
-			for (int j = 0; j < lab[0].length; ++j)
-				s += lab[i][j];
-			s += "\n";
-		}
-		s += "Score : " + score + "\n";
-		return s;
-	}
-
-	/**
 	 * 
 	 * @param x
 	 *            ordinate point
@@ -224,7 +203,6 @@ public class Game {
 			e.printStackTrace();
 		}
 	}
-
 
 	public void setRestartNeed(boolean restartNeed) {
 		this.restartNeed = restartNeed;

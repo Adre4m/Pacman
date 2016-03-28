@@ -274,10 +274,6 @@ public abstract class Characters {
 		return false;
 	}
 
-	public String toString() {
-		return position.toString();
-	}
-
 	/**
 	 * 
 	 * @return a string to provide which gif the Gamescreen should use.

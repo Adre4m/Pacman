@@ -17,13 +17,11 @@ import en.master.characters.Characters;
 
 /**
  * 
- * @author RIETZ Vincent
+ * @author GRIGNON Lindsay, RIETZ Vincent
  *
  */
 public class GameScreen extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String theme;
 	private JPanel grid;
@@ -32,13 +30,6 @@ public class GameScreen extends JPanel {
 	private JLabel f;
 	private int length;
 
-	/**
-	 * 
-	 * This is the GameScreen constructor
-	 * 
-	 * @author RIETZ Vincent
-	 * 
-	 */
 	public GameScreen(Game game) {
 		this.setBackground(Color.BLACK);
 		// theme
@@ -207,6 +198,7 @@ public class GameScreen extends JPanel {
 	 * 
 	 * @author GGRIGNON Lindsay
 	 * @param sprite
+	 *            Which sprite should be loaded.
 	 * 
 	 */
 	public void initFruit(char sprite) {
@@ -246,7 +238,6 @@ public class GameScreen extends JPanel {
 	}
 
 	/**
-	 * 
 	 * This method move a sprite on the grid from a point to another. To get the
 	 * component Case we must calculate his number. Then we retrieve the case
 	 * and we swap it with the next case. If the sprite moving is the pacman, we
@@ -254,14 +245,12 @@ public class GameScreen extends JPanel {
 	 * 
 	 * @author RIETZ Vincent
 	 * 
-	 * @param g
-	 *            The game initialised
+	 * @param character
+	 *            The character who moved.
 	 * @param oldP
 	 *            The origin point of the sprite
-	 * @param newP
-	 *            The next point of the sprite
-	 * 
-	 * 
+	 * @param oldC
+	 *            The char to the old position
 	 */
 	public void move(Characters character, Point oldP, char oldC) {
 		int numCase = (int) (oldP.y + length * oldP.x); // number of its case
@@ -373,7 +362,7 @@ public class GameScreen extends JPanel {
 	 * @author RIETZ Vincent
 	 * 
 	 * @param g
-	 *            The game initialised.
+	 *            The game initialized.
 	 */
 	public void resetLab(Game g) {
 		int numCase = 0;
@@ -424,6 +413,12 @@ public class GameScreen extends JPanel {
 		}
 	}
 
+	/**
+	 * Animation of death.
+	 * 
+	 * @param pacman
+	 *            Where to load the animation
+	 */
 	public void death(Point pacman) {
 		int numCase = (int) (pacman.x * length + pacman.y);
 		getCase(numCase).update("sprites/" + theme + "/PacMan_death.gif");

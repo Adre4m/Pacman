@@ -16,7 +16,7 @@ import javax.swing.JPanel;
  */
 public class Case extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private JLabel label; // contains the image
+	private JLabel label;
 	private int number;
 
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -28,15 +28,16 @@ public class Case extends JPanel {
 	 * This is the Case constructor. It adds to the cell a picture or a label
 	 * depending on the type of cell and set the background color.
 	 * 
-	 * @author RIETZ Vincent
-	 * 
 	 * @param g
 	 *            The game screen
-	 * @param content
-	 *            The type of cell
 	 * @param number
 	 *            The cell's number
-	 * 
+	 * @param sprite
+	 *            The first sprite of the cell
+	 * @param theme
+	 *            The theme of the game
+	 * @param length
+	 *            The length of the Game
 	 */
 	public Case(GameScreen g, int number, String sprite, String theme, int length) {
 		this.number = number;
@@ -57,10 +58,12 @@ public class Case extends JPanel {
 		return this.number;
 	}
 
-	public JLabel getLabel() {
-		return this.label;
-	}
-
+	/**
+	 * Change the sprite of the cell.
+	 * 
+	 * @param sprite
+	 *            The sprite to set.
+	 */
 	public void update(String sprite) {
 		double size = height / length;
 		size -= length / 3;

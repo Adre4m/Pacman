@@ -49,10 +49,6 @@ public class Node implements Comparator<Node>, Comparable<Node> {
 		return Math.abs(position.x - goal.x) + Math.abs(position.y - goal.y);
 	}
 
-	public String toString() {
-		return position.toString();
-	}
-
 	/**
 	 * The heuristic is calculate with the Manhattan distance, and the cost to
 	 * reach the current node.
